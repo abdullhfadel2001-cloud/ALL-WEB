@@ -228,9 +228,9 @@ function renderApps() {
           <div class="radar-sweep-arm"></div>
           <span class="radar-center-bolt">⚡</span>
         </div>
-        <h3 class="radar-title">AWAITING DEPLOYMENT // NO APPS FOUND</h3>
-        <p class="radar-desc">The archive is currently empty and standing by. Deploy your first application using the button below.</p>
-        <span class="radar-meta">SCANNING NETWORK FOR INCOMING PACKETS...</span>
+        <h3 class="radar-title">NO APPLICATIONS YET</h3>
+        <p class="radar-desc">قائمة البرامج والتطبيقات فارغة حالياً. اضغط على الزر بالأسفل لإضافة أول تطبيق إلى المنصة ⚡</p>
+        <span class="radar-meta">SYSTEM READY // جاهز للتشغيل</span>
       </div>`;
     return;
   }

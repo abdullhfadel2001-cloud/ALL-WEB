@@ -1,41 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl" class="notranslate" translate="no">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google" content="notranslate">
 
   <!-- SEO & Identity -->
-  <title>DAEM | Digital Applications Hub ⚡</title>
-  <meta name="description" content="DAEM - Next-Generation Cybernetic Applications & Tools Platform.">
-  <meta name="keywords" content="DAEM, دايم, My Applications, Cyberpunk, Futuristic, Apps">
+  <title>DAEM | المنصة الرقمية للتطبيقات</title>
+  <meta name="description" content="DAEM - المنصة الرقمية المتقدمة لمشاركة وتحميل التطبيقات والبرامج.">
+  <meta name="keywords" content="DAEM, دايم, My Applications, تطبيقات, برامج">
   <meta name="author" content="DAEM">
   <meta name="robots" content="index, follow">
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="DAEM | My Applications">
-  <meta property="og:description" content="Next-Gen Digital Applications Hub">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://abdullhfadel2001-cloud.github.io/ALL-WEB/">
-
-  <link rel="stylesheet" href="style.css?v=6.0">
+  <link rel="stylesheet" href="style.css?v=7.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Dynamic Canvas: Electric Particles & Lightning Web -->
+  <!-- خلفية البرق والجزيئات الكهربائية الحية -->
   <canvas id="electricCanvas" class="electric-canvas"></canvas>
 
-  <!-- Ambient Light Rays & Grids -->
+  <!-- طبقات التوهج والشبكة الفضائية -->
   <div class="ambient-glow"></div>
   <div class="cyber-grid"></div>
-  <div class="scanlines"></div>
 
-  <!-- Custom Cursor Glow -->
+  <!-- هالة الماوس التفاعلية -->
   <div id="cursorGlow" class="cursor-glow"></div>
 
-  <!-- Navigation Bar -->
+  <!-- شريط التنقل العلوي -->
   <header class="navbar">
     <div class="nav-inner">
       <div class="brand">
@@ -45,32 +39,31 @@
         </div>
         <div class="brand-text">
           <span class="logo-title">DAEM</span>
-          <span class="logo-tag">CORE v2.6 // SECURE</span>
+          <span class="logo-tag">DIGITAL PLATFORM</span>
         </div>
       </div>
 
       <div class="nav-controls">
         <div class="hud-status">
           <span class="status-indicator"></span>
-          <span class="status-label">SYSTEM ONLINE</span>
+          <span class="status-label">النظام متصل</span>
         </div>
 
         <button id="addAppNavBtn" class="cyber-btn cyber-btn-primary">
-          <span class="btn-glitch-effect"></span>
-          <span class="btn-icon">⚡</span>
-          <span class="btn-text">ADD APP</span>
+          <span>➕</span>
+          <span>إضافة تطبيق</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- قسم الواجهة الرئيسية Hero -->
   <section class="hero-section" id="hero">
     <div class="hero-container">
       <div class="hero-text-col">
         <div class="cyber-badge">
           <span class="badge-dot"></span>
-          <span>CYBERNETIC HUB // CLASSIFIED</span>
+          <span>DAEM CORE // المنصة الرسمية</span>
         </div>
 
         <h1 class="hero-glitch-title">
@@ -78,27 +71,25 @@
         </h1>
 
         <p class="hero-lead">
-          Next-generation digital workspace for high-performance applications, specialized tools, and independent software.
+          منصة رقمية متطورة لمشاركة وتحميل البرامج والأدوات والتطبيقات المستقلة بأعلى أداء وسرعة.
         </p>
 
         <div class="hero-actions">
           <a href="#apps" class="cyber-btn cyber-btn-glow">
-            <span>⚡ EXPLORE MY APPS</span>
-            <div class="btn-border-corner tl"></div>
-            <div class="btn-border-corner br"></div>
+            <span>⚡ My Applications</span>
           </a>
 
           <div class="hud-stats-pill">
-            <span class="hud-stat-title">NODE STATUS:</span>
-            <span class="hud-stat-val">ACTIVE</span>
-            <span class="hud-divider">|</span>
-            <span class="hud-stat-title">LATENCY:</span>
+            <span class="hud-stat-title">الحالة:</span>
+            <span class="hud-stat-val">نشط</span>
+            <span class="hud-divider">•</span>
+            <span class="hud-stat-title">سرعة الاستجابة:</span>
             <span class="hud-stat-val" id="latencyVal">18ms</span>
           </div>
         </div>
       </div>
 
-      <!-- Sci-Fi Hologram Core -->
+      <!-- نواة الطاقة الكهربائية ثلاثية الأبعاد بدون زوايا مشتتة -->
       <div class="hero-visual-col">
         <div class="holo-core-wrap">
           <div class="holo-disk disk-1"></div>
@@ -107,143 +98,138 @@
           <div class="holo-sphere">
             <div class="sphere-inner">⚡</div>
           </div>
-          <div class="corner-bracket tr"></div>
-          <div class="corner-bracket bl"></div>
-          <div class="energy-stream"></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- MY APPLICATIONS SECTION -->
+  <!-- قسم التطبيقات: My Applications -->
   <section class="apps-section" id="apps">
     <div class="apps-container">
       <div class="section-hud-header">
         <div class="hud-badge-line">
-          <span class="hud-badge-text">MODULE: 01 // ARCHIVE</span>
+          <span class="hud-badge-text">APPLICATIONS DIRECTORY</span>
         </div>
-        <h2 class="section-heading">My Applications <span class="neon-tag">ARCHIVE</span></h2>
-        <p class="section-subtext">Direct deployment, downloads, and web previews of software built by DAEM.</p>
+        <h2 class="section-heading"><span class="neon-title">My Applications</span></h2>
+        <p class="section-subtext">تصفح وحمل جميع التطبيقات والبرامج الخاصة بي بروابط مباشرة وتفاصيل كاملة.</p>
 
-        <!-- Search & Category Control Console -->
+        <!-- كونسول البحث والفلترة -->
         <div class="console-toolbar">
           <div class="search-terminal">
-            <span class="term-prefix">&gt;</span>
-            <input type="text" id="searchInput" placeholder="Search applications, tags, or binaries...">
-            <span class="term-cursor">_</span>
+            <span class="term-prefix">🔍</span>
+            <input type="text" id="searchInput" placeholder="ابحث بالاسم، التصنيف، أو الكلمة المفتاحية...">
           </div>
 
           <div class="category-tabs" id="filterTabs">
-            <button class="cat-pill active" data-cat="all">ALL [ <span id="countAll">0</span> ]</button>
-            <button class="cat-pill" data-cat="android">📱 ANDROID</button>
-            <button class="cat-pill" data-cat="tools">🛠️ TOOLS</button>
-            <button class="cat-pill" data-cat="games">🎮 GAMES</button>
-            <button class="cat-pill" data-cat="web">🌐 WEB</button>
+            <button class="cat-pill active" data-cat="all">الكل [ <span id="countAll">0</span> ]</button>
+            <button class="cat-pill" data-cat="android">📱 Android</button>
+            <button class="cat-pill" data-cat="tools">🛠️ Tools</button>
+            <button class="cat-pill" data-cat="games">🎮 Games</button>
+            <button class="cat-pill" data-cat="web">🌐 Web</button>
           </div>
         </div>
       </div>
 
-      <!-- Applications Grid -->
+      <!-- شبكة عرض التطبيقات -->
       <div class="apps-grid" id="appsGrid">
-        <!-- Rendered via script.js -->
+        <!-- يتم التحميل عبر JS -->
       </div>
 
-      <!-- Add New Application Hub Button -->
+      <!-- زر إضافة تطبيق في الأسفل -->
       <div class="add-section-footer">
         <button id="addAppBtn" class="cyber-btn cyber-btn-large">
-          <span class="btn-glow-ring"></span>
-          <span>⚡ DEPLOY NEW APPLICATION</span>
+          <span>⚡ إضافة برنامج جديد</span>
         </button>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- تذييل الصفحة Footer -->
   <footer class="cyber-footer">
     <div class="footer-wrap">
       <div class="footer-brand">
         <span class="neon-bolt">⚡</span>
-        <span class="footer-title">DAEM APPS ARCHIVE</span>
+        <span class="footer-title">DAEM</span>
       </div>
-      <p class="footer-note">Crafted for perfection · Powered by electric dreams · 2026</p>
+      <p class="footer-note">جميع الحقوق محفوظة منصة DAEM © 2026</p>
     </div>
   </footer>
 
-  <!-- Modal: Add New Application -->
+  <!-- نافذة إضافة تطبيق جديد Modal -->
   <div class="modal-backdrop" id="addModal">
     <div class="cyber-modal-card">
       <div class="modal-hud-header">
         <div class="modal-title-wrap">
           <span class="modal-bolt">⚡</span>
-          <h3>DEPLOY APPLICATION</h3>
+          <h3>إضافة برنامج جديد</h3>
         </div>
-        <button id="closeModal" class="modal-close-trigger" title="Cancel">✕</button>
+        <button id="closeModal" class="modal-close-trigger" title="إغلاق">✕</button>
       </div>
 
       <form id="addAppForm" class="modal-form">
         <div class="input-block">
-          <label>APP NAME / IDENTIFIER</label>
-          <input type="text" id="fName" placeholder="e.g. CyberVault Pro" required autocomplete="off">
+          <label>اسم البرنامج:</label>
+          <input type="text" id="fName" placeholder="مثال: تطبيق الذكاء، أداة التحميل..." required autocomplete="off">
         </div>
 
         <div class="input-grid">
           <div class="input-block">
-            <label>CATEGORY</label>
+            <label>التصنيف:</label>
             <select id="fCat">
               <option value="android">📱 Android (APK)</option>
-              <option value="tools">🛠️ Tools & Utilities</option>
-              <option value="games">🎮 Games & Arcade</option>
+              <option value="tools">🛠️ Tools & برامج</option>
+              <option value="games">🎮 Games & ألعاب</option>
               <option value="web">🌐 Web Application</option>
             </select>
           </div>
           <div class="input-block">
-            <label>ICON (EMOJI)</label>
+            <label>الأيقونة (Emoji):</label>
             <input type="text" id="fIcon" placeholder="🚀" value="⚡">
           </div>
         </div>
 
         <div class="input-grid">
           <div class="input-block">
-            <label>VERSION TAG</label>
+            <label>رقم الإصدار:</label>
             <input type="text" id="fVersion" placeholder="v1.0.0" value="v1.0.0">
           </div>
           <div class="input-block">
-            <label>FILE SIZE</label>
-            <input type="text" id="fSize" placeholder="e.g. 15 MB">
+            <label>حجم الملف:</label>
+            <input type="text" id="fSize" placeholder="مثال: 15 MB">
           </div>
         </div>
 
         <div class="input-block">
-          <label>DESCRIPTION</label>
-          <textarea id="fDesc" rows="3" placeholder="Brief system overview of the application..." required></textarea>
+          <label>وصف البرنامج:</label>
+          <textarea id="fDesc" rows="3" placeholder="اكتب نبذة مختصرة عما يقدمه هذا البرنامج..." required></textarea>
         </div>
 
         <div class="input-block">
-          <label>DIRECT DOWNLOAD URL / FILE PATH</label>
-          <input type="text" id="fUrl" placeholder="downloads/app.apk or https://..." required>
+          <label>رابط التحميل المباشر (أو مسار الملف):</label>
+          <input type="text" id="fUrl" placeholder="downloads/app.apk أو رابط خارجي" required>
         </div>
 
         <div class="input-block">
-          <label>LIVE DEMO / PREVIEW URL (OPTIONAL)</label>
-          <input type="text" id="fDemo" placeholder="https://... or leave blank">
+          <label>رابط التجربة المباشرة (اختياري):</label>
+          <input type="text" id="fDemo" placeholder="https://... أو اتركه فارغاً">
         </div>
 
         <div class="modal-foot">
-          <button type="button" id="cancelModal" class="cyber-btn cyber-btn-ghost">ABORT</button>
+          <button type="button" id="cancelModal" class="cyber-btn cyber-btn-ghost">إلغاء</button>
           <button type="submit" class="cyber-btn cyber-btn-primary">
-            <span>⚡ INITIATE DEPLOY</span>
+            <span>⚡ حفظ ونشر البرنامج</span>
           </button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Cyber Toast Notification -->
+  <!-- التنبيه العائم Toast -->
   <div id="cyberToast" class="cyber-toast">
     <span class="toast-bolt">⚡</span>
     <span id="toastMsg" class="toast-msg"></span>
   </div>
 
-  <script src="script.js?v=6.0"></script>
+  <script src="script.js?v=7.0"></script>
 </body>
 </html>
