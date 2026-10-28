@@ -66,6 +66,17 @@ function setupThemeCore() {
       }
     });
   }
+
+  // السماح بالضغط على زر الحالة في الشريط العلوي أيضاً للتبديل
+  const hudStatus = document.querySelector('.hud-status');
+  if (hudStatus) {
+    hudStatus.style.cursor = 'pointer';
+    hudStatus.setAttribute('title', 'اضغط للتبديل بين النهاري والليلي');
+    hudStatus.addEventListener('click', () => {
+      const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(nextTheme, true);
+    });
+  }
 }
 
 // ==========================================================================
