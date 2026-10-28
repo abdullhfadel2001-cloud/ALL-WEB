@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sanad-app-v3';
+const CACHE_NAME = 'sanad-app-v4';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

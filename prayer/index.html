@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>سَنَد | التطبيق الشامل لتنظيم اليوم والعبادات</title>
+  <title>سَنَد | رفيقك اليومي للعبادات والصلاة</title>
   
-  <!-- PWA & Mobile Icons -->
+  <!-- PWA & Mobile Configuration -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#059669">
   <meta name="mobile-web-app-capable" content="yes">
@@ -22,552 +22,307 @@
 </head>
 <body data-prayer-sky="night">
 
-  <div class="app-wrapper">
+  <div class="app-container">
 
-    <!-- شريط الرأس والأدوات -->
-    <header class="app-header">
-      <div class="app-brand">
-        <div class="brand-icon-box">🌿</div>
-        <div class="brand-text">
+    <!-- شريط الرأس النقي -->
+    <header class="sanad-header">
+      <div class="brand-group">
+        <div class="brand-icon">🌿</div>
+        <div class="brand-info">
           <h1>سَنَد</h1>
-          <span class="brand-subtitle" id="skyPhaseLabel">سَنَدك اليومي المتكامل</span>
+          <span class="brand-tagline">رفيقك اليومي للعبادات والصلاة</span>
         </div>
       </div>
 
-      <div class="header-tools">
-        <div id="vacationBadge" class="vacation-badge" style="display: none;">
-          <span>🌴</span> وضع الإجازة مفعل
-        </div>
-        <div id="silentModeIndicator" class="vacation-badge" style="display: none; background: #e0e7ff; color: #4338ca; border-color: #c7d2fe;">
-          <span>🔕</span> هدوء الصلاة
-        </div>
-        <button id="pwaInstallPromptBtn" class="action-btn-sm" style="display: none; background: #059669; color: #fff; border: none; font-size: 0.82rem; padding: 6px 12px; border-radius: 20px; font-weight: 700; cursor: pointer;">📲 تثبيت التطبيق</button>
-        <button id="appThemeToggleBtn" class="icon-btn" title="تبديل المظهر">☀️</button>
-        <button id="openControlCenterBtn" class="icon-btn" title="مركز التحكم والإعدادات">⚙️</button>
+      <div class="header-actions">
+        <button id="pwaInstallHeaderBtn" class="pwa-header-btn" title="تثبيت التطبيق على هاتفك">
+          <span>📲</span> تثبيت
+        </button>
+        <button id="themeToggleBtn" class="icon-circle-btn" title="تبديل الوضع الليلي / النهاري">
+          ☀️
+        </button>
       </div>
     </header>
 
-    <!-- شريط الملخص العلوي (Dashboard Highlight Banner) -->
-    <section class="dashboard-highlight-banner">
-      <div class="highlight-left">
-        <span class="event-chip">الصلاة القادمة</span>
-        <h2 id="nextPrayerNameDisplay">صلاة الفجر</h2>
-        <div class="countdown-timer-box" id="nextPrayerClock">--:--:--</div>
-      </div>
-      <div class="highlight-right">
-        <div class="location-pill" id="prayerLocationPill" title="الموقع الجغرافي">
-          📍 <span id="prayerLocationName">جاري تحديد الموقع...</span>
+    <!-- بطاقة الصلاة البانورامية (Hero Card) -->
+    <section class="prayer-hero-card">
+      <div class="hero-top-meta">
+        <div class="location-badge" id="locationChangeBtn" title="تغيير المدينة أو تحديث الموقع">
+          <span class="loc-pin">📍</span>
+          <span id="displayCityName">موقعي الحالي</span>
+          <span class="loc-edit">↺</span>
         </div>
-        <div class="highlight-time-preview" id="nextPrayerTimeDisplay">--:--</div>
+        <div class="date-badge">
+          <span id="hijriDateDisplay">-- هـ</span>
+        </div>
+      </div>
+
+      <div class="next-prayer-center">
+        <span class="next-label">الصلاة القادمة</span>
+        <h2 class="prayer-title" id="heroNextPrayerName">صلاة الفجر</h2>
+        <div class="countdown-display" id="heroCountdownTimer">00:00:00</div>
+        <span class="time-subtext" id="heroNextPrayerTime">موعد الصلاة: --:--</span>
+      </div>
+
+      <!-- شريط مواقيت اليوم السريعة -->
+      <div class="timings-horizontal-row" id="horizontalTimingsRow">
+        <div class="timing-col" data-prayer="Fajr">
+          <span class="p-name">الفجر</span>
+          <span class="p-time" id="time_Fajr">--:--</span>
+        </div>
+        <div class="timing-col" data-prayer="Sunrise">
+          <span class="p-name">الشروق</span>
+          <span class="p-time" id="time_Sunrise">--:--</span>
+        </div>
+        <div class="timing-col" data-prayer="Dhuhr">
+          <span class="p-name">الظهر</span>
+          <span class="p-time" id="time_Dhuhr">--:--</span>
+        </div>
+        <div class="timing-col" data-prayer="Asr">
+          <span class="p-name">العصر</span>
+          <span class="p-time" id="time_Asr">--:--</span>
+        </div>
+        <div class="timing-col" data-prayer="Maghrib">
+          <span class="p-name">المغرب</span>
+          <span class="p-time" id="time_Maghrib">--:--</span>
+        </div>
+        <div class="timing-col" data-prayer="Isha">
+          <span class="p-name">العشاء</span>
+          <span class="p-time" id="time_Isha">--:--</span>
+        </div>
       </div>
     </section>
 
-    <!-- الآية اليومية الملهمة -->
-    <section class="daily-ayah-card">
-      <span class="ayah-icon">📖</span>
-      <div class="ayah-content">
-        <p>﴿ وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ ﴾</p>
-        <span class="ayah-reference">سورة الطلاق • آية 2-3</span>
-      </div>
-    </section>
+    <!-- شريط التنقل الرئيسي للعبادات (3 تبويبات مريحة) -->
+    <nav class="sanad-tabs-nav">
+      <button class="nav-tab-btn active" data-tab="tab-prayer">
+        <span class="tab-icon">🕌</span>
+        <span class="tab-text">الصلاة والأصوات</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-quran">
+        <span class="tab-icon">📖</span>
+        <span class="tab-text">المصحف الشريف</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tab-azkar">
+        <span class="tab-icon">📿</span>
+        <span class="tab-text">الأذكار والسبحة</span>
+      </button>
+    </nav>
 
-    <!-- الحاوية الرئيسية للفئات القابلة للسحب والإفلات (Drag & Drop) -->
-    <main class="categories-container" id="mainCategoriesContainer">
+    <!-- محتوى التبويبات الثلاثة -->
+    <main class="sanad-main-content">
 
-      <!-- ================================================================ -->
-      <!-- الفئة الأولى: الدين (الصلاة والمنبهات، القرآن الكريم، الأذكار والسبحة) -->
-      <!-- ================================================================ -->
-      <section class="draggable-category-card" id="cat_deen" draggable="true">
-        <div class="category-header-bar">
-          <div class="cat-title-group">
-            <span class="drag-handle" title="اسحب لإعادة الترتيب">⠿</span>
-            <h3>🕌 الدين والعبادات</h3>
+      <!-- ========================================== -->
+      <!-- 1. تبويب الصلاة والمنبهات والمكتبة الصوتية -->
+      <!-- ========================================== -->
+      <section id="tab-prayer" class="tab-pane active">
+        
+        <!-- بطاقة الإعدادات الذكية للصلاة -->
+        <div class="sanad-card">
+          <div class="card-head">
+            <h3>⚙️ خيارات التنبيه والصامت</h3>
           </div>
-          <label class="switch-label" title="تفعيل / إخفاء الفئة">
-            <input type="checkbox" class="category-master-toggle" data-cat-key="deen" checked>
-            <span class="slider-round"></span>
-          </label>
-        </div>
-
-        <!-- تبويبات الدين الفرعية -->
-        <nav class="deen-subnav-tabs">
-          <button class="subnav-btn active" data-target-tab="tab_prayers">⏰ الصلاة والمنبهات</button>
-          <button class="subnav-btn" data-target-tab="tab_quran">📖 القرآن الكريم</button>
-          <button class="subnav-btn" data-target-tab="tab_azkar">📿 الأذكار والسبحة</button>
-        </nav>
-
-        <!-- 1. تبويب الصلاة والمواقيت والمكتبة الصوتية -->
-        <div class="deen-tab-pane active" id="tab_prayers">
-          <div class="prayer-grid">
-            <div class="prayer-time-card" id="prayerCard_Fajr">
-              <span class="prayer-card-icon">🌅</span>
-              <span class="prayer-card-name">الفجر</span>
-              <span class="prayer-card-time" id="timeDisplay_Fajr">--:--</span>
-            </div>
-            <div class="prayer-time-card" id="prayerCard_Sunrise">
-              <span class="prayer-card-icon">🌄</span>
-              <span class="prayer-card-name">الشروق</span>
-              <span class="prayer-card-time" id="timeDisplay_Sunrise">--:--</span>
-            </div>
-            <div class="prayer-time-card" id="prayerCard_Dhuhr">
-              <span class="prayer-card-icon">☀️</span>
-              <span class="prayer-card-name">الظهر</span>
-              <span class="prayer-card-time" id="timeDisplay_Dhuhr">--:--</span>
-            </div>
-            <div class="prayer-time-card" id="prayerCard_Asr">
-              <span class="prayer-card-icon">🌤️</span>
-              <span class="prayer-card-name">العصر</span>
-              <span class="prayer-card-time" id="timeDisplay_Asr">--:--</span>
-            </div>
-            <div class="prayer-time-card" id="prayerCard_Maghrib">
-              <span class="prayer-card-icon">🌇</span>
-              <span class="prayer-card-name">المغرب</span>
-              <span class="prayer-card-time" id="timeDisplay_Maghrib">--:--</span>
-            </div>
-            <div class="prayer-time-card" id="prayerCard_Isha">
-              <span class="prayer-card-icon">🌙</span>
-              <span class="prayer-card-name">العشاء</span>
-              <span class="prayer-card-time" id="timeDisplay_Isha">--:--</span>
-            </div>
-          </div>
-
-          <!-- تخصيص أصوات الأذان والتكبير مع الاستماع المسبق -->
-          <div class="audio-library-section">
-            <h4>🔊 مكتبة أصوات الأذان (اختر صوتك المفضل مع الاستماع المسبق):</h4>
-            <div class="audio-select-grid" id="adhanSoundList"></div>
-          </div>
-
-          <div class="audio-library-section" style="margin-top: 1rem;">
-            <h4>🔔 أصوات التكبير والتنبيهات:</h4>
-            <div class="audio-select-grid" id="takbeerSoundList"></div>
-          </div>
-        </div>
-
-        <!-- 2. تبويب المصحف الشريف كاملاً -->
-        <div class="deen-tab-pane" id="tab_quran">
-          <div class="quran-controls-bar">
-            <select id="quranSurahSelect" title="اختر السورة"></select>
-            <input type="text" id="quranSearchInput" placeholder="بحث باسم السورة...">
-            <button id="bookmarkCurrentSurahBtn" class="btn-secondary">🔖 حفظ علامة القراءة</button>
-            <span id="savedBookmarkBadge" class="event-chip" style="background:var(--primary); cursor:pointer;">آخر علامة</span>
-
-            <div style="display: flex; align-items: center; gap: 0.5rem; margin-right: auto;">
-              <small>حجم الخط:</small>
-              <input type="range" id="quranFontSizeSlider" min="18" max="38" value="22" style="width: 90px;">
-            </div>
-
-            <div style="display: flex; gap: 0.35rem;">
-              <button class="btn-secondary quran-theme-btn active" data-qtheme="sepia">ورقي</button>
-              <button class="btn-secondary quran-theme-btn" data-qtheme="night">ليلي</button>
-              <button class="btn-secondary quran-theme-btn" data-qtheme="white">أبيض</button>
-            </div>
-          </div>
-
-          <div style="text-align: center; margin-bottom: 0.75rem;">
-            <h3 id="activeSurahTitle" style="font-family: var(--font-quran); font-size: 1.5rem; color: var(--primary);"></h3>
-          </div>
-
-          <div class="quran-verses-box" id="quranVersesArea" data-read-theme="sepia">
-            <!-- تعرض الآيات هنا -->
-          </div>
-        </div>
-
-        <!-- 3. تبويب الأذكار الشاملة والسبحة -->
-        <div class="deen-tab-pane" id="tab_azkar">
-          <div class="azkar-category-tabs-bar">
-            <button class="azkar-category-pill active" data-azkar-cat="morning">🌅 أذكار الصباح</button>
-            <button class="azkar-category-pill" data-azkar-cat="evening">🌇 أذكار المساء</button>
-            <button class="azkar-category-pill" data-azkar-cat="afterPrayer">🕌 بعد الصلاة</button>
-            <button class="azkar-category-pill" data-azkar-cat="sleep">🌙 أذكار النوم</button>
-            <button class="azkar-category-pill" data-azkar-cat="waking">☀️ الاستيقاظ</button>
-            <button class="azkar-category-pill" data-azkar-cat="duas">🤲 أدعية مختارة</button>
-          </div>
-
-          <div id="azkarCardsList"></div>
-
-          <!-- السبحة الإلكترونية المفتوحة -->
-          <div class="open-tasbeeh-box">
-            <h4>📿 السبحة الإلكترونية المفتوحة</h4>
-            <div class="tasbeeh-disk" id="openTasbeehDisk" title="اضغط للتسبيح">
-              <span class="tasbeeh-disk-counter" id="tasbeehSessionCounter">0</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 1.5rem;">
-              <button id="resetTasbeehBtn" class="btn-secondary">🔄 تصفير الجلسة</button>
-              <span>الإجمالي التراكمي: <strong id="tasbeehTotalCounter">0</strong></span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================================================================ -->
-      <!-- الفئة الثانية: التمارين والرياضة (Fitness) -->
-      <!-- ================================================================ -->
-      <section class="draggable-category-card" id="cat_fitness" draggable="true">
-        <div class="category-header-bar">
-          <div class="cat-title-group">
-            <span class="drag-handle" title="اسحب لإعادة الترتيب">⠿</span>
-            <h3>🏃‍♂️ التمارين والرياضة</h3>
-          </div>
-          <label class="switch-label" title="تفعيل / إخفاء الفئة">
-            <input type="checkbox" class="category-master-toggle" data-cat-key="fitness" checked>
-            <span class="slider-round"></span>
-          </label>
-        </div>
-
-        <div class="fitness-layout">
-          <!-- مؤقت التمارين الذكي (Interval Timer) -->
-          <div class="interval-timer-card">
-            <h4>⏱️ مؤقت الجولات الذكي</h4>
-            <span class="phase-badge" id="intervalPhaseDisplay">جاهز للانطلاق</span>
-            
-            <div class="timer-large-circle">
-              <span class="time-large-num" id="intervalTimeDisplay">30</span>
-              <small id="intervalRoundDisplay">جولة 1 من 5</small>
-            </div>
-
-            <div style="display: flex; gap: 0.65rem;">
-              <button id="startIntervalBtn" class="btn-primary">▶️ بدء الجولات</button>
-              <button id="resetIntervalBtn" class="btn-secondary">🔄 إعادة ضبط</button>
-            </div>
-          </div>
-
-          <!-- تقويم الإنجاز الأسبوعي والتمارين المقترحة -->
-          <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <div class="interval-timer-card" style="padding: 1rem;">
-              <h4>📅 تقويم الإنجاز الأسبوعي</h4>
-              <div class="calendar-week-grid" id="workoutCalendarGrid"></div>
-            </div>
-
-            <div class="interval-timer-card" style="padding: 1rem; text-align: right; align-items: stretch;">
-              <h4>🧘 تمارين منزلية سريعة</h4>
-              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">تمارين فك التصلب وإطالة الظهر بعد ساعات الجلوس الطويلة.</p>
-              <button class="btn-secondary" onclick="showToast('تم ضبط تذكير التمرين القادم ⏰')">⏰ ضبط منبه التمرين اليومي</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================================================================ -->
-      <!-- الفئة الثالثة: الملاحظات والمهام والتسجيل الصوتي (Notes & To-Do) -->
-      <!-- ================================================================ -->
-      <section class="draggable-category-card" id="cat_notes" draggable="true">
-        <div class="category-header-bar">
-          <div class="cat-title-group">
-            <span class="drag-handle" title="اسحب لإعادة الترتيب">⠿</span>
-            <h3>📝 الملاحظات والمهام اليومية</h3>
-          </div>
-          <label class="switch-label" title="تفعيل / إخفاء الفئة">
-            <input type="checkbox" class="category-master-toggle" data-cat-key="notes" checked>
-            <span class="slider-round"></span>
-          </label>
-        </div>
-
-        <div class="notes-tasks-wrapper">
-          <!-- إضافة مهمة سريعة -->
-          <div>
-            <h4 style="margin-bottom: 0.5rem; font-size: 1rem;">✅ قائمة مهام اليوم (To-Do):</h4>
-            <div class="quick-task-bar">
-              <input type="text" id="quickTaskInput" placeholder="اكتب مهمة جديدة اليوم واضغط Enter...">
-              <button id="quickTaskAddBtn" class="btn-primary">إضافة</button>
-            </div>
-            <div id="todoItemsList" style="margin-top: 0.75rem;"></div>
-          </div>
-
-          <!-- الملاحظات والتسجيل الصوتي -->
-          <div style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-              <h4 style="font-size: 1rem;">📌 مفكرة الأفكار والتسجيل الصوتي:</h4>
-              <button id="startVoiceRecordBtn" class="btn-voice-record">🎙️ تسجيل ملاحظة صوتية</button>
-            </div>
-            <div id="voiceRecordStatus" style="font-size: 0.85rem; color: var(--accent-rose); margin-bottom: 0.5rem;"></div>
-
-            <div class="quick-task-bar">
-              <input type="text" id="newNoteTextInput" placeholder="اكتب ملاحظة نصية جديدة...">
-              <select id="newNoteColorSelect" style="padding: 0.5rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-surface-elevated); color: var(--text-primary);">
-                <option value="yellow">💛 أصفر</option>
-                <option value="green">💚 أخضر</option>
-                <option value="blue">💙 أزرق</option>
-                <option value="pink">💖 وردي</option>
+          <div class="controls-grid">
+            <div class="control-item">
+              <label>تنبيه الاستعداد قبل الأذان:</label>
+              <select id="prePrayerAlertSelect" class="sanad-select">
+                <option value="0">مع الأذان مباشرة</option>
+                <option value="5">قبل 5 دقائق</option>
+                <option value="10">قبل 10 دقائق</option>
+                <option value="15" selected>قبل 15 دقيقة</option>
+                <option value="20">قبل 20 دقيقة</option>
               </select>
-              <button id="saveNoteBtn" class="btn-secondary">حفظ الملاحظة</button>
             </div>
-
-            <div class="notes-grid" id="notesCardsGrid"></div>
+            <div class="control-item">
+              <label>الوضع الصامت التلقائي وقت الصلاة:</label>
+              <select id="autoSilentSelect" class="sanad-select">
+                <option value="0">معطل</option>
+                <option value="15">15 دقيقة</option>
+                <option value="25" selected>25 دقيقة</option>
+                <option value="35">35 دقيقة</option>
+              </select>
+            </div>
           </div>
         </div>
+
+        <!-- مكتبة أصوات الأذان (10 أصوات مع استماع مسبق) -->
+        <div class="sanad-card">
+          <div class="card-head flex-between">
+            <div>
+              <h3>📢 مكتبة أصوات الأذان (10 أصوات)</h3>
+              <p class="card-hint">اختر صوت الأذان المفضل واستمع له مسبقاً</p>
+            </div>
+            <span class="badge-count">10 أصوات</span>
+          </div>
+          <div class="audio-grid" id="adhanAudioGrid">
+            <!-- يولد عبر JavaScript -->
+          </div>
+        </div>
+
+        <!-- مكتبة أصوات التكبيرات والتنبيه (10 أصوات) -->
+        <div class="sanad-card">
+          <div class="card-head flex-between">
+            <div>
+              <h3>✨ تكبيرات العيد ونغمات السكينة (10 أصوات)</h3>
+              <p class="card-hint">نغمات وتكبيرات هادئة مع استماع فوري</p>
+            </div>
+            <span class="badge-count">10 نغمات</span>
+          </div>
+          <div class="audio-grid" id="takbeerAudioGrid">
+            <!-- يولد عبر JavaScript -->
+          </div>
+        </div>
+
       </section>
 
-      <!-- ================================================================ -->
-      <!-- الفئة الرابعة: العادات والصحة اليومية (Health & Habits) -->
-      <!-- ================================================================ -->
-      <section class="draggable-category-card" id="cat_health" draggable="true">
-        <div class="category-header-bar">
-          <div class="cat-title-group">
-            <span class="drag-handle" title="اسحب لإعادة الترتيب">⠿</span>
-            <h3>💧 العادات والصحة اليومية</h3>
+      <!-- ========================================== -->
+      <!-- 2. تبويب المصحف الشريف -->
+      <!-- ========================================== -->
+      <section id="tab-quran" class="tab-pane">
+
+        <!-- أدوات المصحف والبحث والفاصلة -->
+        <div class="quran-search-bar">
+          <div class="search-input-wrapper">
+            <span class="search-ico">🔍</span>
+            <input type="text" id="quranSearchInput" placeholder="ابحث باسم السورة أو رقمها (مثال: الكهف، البقرة)...">
           </div>
-          <label class="switch-label" title="تفعيل / إخفاء الفئة">
-            <input type="checkbox" class="category-master-toggle" data-cat-key="health" checked>
-            <span class="slider-round"></span>
-          </label>
+          <button id="resumeBookmarkBtn" class="bookmark-shortcut-btn" title="العودة إلى آخر مكان توقفت عنده">
+            🔖 متابعة القراءة
+          </button>
         </div>
 
-        <div class="health-dashboard-grid">
-          <!-- متتبع شرب الماء التفاعلي -->
-          <div class="water-tracker-card">
-            <div class="water-cup-visual">
-              <div class="water-cup-fill" id="waterCupFillLevel" style="height: 0%;"></div>
-            </div>
-            <div style="flex: 1;">
-              <h4 style="color: var(--accent-blue); margin-bottom: 0.35rem;">متتبع شرب الماء</h4>
-              <strong style="font-size: 1.3rem; font-family: var(--font-mono);" id="waterConsumedDisplay">0 / 2500 مل</strong>
-              <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem;" id="waterPercentDisplay">0% من الهدف اليومي</p>
-              
-              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                <button id="addWater250Btn" class="btn-secondary">+250 مل 🥛</button>
-                <button id="addWater500Btn" class="btn-secondary">+500 مل 💧</button>
-                <button id="resetWaterBtn" class="btn-secondary" style="color: var(--text-muted);">تصفير</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- منبهات الصحة والحركة -->
-          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-            <div class="interval-timer-card" style="padding: 1rem; align-items: flex-start; text-align: right;">
-              <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
-                <h4>🚶‍♂️ منبه الحركة وتغيير وضعية الجلوس</h4>
-                <label class="switch-label" style="transform: scale(0.85);">
-                  <input type="checkbox" checked onchange="showToast('تم تحديث منبه الحركة')">
-                  <span class="slider-round"></span>
-                </label>
-              </div>
-              <p style="font-size: 0.82rem; color: var(--text-muted);">تذكير لطيف كل ساعتين بالوقوف أو المشي لراحة الظهر والدورة الدموية.</p>
-            </div>
-
-            <div class="interval-timer-card" style="padding: 1rem; align-items: flex-start; text-align: right;">
-              <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
-                <h4>💊 منبه الفيتامينات والأدوية</h4>
-                <label class="switch-label" style="transform: scale(0.85);">
-                  <input type="checkbox" checked onchange="showToast('تم ضبط تذكير الفيتامينات')">
-                  <span class="slider-round"></span>
-                </label>
-              </div>
-              <p style="font-size: 0.82rem; color: var(--text-muted);">منبه خاص بمواعيد الفيتامينات اليومية بعد الوجبات.</p>
-            </div>
-          </div>
+        <!-- قائمة وسور القرآن الكريم -->
+        <div class="surahs-grid" id="surahsGridContainer">
+          <!-- يولد عبر JavaScript لجميع السور الـ 114 -->
         </div>
+
       </section>
 
-      <!-- ================================================================ -->
-      <!-- الفئة الخامسة: المصاريف اليومية البسيطة (Expenses) -->
-      <!-- ================================================================ -->
-      <section class="draggable-category-card" id="cat_expenses" draggable="true">
-        <div class="category-header-bar">
-          <div class="cat-title-group">
-            <span class="drag-handle" title="اسحب لإعادة الترتيب">⠿</span>
-            <h3>💰 المصاريف اليومية والميزانية</h3>
-          </div>
-          <label class="switch-label" title="تفعيل / إخفاء الفئة">
-            <input type="checkbox" class="category-master-toggle" data-cat-key="expenses" checked>
-            <span class="slider-round"></span>
-          </label>
-        </div>
+      <!-- ========================================== -->
+      <!-- 3. تبويب الأذكار والسبحة الإلكترونية -->
+      <!-- ========================================== -->
+      <section id="tab-azkar" class="tab-pane">
 
-        <div class="expenses-card-inner">
-          <div class="budget-stats-row">
-            <div class="budget-stat-box">
-              <span>الميزانية الشهرية:</span>
-              <input type="number" id="monthlyBudgetInput" style="width: 100px; text-align: center; border: 1px solid var(--border-color); background: var(--bg-surface); color: var(--text-primary); border-radius: 6px; padding: 0.2rem; font-weight: 700;">
-            </div>
-            <div class="budget-stat-box">
-              <span>المتبقي في الميزانية:</span>
-              <strong style="color: var(--primary);" id="remainingBudgetDisplay">1,000 $</strong>
-            </div>
-            <div class="budget-stat-box">
-              <span>مصاريف الشهر:</span>
-              <strong style="color: var(--accent-rose);" id="spentTodayDisplay">0 $</strong>
-            </div>
+        <!-- القسم الأول: السبحة الرقمية المفتوحة -->
+        <div class="tasbeeh-hero-card">
+          <div class="tasbeeh-meta">
+            <span class="tasbeeh-label">السبحة الرقمية</span>
+            <button id="resetTasbeehBtn" class="tasbeeh-reset-btn" title="تصفير العداد">↺ تصفير</button>
           </div>
 
-          <!-- تسجيل مصروف سريع -->
-          <form id="addExpenseForm" style="display: flex; gap: 0.65rem; flex-wrap: wrap;">
-            <input type="text" id="expTitle" placeholder="اسم المصروف (غداء، بنزين، قهوة...)" style="flex: 2; min-width: 160px; padding: 0.65rem 0.85rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-surface-elevated); color: var(--text-primary);" required>
-            <input type="number" id="expAmount" placeholder="المبلغ ($)" style="flex: 1; min-width: 90px; padding: 0.65rem 0.85rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-surface-elevated); color: var(--text-primary);" required step="0.5">
-            <select id="expCat" style="flex: 1; min-width: 110px; padding: 0.65rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-surface-elevated); color: var(--text-primary);">
-              <option value="طعام وغذاء">🍔 طعام</option>
-              <option value="مواصلات">🚗 مواصلات</option>
-              <option value="تسوق">🛍️ تسوق</option>
-              <option value="فواتير">⚡ فواتير</option>
-              <option value="عام">✨ عام</option>
-            </select>
-            <button type="submit" class="btn-primary">تسجيل المصروف</button>
-          </form>
+          <!-- العداد الدائري المركزي -->
+          <div class="tasbeeh-circle-btn" id="tasbeehTapArea" role="button" tabindex="0">
+            <span class="tasbeeh-active-phrase" id="currentTasbeehPhrase">سُبْحَانَ اللَّهِ</span>
+            <span class="tasbeeh-counter-number" id="tasbeehCurrentCount">0</span>
+            <span class="tasbeeh-sub-hint">انقر في أي مكان للتسبيح 👆</span>
+          </div>
 
-          <div id="recentExpensesList" style="margin-top: 0.5rem;"></div>
+          <div class="tasbeeh-total-box">
+            <span>إجمالي تسبيحاتك اليوم:</span>
+            <strong id="tasbeehTotalCount">0</strong>
+          </div>
+
+          <!-- شريط الأذكار السريعة للسبحة -->
+          <div class="tasbeeh-presets-row">
+            <button class="preset-pill active" data-phrase="سُبْحَانَ اللَّهِ">سُبْحَانَ اللَّهِ</button>
+            <button class="preset-pill" data-phrase="الْحَمْدُ لِلَّهِ">الْحَمْدُ لِلَّهِ</button>
+            <button class="preset-pill" data-phrase="لَا إِلَهَ إِلَّا اللَّهُ">لَا إِلَهَ إِلَّا اللَّهُ</button>
+            <button class="preset-pill" data-phrase="اللَّهُ أَكْبَرُ">اللَّهُ أَكْبَرُ</button>
+            <button class="preset-pill" data-phrase="أَسْتَغْفِرُ اللَّهَ">أَسْتَغْفِرُ اللَّهَ</button>
+            <button class="preset-pill" data-phrase="اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ">الصلاة على النبي</button>
+          </div>
         </div>
+
+        <!-- القسم الثاني: موسوعة الأذكار اليومية -->
+        <div class="sanad-card">
+          <div class="card-head">
+            <h3>📖 موسوعة الأذكار والأدعية اليومية</h3>
+          </div>
+
+          <!-- فئات الأذكار -->
+          <div class="azkar-category-tabs" id="azkarCategoryTabs">
+            <button class="azkar-cat-btn active" data-cat="morning">🌅 أذكار الصباح</button>
+            <button class="azkar-cat-btn" data-cat="evening">🌇 أذكار المساء</button>
+            <button class="azkar-cat-btn" data-cat="after_prayer">🕌 بعد الصلاة</button>
+            <button class="azkar-cat-btn" data-cat="sleep">🌙 النوم</button>
+            <button class="azkar-cat-btn" data-cat="waking">☀️ الاستيقاظ</button>
+            <button class="azkar-cat-btn" data-cat="duas">🤲 أدعية مختارة</button>
+          </div>
+
+          <!-- قائمة بطاقات الأذكار التفاعلية -->
+          <div class="azkar-list-container" id="azkarListContainer">
+            <!-- يولد عبر JavaScript -->
+          </div>
+        </div>
+
       </section>
 
     </main>
 
-    <!-- تذييل الصفحة -->
-    <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 2rem;">
-      <p>رَفِيقِي © 2026 • تصميم مريح للعين وتحكم كامل في جميع ميزات التطبيق</p>
-    </footer>
-
   </div>
 
-  <!-- نافذة مركز التحكم الشامل والإعدادات (Control Center Modal) -->
-  <div class="modal-overlay" id="controlCenterModal">
-    <div class="modal-sheet">
-      <div class="modal-head-row">
-        <h3>⚙️ مركز التحكم الشامل والإعدادات</h3>
-        <button id="closeControlCenterBtn" style="background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--text-muted);">✕</button>
-      </div>
-
-      <!-- وضع الإجازة والراحة -->
-      <div class="settings-group" style="background: var(--bg-surface-elevated); padding: 1rem; border-radius: 12px; border: 1px solid #fde68a;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div>
-            <strong style="color: #d97706; font-size: 1rem;">🌴 وضع الإجازة والراحة (Vacation Mode)</strong>
-            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">يوقف مؤقتاً جميع منبهات التمارين والمهام والأنشطة بضغطة واحدة دون مسح بياناتك.</p>
-          </div>
-          <label class="switch-label">
-            <input type="checkbox" id="vacationModeToggle">
-            <span class="slider-round"></span>
-          </label>
+  <!-- ========================================== -->
+  <!-- نافذة قارئ المصحف الشريف المريحة للعين -->
+  <!-- ========================================== -->
+  <div class="reader-modal-overlay" id="quranReaderModal">
+    <div class="reader-modal-box">
+      <div class="reader-header">
+        <div class="reader-title-info">
+          <h2 id="modalSurahName">سورة الفاتحة</h2>
+          <span id="modalSurahMeta">مكية • 7 آيات</span>
+        </div>
+        <div class="reader-controls">
+          <button id="fontDecBtn" class="reader-ctrl-btn" title="تصغير الخط">A-</button>
+          <button id="fontIncBtn" class="reader-ctrl-btn" title="تكبير الخط">A+</button>
+          <button id="readingThemeBtn" class="reader-ctrl-btn" title="نمط القراءة">🎨</button>
+          <button id="saveBookmarkBtn" class="reader-ctrl-btn bookmark-btn" title="حفظ الفاصلة هنا">🔖 حفظ الفاصلة</button>
+          <button id="closeReaderBtn" class="reader-ctrl-btn close-btn" title="إغلاق">✕</button>
         </div>
       </div>
 
-      <!-- تشغيل وإطفاء الفئات الخمس -->
-      <div class="settings-group">
-        <h4>🎛️ تشغيل أو إخفاء الفئات الرئيسية:</h4>
-        
-        <div class="setting-toggle-row">
-          <span>🕌 الفئة الأولى: الدين والعبادات</span>
-          <label class="switch-label">
-            <input type="checkbox" class="category-master-toggle" data-cat-key="deen" checked>
-            <span class="slider-round"></span>
-          </label>
-        </div>
-
-        <div class="setting-toggle-row">
-          <span>🏃‍♂️ الفئة الثانية: التمارين والرياضة</span>
-          <label class="switch-label">
-            <input type="checkbox" class="category-master-toggle" data-cat-key="fitness" checked>
-            <span class="slider-round"></span>
-          </label>
-        </div>
-
-        <div class="setting-toggle-row">
-          <span>📝 الفئة الثالثة: الملاحظات والمهام</span>
-          <label class="switch-label">
-            <input type="checkbox" class="category-master-toggle" data-cat-key="notes" checked>
-            <span class="slider-round"></span>
-          </label>
-        </div>
-
-        <div class="setting-toggle-row">
-          <span>💧 الفئة الرابعة: العادات والصحة اليومية</span>
-          <label class="switch-label">
-            <input type="checkbox" class="category-master-toggle" data-cat-key="health" checked>
-            <span class="slider-round"></span>
-          </label>
-        </div>
-
-        <div class="setting-toggle-row">
-          <span>💰 الفئة الخامسة: المصاريف اليومية</span>
-          <label class="switch-label">
-            <input type="checkbox" class="category-master-toggle" data-cat-key="expenses" checked>
-            <span class="slider-round"></span>
-          </label>
-        </div>
+      <div class="reader-body" id="quranReaderContent">
+        <!-- نص الآيات القرآني العثماني -->
       </div>
-
-      <!-- إعدادات تنبيهات الصلاة -->
-      <div class="settings-group">
-        <h4>🕌 إعدادات الصلاة والتنبيه المسبق:</h4>
-        <div class="setting-toggle-row">
-          <span>تنبيه الاستعداد المسبق قبل الأذان:</span>
-          <select id="preAlertMinutesSelect" style="padding: 0.4rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-surface); color: var(--text-primary);" onchange="showToast('تم حفظ وقت التنبيه المسبق')">
-            <option value="5">قبل الأذان بـ 5 دقائق</option>
-            <option value="10">قبل الأذان بـ 10 دقائق</option>
-            <option value="15" selected>قبل الأذان بـ 15 دقيقة</option>
-            <option value="20">قبل الأذان بـ 20 دقيقة</option>
-          </select>
-        </div>
-        <div class="setting-toggle-row">
-          <span>مدة الوضع الصامت التلقائي وقت الصلاة:</span>
-          <select style="padding: 0.4rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-surface); color: var(--text-primary);" onchange="showToast('تم حفظ مدة الوضع الصامت')">
-            <option value="15">15 دقيقة</option>
-            <option value="25" selected>25 دقيقة</option>
-            <option value="35">35 دقيقة</option>
-          </select>
-        </div>
-      </div>
-
     </div>
   </div>
 
-  <!-- التنبيه العائم العام -->
-  <div class="app-toast" id="appGlobalToast"></div>
+  <!-- تنبيه عام عائم (Toast) -->
+  <div class="sanad-toast" id="sanadToast"></div>
 
-  <!-- ربط السكربتات البرمجية بالترتيب المعماري الدقيق -->
+  <!-- سكربتات التطبيق الدينية -->
   <script src="data.js"></script>
   <script src="audio.js"></script>
   <script src="prayer.js"></script>
   <script src="app.js"></script>
 
-  <!-- سكربت التبديل بين التبويبات الفرعية للدين وService Worker لتثبيت التطبيق -->
+  <!-- PWA & Mobile Installation Script -->
   <script>
-    document.querySelectorAll('.subnav-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.subnav-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.deen-tab-pane').forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        const target = document.getElementById(btn.dataset.targetTab);
-        if (target) target.classList.add('active');
-      });
-    });
-
-    // تسجيل Service Worker للعمل أوفلاين وتثبيت التطبيق على شاشة الهاتف
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-          .then(reg => console.log('PWA ServiceWorker جاهز:', reg.scope))
-          .catch(err => console.log('SW registration error:', err));
+          .then(reg => console.log('سَنَد PWA يعمل بنجاح'))
+          .catch(err => console.log('SW error:', err));
       });
     }
 
-    // زر وتجربة تثبيت التطبيق الفوري على الهاتف (PWA / Direct Mobile Install)
-    let deferredPrompt;
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    const installBtn = document.getElementById('pwaInstallPromptBtn');
-
-    if (!isStandalone && installBtn) {
-      installBtn.style.display = 'inline-flex';
-    }
-
+    let pwaPrompt;
+    const installBtn = document.getElementById('pwaInstallHeaderBtn');
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
-      deferredPrompt = e;
-      if (installBtn) installBtn.style.display = 'inline-flex';
+      pwaPrompt = e;
     });
 
     if (installBtn) {
       installBtn.addEventListener('click', () => {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-          deferredPrompt.userChoice.then(() => {
-            deferredPrompt = null;
-            installBtn.style.display = 'none';
-          });
+        if (pwaPrompt) {
+          pwaPrompt.prompt();
+          pwaPrompt.userChoice.then(() => { pwaPrompt = null; });
         } else {
-          // في حال كان المتصفح Safari على آيفون أو لا يدعم beforeinstallprompt المباشر
           const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
           if (isIOS) {
             alert('📲 لتثبيت تطبيق سَنَد على الآيفون:\n1. اضغط على زر المشاركة (المربع ذو السهم ⎋) أسفل المتصفح.\n2. اختر "إضافة إلى الشاشة الرئيسية" (Add to Home Screen).');
           } else {
-            alert('📲 لتثبيت تطبيق سَنَد على هاتفك:\nاضغط على قائمة المتصفح (⋮) ثم اختر "تثبيت التطبيق" أو "إضافة إلى الشاشة الرئيسية".');
+            alert('📲 لتثبيت تطبيق سَنَد على جهازك:\nاضغط على قائمة المتصفح (⋮) ثم اختر "تثبيت التطبيق" أو "إضافة إلى الشاشة الرئيسية".');
           }
         }
       });
