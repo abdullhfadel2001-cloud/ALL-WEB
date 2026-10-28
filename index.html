@@ -37,7 +37,13 @@
   <meta property="twitter:description" content="منصة دايم الرقمية - أدوات فحص الشبكة، قياس السرعة، ومشاركة التطبيقات البرمجية.">
   <meta property="twitter:image" content="https://abdullhfadel2001-cloud.github.io/ALL-WEB/preview.png">
 
-  <link rel="stylesheet" href="style.css?v=18.0">
+  <!-- PWA Manifest & App Icons -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
+
+  <link rel="stylesheet" href="style.css?v=19.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -122,6 +128,10 @@
         <a href="#speedtest" class="cyber-btn cyber-btn-primary">
           <span>🚀 فحص سرعة النت</span>
         </a>
+
+        <button id="pwaInstallBtn" class="cyber-btn cyber-btn-pwa" style="display: none;">
+          <span>📲 تثبيت التطبيق</span>
+        </button>
 
         <div class="hud-stats-pill">
           <span class="hud-stat-title">الحالة:</span>
@@ -297,6 +307,6 @@
     <span id="toastMsg" class="toast-msg"></span>
   </div>
 
-  <script src="script.js?v=18.0"></script>
+  <script src="script.js?v=19.0"></script>
 </body>
 </html>

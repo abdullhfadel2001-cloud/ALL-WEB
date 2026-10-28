@@ -367,6 +367,32 @@ body {
   border-color: var(--border-bright);
 }
 
+.cyber-btn-pwa {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid #10b981;
+  color: #10b981;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);
+  animation: pulseGlow 2.5s infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.5); }
+}
+
+.cyber-btn-pwa:hover {
+  background: #10b981;
+  color: #000;
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
+}
+
+[data-theme="light"] .cyber-btn-pwa {
+  background: #ecfdf5;
+  border-color: #059669;
+  color: #047857;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+}
+
 .cyber-btn-large {
   padding: 0.9rem 2.5rem;
   font-size: 1.05rem;

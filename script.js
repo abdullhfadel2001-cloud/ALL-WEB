@@ -524,6 +524,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupModal();
   setupLatencyTicker();
   setupCyberSpeedTest();
+  setupPWA();
 });
 
 
@@ -755,5 +756,56 @@ function setupCyberSpeedTest() {
     startBtn.style.opacity = '1';
     startBtn.innerHTML = '<span>⚡ إعادة فحص السرعة // RE-TEST</span>';
     toast(`⚡ سرعة التحميل: ${finalDlMbps.toFixed(1)} Mbps | الاستجابة: ${minPing}ms`);
+  });
+}
+
+// ==========================================================================
+// 8. PWA Service Worker Registration & App Install Engine
+// ==========================================================================
+function setupPWA() {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then((reg) => {
+          console.log('[DAEM PWA] Service Worker registered scope:', reg.scope);
+        })
+        .catch((err) => {
+          console.warn('[DAEM PWA] Service Worker registration failed:', err);
+        });
+    });
+  }
+
+  // دعم زر التثبيت PWA عند توفره (Desktop & Mobile)
+  let deferredPrompt = null;
+  const installBtn = document.getElementById('pwaInstallBtn');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installBtn) {
+      installBtn.style.display = 'inline-flex';
+    }
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      haptic(50);
+      if (!deferredPrompt) {
+        toast('📲 لتثبيت التطبيق: افتح خيارات المتصفح واختر "تثبيت التطبيق" أو "إضافة إلى الشاشة الرئيسية"');
+        return;
+      }
+      deferredPrompt.prompt();
+      const choiceResult = await deferredPrompt.userChoice;
+      if (choiceResult && choiceResult.outcome === 'accepted') {
+        toast('⚡ تم تثبيت تطبيق DAEM بنجاح!');
+        installBtn.style.display = 'none';
+      }
+      deferredPrompt = null;
+    });
+  }
+
+  window.addEventListener('appinstalled', () => {
+    if (installBtn) installBtn.style.display = 'none';
+    toast('🎉 مرحباً بك في تطبيق DAEM المثبت على جهازك!');
   });
 }
