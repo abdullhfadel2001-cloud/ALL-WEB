@@ -309,7 +309,7 @@ function renderApps() {
           <span class="radar-center-bolt">⚡</span>
         </div>
         <h3 class="radar-title">NO APPLICATIONS YET</h3>
-        <p class="radar-desc">قائمة البرامج والتطبيقات فارغة حالياً. اضغط على الزر بالأسفل لإضافة أول تطبيق إلى المنصة ⚡</p>
+        <p class="radar-desc">قائمة البرامج والتطبيقات قيد التجهيز والتحديث. ترقبوا إطلاق وتحميل التطبيقات قريباً ⚡</p>
         <span class="radar-meta">SYSTEM READY // جاهز للتشغيل</span>
       </div>`;
     return;
@@ -397,7 +397,8 @@ function setupFilters() {
 // 5. Modal Management
 // ==========================================================================
 function setupModal() {
-  const modal      = document.getElementById('addModal');
+  const modal = document.getElementById('addModal');
+  if (!modal) return;
   const openBtn    = document.getElementById('addAppBtn');
   const navOpenBtn = document.getElementById('addAppNavBtn');
   const closeBtn   = document.getElementById('closeModal');

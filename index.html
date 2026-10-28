@@ -32,7 +32,7 @@
   <meta property="twitter:description" content="منصة دايم الرقمية - أدوات فحص الشبكة، قياس السرعة، ومشاركة التطبيقات البرمجية.">
   <meta property="twitter:image" content="https://abdullhfadel2001-cloud.github.io/ALL-WEB/preview.png">
 
-  <link rel="stylesheet" href="style.css?v=16.0">
+  <link rel="stylesheet" href="style.css?v=17.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -272,13 +272,6 @@
       <div class="apps-grid" id="appsGrid">
         <!-- يتم التحميل عبر JS -->
       </div>
-
-      <!-- زر إضافة تطبيق في الأسفل -->
-      <div class="add-section-footer">
-        <button id="addAppBtn" class="cyber-btn cyber-btn-large">
-          <span>⚡ إضافة برنامج جديد</span>
-        </button>
-      </div>
     </div>
   </section>
 
@@ -293,81 +286,12 @@
     </div>
   </footer>
 
-  <!-- نافذة إضافة تطبيق جديد Modal -->
-  <div class="modal-backdrop" id="addModal">
-    <div class="cyber-modal-card">
-      <div class="modal-hud-header">
-        <div class="modal-title-wrap">
-          <span class="modal-bolt">⚡</span>
-          <h3>إضافة برنامج جديد</h3>
-        </div>
-        <button id="closeModal" class="modal-close-trigger" title="إغلاق">✕</button>
-      </div>
-
-      <form id="addAppForm" class="modal-form">
-        <div class="input-block">
-          <label>اسم البرنامج:</label>
-          <input type="text" id="fName" placeholder="مثال: تطبيق الذكاء، أداة التحميل..." required autocomplete="off">
-        </div>
-
-        <div class="input-grid">
-          <div class="input-block">
-            <label>التصنيف:</label>
-            <select id="fCat">
-              <option value="android">📱 Android (APK)</option>
-              <option value="tools">🛠️ Tools & برامج</option>
-              <option value="games">🎮 Games & ألعاب</option>
-              <option value="web">🌐 Web Application</option>
-            </select>
-          </div>
-          <div class="input-block">
-            <label>الأيقونة (Emoji):</label>
-            <input type="text" id="fIcon" placeholder="🚀" value="⚡">
-          </div>
-        </div>
-
-        <div class="input-grid">
-          <div class="input-block">
-            <label>رقم الإصدار:</label>
-            <input type="text" id="fVersion" placeholder="v1.0.0" value="v1.0.0">
-          </div>
-          <div class="input-block">
-            <label>حجم الملف:</label>
-            <input type="text" id="fSize" placeholder="مثال: 15 MB">
-          </div>
-        </div>
-
-        <div class="input-block">
-          <label>وصف البرنامج:</label>
-          <textarea id="fDesc" rows="3" placeholder="اكتب نبذة مختصرة عما يقدمه هذا البرنامج..." required></textarea>
-        </div>
-
-        <div class="input-block">
-          <label>رابط التحميل المباشر (أو مسار الملف):</label>
-          <input type="text" id="fUrl" placeholder="downloads/app.apk أو رابط خارجي" required>
-        </div>
-
-        <div class="input-block">
-          <label>رابط التجربة المباشرة (اختياري):</label>
-          <input type="text" id="fDemo" placeholder="https://... أو اتركه فارغاً">
-        </div>
-
-        <div class="modal-foot">
-          <button type="button" id="cancelModal" class="cyber-btn cyber-btn-ghost">إلغاء</button>
-          <button type="submit" class="cyber-btn cyber-btn-primary">
-            <span>⚡ حفظ ونشر البرنامج</span>
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <!-- التنبيه العائم Toast -->
   <div id="cyberToast" class="cyber-toast">
     <span class="toast-bolt">⚡</span>
     <span id="toastMsg" class="toast-msg"></span>
   </div>
 
-  <script src="script.js?v=16.0"></script>
+  <script src="script.js?v=17.0"></script>
 </body>
 </html>
