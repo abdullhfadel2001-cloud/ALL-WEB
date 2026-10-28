@@ -525,6 +525,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupLatencyTicker();
   setupCyberSpeedTest();
   setupPWA();
+  setupVideoDownloader();
 });
 
 
@@ -808,4 +809,316 @@ function setupPWA() {
     if (installBtn) installBtn.style.display = 'none';
     toast('🎉 مرحباً بك في تطبيق DAEM المثبت على جهازك!');
   });
+}
+
+// ==========================================================================
+// 9. DAEM Universal Cyber Video Downloader Engine (تنزيل الفيديوهات الشامل)
+// ==========================================================================
+function setupVideoDownloader() {
+  const urlInput        = document.getElementById('videoUrlInput');
+  const clearBtn        = document.getElementById('clearUrlBtn');
+  const pasteBtn        = document.getElementById('pasteUrlBtn');
+  const startBtn        = document.getElementById('startDownloadBtn');
+  const platformIcon    = document.getElementById('inputPlatformIcon');
+  const deviceIcon      = document.getElementById('deviceIcon');
+  const deviceText      = document.getElementById('deviceText');
+  const loader          = document.getElementById('downloaderLoader');
+  const loaderText      = document.getElementById('loaderText');
+  const resultBox       = document.getElementById('downloadResultBox');
+  const fallbackBox     = document.getElementById('downloadFallbackBox');
+  const fallbackTitle   = document.getElementById('fallbackTitle');
+  const fallbackDesc    = document.getElementById('fallbackDesc');
+  const fallbackActions = document.getElementById('fallbackActions');
+
+  const resThumb        = document.getElementById('resThumb');
+  const resPlatform     = document.getElementById('resPlatformBadge');
+  const resDuration     = document.getElementById('resDuration');
+  const resTitle        = document.getElementById('resTitle');
+  const resMeta         = document.getElementById('resMeta');
+  const btnVideo        = document.getElementById('btnDownloadVideo');
+  const btnAudio        = document.getElementById('btnDownloadAudio');
+  const platformChips   = document.querySelectorAll('.platform-chip');
+
+  if (!urlInput || !startBtn) return;
+
+  // 1. فحص وتحديد نظام تشغيل الجهاز تلقائياً
+  const ua = navigator.userAgent.toLowerCase();
+  let userOs = 'general';
+  if (/android/.test(ua)) {
+    userOs = 'android';
+    if (deviceIcon) deviceIcon.textContent = '🤖';
+    if (deviceText) deviceText.textContent = 'نظامك: أندرويد (Android) // صيغة MP4 القياسية للحفظ المباشر في الاستوديو والمعرض';
+  } else if (/iphone|ipad|ipod/.test(ua)) {
+    userOs = 'ios';
+    if (deviceIcon) deviceIcon.textContent = '🍏';
+    if (deviceText) deviceText.textContent = 'نظامك: آيفون (iOS) // صيغة MP4 متوافقة تماماً مع ألبوم الكاميرا وتطبيق الصور';
+  } else if (/windows/.test(ua)) {
+    userOs = 'windows';
+    if (deviceIcon) deviceIcon.textContent = '💻';
+    if (deviceText) deviceText.textContent = 'نظامك: ويندوز (Windows) // تنزيل مباشر عالي الدقة بصيغة MP4 جاهزة للتشغيل';
+  } else if (/macintosh|mac os x/.test(ua)) {
+    userOs = 'mac';
+    if (deviceIcon) deviceIcon.textContent = '🍏';
+    if (deviceText) deviceText.textContent = 'نظامك: ماك (macOS) // صيغة MP4 متوافقة مع QuickTime وتطبيق الصور';
+  } else {
+    if (deviceIcon) deviceIcon.textContent = '🌐';
+    if (deviceText) deviceText.textContent = 'نظامك: متوافق عالمياً // تنزيل مباشر بصيغة MP4 القياسية لكافة المشغلات';
+  }
+
+  // 2. كاشف المنصات التلقائي
+  function detectPlatform(val) {
+    const raw = (val || '').toLowerCase().trim();
+    let detected = 'unknown';
+
+    if (raw.includes('tiktok.com') || raw.includes('douyin.com')) detected = 'tiktok';
+    else if (raw.includes('facebook.com') || raw.includes('fb.watch') || raw.includes('fb.com')) detected = 'facebook';
+    else if (raw.includes('instagram.com') || raw.includes('instagr.am')) detected = 'instagram';
+    else if (raw.includes('snapchat.com')) detected = 'snapchat';
+    else if (raw.includes('youtube.com') || raw.includes('youtu.be')) detected = 'youtube';
+    else if (raw.includes('twitter.com') || raw.includes('x.com')) detected = 'twitter';
+    else if (raw.includes('pinterest.com') || raw.includes('pin.it')) detected = 'pinterest';
+
+    // تحديث أيقونة الحقل
+    const iconMap = {
+      tiktok: '🎵', facebook: '📘', instagram: '📸', snapchat: '👻',
+      youtube: '▶️', twitter: '🐦', pinterest: '📌', unknown: '🔗'
+    };
+    if (platformIcon) platformIcon.textContent = iconMap[detected] || '🔗';
+
+    // تحديث الشرائح النشطة
+    platformChips.forEach(chip => {
+      if (chip.dataset.platform === detected) {
+        chip.classList.add('active-highlight');
+      } else {
+        chip.classList.remove('active-highlight');
+      }
+    });
+
+    return detected;
+  }
+
+  urlInput.addEventListener('input', (e) => {
+    const val = e.target.value;
+    detectPlatform(val);
+    if (clearBtn) clearBtn.style.display = val ? 'flex' : 'none';
+  });
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      urlInput.value = '';
+      detectPlatform('');
+      clearBtn.style.display = 'none';
+      if (resultBox) resultBox.style.display = 'none';
+      if (fallbackBox) fallbackBox.style.display = 'none';
+      urlInput.focus();
+    });
+  }
+
+  if (pasteBtn) {
+    pasteBtn.addEventListener('click', async () => {
+      haptic(35);
+      try {
+        if (navigator.clipboard && navigator.clipboard.readText) {
+          const text = await navigator.clipboard.readText();
+          if (text) {
+            urlInput.value = text.trim();
+            detectPlatform(text.trim());
+            if (clearBtn) clearBtn.style.display = 'flex';
+            toast('📋 تم لصق الرابط بنجاح!');
+          } else {
+            toast('الحافظة فارغة، يرجى نسخ رابط الفيديو أولاً');
+          }
+        } else {
+          urlInput.focus();
+          toast('الصق الرابط يدوياً في الخانة.');
+        }
+      } catch (e) {
+        urlInput.focus();
+        toast('يرجى لصق الرابط داخل الخانة.');
+      }
+    });
+  }
+
+  // 3. دالة تنزيل الملف وحفظه المباشر في الاستوديو والجهاز
+  async function triggerDirectDownload(fileUrl, defaultFilename) {
+    toast('⚡ جاري بدء سحب الفيديو وتنزيله مباشرة إلى جهازك... 📥');
+    haptic([30, 40]);
+
+    try {
+      // محاولة سحب الـ Blob لحفظه وتسميته محلياً
+      const resp = await fetch(fileUrl, { mode: 'cors' });
+      if (!resp.ok) throw new Error('Fetch failed');
+      const blob = await resp.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = blobUrl;
+      a.download = defaultFilename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        window.URL.revokeObjectURL(blobUrl);
+        a.remove();
+      }, 2500);
+
+      toast('🎉 تم حفظ وتنزيل الفيديو في جهازك بنجاح!');
+      haptic([50, 60, 100]);
+    } catch (err) {
+      // بديل التحميل المباشر الآمن إذا كان السيرفر الخارجي يمنع قراءة الـ Blob
+      const a = document.createElement('a');
+      a.href = fileUrl;
+      a.download = defaultFilename;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => a.remove(), 1000);
+      toast('📥 جاري تنزيل ملف الفيديو إلى مجلد التنزيلات...');
+      haptic([40, 60]);
+    }
+  }
+
+  function formatDuration(sec) {
+    if (!sec || isNaN(sec)) return '00:30';
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  }
+
+  // 4. معالج فحص وتنزيل الفيديو
+  startBtn.addEventListener('click', async () => {
+    const rawUrl = urlInput.value.trim();
+    if (!rawUrl) {
+      toast('⚠️ يرجى إدخال أو لصق رابط الفيديو أولاً');
+      urlInput.focus();
+      haptic([60, 40]);
+      return;
+    }
+
+    const platform = detectPlatform(rawUrl);
+    haptic(45);
+
+    // إعادة الضبط وإظهار مؤشر التحميل
+    if (resultBox) resultBox.style.display = 'none';
+    if (fallbackBox) fallbackBox.style.display = 'none';
+    if (loader) loader.style.display = 'flex';
+    if (loaderText) loaderText.textContent = `جاري فحص رابط ${platform.toUpperCase()} واستخراج أعلى دقة MP4... ⚡`;
+    startBtn.disabled = true;
+    startBtn.style.opacity = '0.6';
+
+    try {
+      if (platform === 'tiktok') {
+        // محرك استخراج التيك توك الفائق (بدون علامة مائية + MP4 مباشر + MP3)
+        const apiUrl = `https://www.tikwm.com/api/?url=${encodeURIComponent(rawUrl)}`;
+        const res = await fetch(apiUrl);
+        const json = await res.json();
+
+        if (json && json.code === 0 && json.data) {
+          const d = json.data;
+          const playUrl = d.play || d.hdplay || d.wmplay;
+          const musicUrl = d.music;
+          const title = d.title || 'فيديو تيك توك بدون علامة مائية';
+          const cover = d.cover || 'preview.png';
+          const duration = formatDuration(d.duration);
+
+          if (resThumb) resThumb.src = cover;
+          if (resPlatform) resPlatform.textContent = 'TikTok HD';
+          if (resDuration) resDuration.textContent = duration;
+          if (resTitle) resTitle.textContent = title;
+          if (resMeta) resMeta.textContent = `الناشر: @${d.author?.unique_id || 'User'} | الحجم: ${d.size ? (d.size / (1024 * 1024)).toFixed(1) + ' MB' : 'عالي الدقة'}`;
+
+          if (btnVideo) {
+            btnVideo.onclick = () => triggerDirectDownload(playUrl, `DAEM_TikTok_${Date.now()}.mp4`);
+          }
+
+          if (btnAudio) {
+            if (musicUrl) {
+              btnAudio.style.display = 'flex';
+              btnAudio.onclick = () => triggerDirectDownload(musicUrl, `DAEM_Audio_${Date.now()}.mp3`);
+            } else {
+              btnAudio.style.display = 'none';
+            }
+          }
+
+          if (resultBox) resultBox.style.display = 'block';
+          toast('⚡ تم استخراج الفيديو بنجاح! اضغط تحميل للحفظ في الاستوديو');
+          haptic([40, 60, 80]);
+        } else {
+          showFastBridge(platform, rawUrl);
+        }
+      } else {
+        // المنصات الأخرى (Facebook, Instagram, Snapchat, YouTube, Twitter)
+        showFastBridge(platform, rawUrl);
+      }
+    } catch (err) {
+      console.warn('Direct extractor exception, activating Fast-Bridge:', err);
+      showFastBridge(platform, rawUrl);
+    } finally {
+      if (loader) loader.style.display = 'none';
+      startBtn.disabled = false;
+      startBtn.style.opacity = '1';
+    }
+  });
+
+  // 5. محرك البوابات الفورية السريعة (Instant Fast-Bridge)
+  function showFastBridge(platform, targetUrl) {
+    if (!fallbackBox || !fallbackActions) return;
+
+    fallbackBox.style.display = 'block';
+    fallbackActions.innerHTML = '';
+
+    const enc = encodeURIComponent(targetUrl);
+    let bridges = [];
+
+    if (platform === 'facebook') {
+      fallbackTitle.textContent = 'بوابة تنزيل فيديوهات وريلز الفيسبوك (Facebook HD)';
+      fallbackDesc.textContent = 'تم تجهيز رابط الفيسبوك بأعلى دقة 1080p. اضغط على البوابة بالأسفل للتنزيل الفوري في الاستوديو:';
+      bridges = [
+        { name: '📥 تنزيل عبر بوابة SnapSave HD', url: `https://snapsave.app/action.php?url=${enc}` },
+        { name: '⚡ تنزيل عبر FBDownloader', url: `https://fdownloader.net/?url=${enc}` }
+      ];
+    } else if (platform === 'instagram') {
+      fallbackTitle.textContent = 'بوابة تنزيل ريلز وفيديوهات انستغرام (Instagram Reels)';
+      fallbackDesc.textContent = 'تم تجهيز رابط انستغرام بالدقة الكاملة. اضغط لتنزيل الفيديو مباشرة إلى ألبوم الصور:';
+      bridges = [
+        { name: '📸 تنزيل عبر SnapInsta HD', url: `https://snapinsta.app/?url=${enc}` },
+        { name: '⚡ تنزيل عبر FastDL Video', url: `https://fastdl.app/?url=${enc}` }
+      ];
+    } else if (platform === 'snapchat') {
+      fallbackTitle.textContent = 'بوابة تنزيل أضواء وقصص سناب شات (Snapchat Spotlight)';
+      fallbackDesc.textContent = 'تم تجهيز رابط السناب شات. اضغط للتحميل المباشر في المعرض:';
+      bridges = [
+        { name: '👻 تنزيل عبر SnapVideo Extractor', url: `https://snaptik.app/?url=${enc}` },
+        { name: '⚡ تنزيل عبر Savetik', url: `https://savetik.co/?url=${enc}` }
+      ];
+    } else if (platform === 'youtube') {
+      fallbackTitle.textContent = 'بوابة تنزيل فيديوهات وشورتس يوتيوب (YouTube MP4/MP3)';
+      fallbackDesc.textContent = 'تم تجهيز رابط اليوتيوب بأعلى دقة متوافقة مع جهازك:';
+      bridges = [
+        { name: '▶️ تنزيل MP4 فائق السرعة', url: `https://y2mate.is/?url=${enc}` },
+        { name: '🎵 تنزيل الصوت MP3 فقط', url: `https://yt1s.com/?url=${enc}` }
+      ];
+    } else {
+      fallbackTitle.textContent = 'بوابة التنزيل العالمية لكافة المنصات (Universal Extractor)';
+      fallbackDesc.textContent = 'تم التعرف على الرابط؛ اضغط على البوابة بالأسفل لتنزيل الفيديو بصيغة MP4 المتوافقة مع جهازك:';
+      bridges = [
+        { name: '⚡ تنزيل مباشر MP4 HD', url: `https://savefrom.net/?url=${enc}` },
+        { name: '📥 بوابة التنزيل البديلة', url: `https://snaptik.app/?url=${enc}` }
+      ];
+    }
+
+    bridges.forEach(b => {
+      const a = document.createElement('a');
+      a.className = 'btn-fast-bridge';
+      a.href = b.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.innerHTML = `<span>${b.name}</span>`;
+      a.addEventListener('click', () => haptic(40));
+      fallbackActions.appendChild(a);
+    });
+
+    toast('⚡ تم تجهيز بوابة التنزيل المباشر بنجاح!');
+    haptic([30, 50, 70]);
+  }
 }

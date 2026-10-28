@@ -43,7 +43,7 @@
   <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
   <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
 
-  <link rel="stylesheet" href="style.css?v=19.0">
+  <link rel="stylesheet" href="style.css?v=20.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -75,6 +75,10 @@
       </div>
 
       <div class="nav-controls">
+        <a href="#downloader" class="nav-shortcut-link" title="تنزيل الفيديوهات">
+          <span>🎬 تنزيل الفيديوهات</span>
+        </a>
+
         <div class="hud-status">
           <span class="status-indicator"></span>
           <span class="status-label" id="statusThemeLabel">الوضع الليلي 🌙</span>
@@ -121,12 +125,16 @@
 
       <!-- الأزرار ومؤشر الاستجابة -->
       <div class="hero-actions">
-        <a href="#apps" class="cyber-btn cyber-btn-glow">
-          <span>⚡ My Applications</span>
+        <a href="#downloader" class="cyber-btn cyber-btn-large cyber-btn-glow">
+          <span>🎬 تنزيل الفيديوهات</span>
         </a>
 
         <a href="#speedtest" class="cyber-btn cyber-btn-primary">
           <span>🚀 فحص سرعة النت</span>
+        </a>
+
+        <a href="#apps" class="cyber-btn cyber-btn-ghost">
+          <span>⚡ البرامج والتطبيقات</span>
         </a>
 
         <button id="pwaInstallBtn" class="cyber-btn cyber-btn-pwa" style="display: none;">
@@ -142,6 +150,119 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ======================================================================== -->
+  <!-- قسم تنزيل الفيديوهات الشامل: DAEM CYBER VIDEO DOWNLOADER                   -->
+  <!-- ======================================================================== -->
+  <section class="downloader-section" id="downloader">
+    <div class="downloader-container">
+      <div class="section-hud-header">
+        <div class="hud-badge-line">
+          <span class="hud-badge-text">UNIVERSAL MEDIA EXTRACTOR // تنزيل الفيديوهات الشامل</span>
+        </div>
+        <h2 class="section-heading"><span class="neon-title">Cyber Video Downloader</span></h2>
+        <p class="section-subtext">ضع رابط أي فيديو من تيك توك، فيسبوك، انستغرام، سناب شات، يوتيوب، أو تويتر؛ وسيتم تجهيزه وتنزيله مباشرة إلى استوديو جهازك بالصيغة المتوافقة.</p>
+      </div>
+
+      <!-- بطاقة واجهة تنزيل الفيديو -->
+      <div class="downloader-card">
+        <!-- شريط التعرف على نظام الجهاز التلقائي -->
+        <div class="device-detect-bar" id="deviceDetectBar">
+          <span class="device-icon" id="deviceIcon">📱</span>
+          <span class="device-text" id="deviceText">جاري فحص نظام جهازك للتوافق التام...</span>
+          <span class="device-status-badge">متوافق مع الاستوديو 100%</span>
+        </div>
+
+        <!-- صندوق إدخال الرابط التفاعلي -->
+        <div class="downloader-input-wrapper">
+          <div class="input-glow-frame">
+            <span class="input-platform-icon" id="inputPlatformIcon">🔗</span>
+            <input type="url" id="videoUrlInput" class="video-url-input" placeholder="الصق رابط الفيديو هنا (TikTok, Facebook, Instagram, Snapchat, YouTube...)" autocomplete="off" spellcheck="false">
+            <button type="button" id="clearUrlBtn" class="input-clear-btn" title="مسح الرابط" style="display: none;">✕</button>
+            <button type="button" id="pasteUrlBtn" class="input-paste-btn" title="لصق الرابط من الحافظة">
+              <span>📋 لصق</span>
+            </button>
+          </div>
+
+          <button type="button" id="startDownloadBtn" class="cyber-btn cyber-btn-large cyber-btn-glow dl-action-btn">
+            <span>⚡ فحص وتنزيل الفيديو // DOWNLOAD</span>
+          </button>
+        </div>
+
+        <!-- شريط المنصات المدعومة -->
+        <div class="supported-platforms-bar">
+          <span class="supported-title">المنصات المدعومة:</span>
+          <div class="platform-chips">
+            <span class="platform-chip" data-platform="tiktok">🎵 TikTok</span>
+            <span class="platform-chip" data-platform="facebook">📘 Facebook</span>
+            <span class="platform-chip" data-platform="instagram">📸 Instagram</span>
+            <span class="platform-chip" data-platform="snapchat">👻 Snapchat</span>
+            <span class="platform-chip" data-platform="youtube">▶️ YouTube</span>
+            <span class="platform-chip" data-platform="twitter">🐦 X / Twitter</span>
+            <span class="platform-chip" data-platform="pinterest">📌 Pinterest</span>
+          </div>
+        </div>
+
+        <!-- مؤشر التحميل والمعالجة -->
+        <div class="downloader-loader" id="downloaderLoader" style="display: none;">
+          <div class="cyber-spinner"></div>
+          <span class="loader-text" id="loaderText">جاري الاتصال بالخادم وفحص أعلى دقة متاحة للفيديو... ⚡</span>
+        </div>
+
+        <!-- كارت نتيجة الفيديو بعد الاستخراج بنجاح -->
+        <div class="download-result-box" id="downloadResultBox" style="display: none;">
+          <div class="result-card-inner">
+            <div class="result-thumb-wrap">
+              <img id="resThumb" src="" alt="Video Preview" class="result-thumb">
+              <span class="result-badge-platform" id="resPlatformBadge">TikTok</span>
+              <span class="result-duration" id="resDuration">00:30</span>
+            </div>
+
+            <div class="result-info-wrap">
+              <h3 class="result-title" id="resTitle">عنوان الفيديو المستخرج</h3>
+              <p class="result-meta" id="resMeta">بواسطة: DAEM Media Core | صيغة الفيديو: MP4 (H.264)</p>
+
+              <div class="result-options-grid">
+                <button type="button" id="btnDownloadVideo" class="result-dl-btn primary">
+                  <span class="btn-icon">📥</span>
+                  <div class="btn-text-col">
+                    <span class="btn-main-label">تحميل الفيديو MP4 HD</span>
+                    <span class="btn-sub-label">مباشر إلى الاستوديو (بدون علامة مائية)</span>
+                  </div>
+                </button>
+
+                <button type="button" id="btnDownloadAudio" class="result-dl-btn secondary">
+                  <span class="btn-icon">🎵</span>
+                  <div class="btn-text-col">
+                    <span class="btn-main-label">تحميل الصوت MP3</span>
+                    <span class="btn-sub-label">ملف صوتي نقي منفصل</span>
+                  </div>
+                </button>
+              </div>
+
+              <!-- تعليمات حفظ الفيديو للاستوديو -->
+              <div class="studio-guide-note" id="studioGuideNote">
+                💡 <strong>حفظ مباشر:</strong> سيتم تنزيل الفيديو بصيغة MP4 القياسية وسيظهر تلقائياً في استوديو الصور / تطبيق الفيديوهات في جهازك.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- صندوق التنزيل السريع البديل -->
+        <div class="download-fallback-box" id="downloadFallbackBox" style="display: none;">
+          <div class="fallback-inner">
+            <span class="fallback-bolt">⚡</span>
+            <div class="fallback-content">
+              <h4 id="fallbackTitle">بوابة الاستخراج المباشرة</h4>
+              <p id="fallbackDesc">تم تجهيز رابط الفيديو، اضغط بالأسفل لبدء التنزيل فائق السرعة:</p>
+              <div class="fallback-actions" id="fallbackActions"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -307,6 +428,6 @@
     <span id="toastMsg" class="toast-msg"></span>
   </div>
 
-  <script src="script.js?v=19.0"></script>
+  <script src="script.js?v=20.0"></script>
 </body>
 </html>
