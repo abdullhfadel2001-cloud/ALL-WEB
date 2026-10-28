@@ -5,182 +5,245 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- SEO & Identity -->
-  <title>DAEM | My Applications</title>
-  <meta name="description" content="DAEM - Official Applications & Tools Hub.">
-  <meta name="keywords" content="DAEM, دايم, My Applications, Apps, Software">
+  <title>DAEM | Digital Applications Hub ⚡</title>
+  <meta name="description" content="DAEM - Next-Generation Cybernetic Applications & Tools Platform.">
+  <meta name="keywords" content="DAEM, دايم, My Applications, Cyberpunk, Futuristic, Apps">
   <meta name="author" content="DAEM">
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph -->
   <meta property="og:title" content="DAEM | My Applications">
-  <meta property="og:description" content="DAEM - Applications & Tools Hub">
+  <meta property="og:description" content="Next-Gen Digital Applications Hub">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://abdullhfadel2001-cloud.github.io/ALL-WEB/">
 
-  <link rel="stylesheet" href="style.css?v=5.0">
+  <link rel="stylesheet" href="style.css?v=6.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Electric Background Layers -->
-  <div class="bg-layer">
-    <div class="stars"></div>
-    <div class="lightning-bg" id="lightningBg"></div>
-    <div class="grid-overlay"></div>
-  </div>
+  <!-- Dynamic Canvas: Electric Particles & Lightning Web -->
+  <canvas id="electricCanvas" class="electric-canvas"></canvas>
 
-  <!-- Navbar -->
+  <!-- Ambient Light Rays & Grids -->
+  <div class="ambient-glow"></div>
+  <div class="cyber-grid"></div>
+  <div class="scanlines"></div>
+
+  <!-- Custom Cursor Glow -->
+  <div id="cursorGlow" class="cursor-glow"></div>
+
+  <!-- Navigation Bar -->
   <header class="navbar">
     <div class="nav-inner">
-      <div class="logo">
-        <div class="logo-bolt">⚡</div>
-        <div class="logo-text">
-          <span class="logo-daem">DAEM</span>
+      <div class="brand">
+        <div class="brand-bolt-box">
+          <span class="brand-bolt">⚡</span>
+          <div class="bolt-ring"></div>
+        </div>
+        <div class="brand-text">
+          <span class="logo-title">DAEM</span>
+          <span class="logo-tag">CORE v2.6 // SECURE</span>
         </div>
       </div>
-      <button id="addAppNavBtn" class="btn-electric-sm">
-        <span>➕</span> Add App
-      </button>
+
+      <div class="nav-controls">
+        <div class="hud-status">
+          <span class="status-indicator"></span>
+          <span class="status-label">SYSTEM ONLINE</span>
+        </div>
+
+        <button id="addAppNavBtn" class="cyber-btn cyber-btn-primary">
+          <span class="btn-glitch-effect"></span>
+          <span class="btn-icon">⚡</span>
+          <span class="btn-text">ADD APP</span>
+        </button>
+      </div>
     </div>
   </header>
 
   <!-- Hero Section -->
-  <section class="hero" id="hero">
-    <div class="hero-content">
-      <div class="electric-badge">⚡ DIGITAL HUB ⚡</div>
-      <h1 class="hero-title">
-        <span class="glitch" data-text="DAEM">DAEM</span>
-      </h1>
-      <p class="hero-subtitle">Welcome to my personal digital platform for software, tools, and projects.</p>
-      <div class="hero-cta-row">
-        <a href="#apps" class="btn-electric">
-          <span class="btn-bolt">⚡</span>
-          My Applications
-        </a>
-      </div>
-    </div>
+  <section class="hero-section" id="hero">
+    <div class="hero-container">
+      <div class="hero-text-col">
+        <div class="cyber-badge">
+          <span class="badge-dot"></span>
+          <span>CYBERNETIC HUB // CLASSIFIED</span>
+        </div>
 
-    <div class="hero-visual">
-      <div class="orb-container">
-        <div class="orb"></div>
-        <div class="orb-ring orb-ring-1"></div>
-        <div class="orb-ring orb-ring-2"></div>
-        <div class="orb-ring orb-ring-3"></div>
-        <div class="orb-bolt">⚡</div>
+        <h1 class="hero-glitch-title">
+          <span class="cyber-glitch" data-text="DAEM">DAEM</span>
+        </h1>
+
+        <p class="hero-lead">
+          Next-generation digital workspace for high-performance applications, specialized tools, and independent software.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#apps" class="cyber-btn cyber-btn-glow">
+            <span>⚡ EXPLORE MY APPS</span>
+            <div class="btn-border-corner tl"></div>
+            <div class="btn-border-corner br"></div>
+          </a>
+
+          <div class="hud-stats-pill">
+            <span class="hud-stat-title">NODE STATUS:</span>
+            <span class="hud-stat-val">ACTIVE</span>
+            <span class="hud-divider">|</span>
+            <span class="hud-stat-title">LATENCY:</span>
+            <span class="hud-stat-val" id="latencyVal">18ms</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sci-Fi Hologram Core -->
+      <div class="hero-visual-col">
+        <div class="holo-core-wrap">
+          <div class="holo-disk disk-1"></div>
+          <div class="holo-disk disk-2"></div>
+          <div class="holo-disk disk-3"></div>
+          <div class="holo-sphere">
+            <div class="sphere-inner">⚡</div>
+          </div>
+          <div class="corner-bracket tr"></div>
+          <div class="corner-bracket bl"></div>
+          <div class="energy-stream"></div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- MY APPLICATIONS SECTION -->
   <section class="apps-section" id="apps">
-    <div class="section-container">
-      <div class="section-header">
-        <div class="section-badge">EXPLORE</div>
-        <h2 class="section-title"><span class="electric-word">My Applications</span></h2>
-        <p class="section-desc">Download and discover apps created by DAEM</p>
+    <div class="apps-container">
+      <div class="section-hud-header">
+        <div class="hud-badge-line">
+          <span class="hud-badge-text">MODULE: 01 // ARCHIVE</span>
+        </div>
+        <h2 class="section-heading">My Applications <span class="neon-tag">ARCHIVE</span></h2>
+        <p class="section-subtext">Direct deployment, downloads, and web previews of software built by DAEM.</p>
 
-        <!-- Search & Filter Bar -->
-        <div class="search-filter-bar">
-          <div class="search-input-wrap">
-            <span>🔍</span>
-            <input type="text" id="searchInput" placeholder="Search applications...">
+        <!-- Search & Category Control Console -->
+        <div class="console-toolbar">
+          <div class="search-terminal">
+            <span class="term-prefix">&gt;</span>
+            <input type="text" id="searchInput" placeholder="Search applications, tags, or binaries...">
+            <span class="term-cursor">_</span>
           </div>
-          <div class="filter-tabs" id="filterTabs">
-            <button class="ftab active" data-cat="all">All</button>
-            <button class="ftab" data-cat="android">Android</button>
-            <button class="ftab" data-cat="tools">Tools</button>
-            <button class="ftab" data-cat="games">Games</button>
-            <button class="ftab" data-cat="web">Web</button>
+
+          <div class="category-tabs" id="filterTabs">
+            <button class="cat-pill active" data-cat="all">ALL [ <span id="countAll">0</span> ]</button>
+            <button class="cat-pill" data-cat="android">📱 ANDROID</button>
+            <button class="cat-pill" data-cat="tools">🛠️ TOOLS</button>
+            <button class="cat-pill" data-cat="games">🎮 GAMES</button>
+            <button class="cat-pill" data-cat="web">🌐 WEB</button>
           </div>
         </div>
       </div>
 
-      <!-- Apps Grid -->
+      <!-- Applications Grid -->
       <div class="apps-grid" id="appsGrid">
-        <!-- Rendered via JavaScript -->
+        <!-- Rendered via script.js -->
       </div>
 
-      <!-- Add New App Action -->
-      <div class="add-app-row">
-        <button id="addAppBtn" class="btn-add-app">
-          <span>⚡</span> Add New App
+      <!-- Add New Application Hub Button -->
+      <div class="add-section-footer">
+        <button id="addAppBtn" class="cyber-btn cyber-btn-large">
+          <span class="btn-glow-ring"></span>
+          <span>⚡ DEPLOY NEW APPLICATION</span>
         </button>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-logo">
-        <span>⚡</span> <strong>DAEM</strong>
+  <footer class="cyber-footer">
+    <div class="footer-wrap">
+      <div class="footer-brand">
+        <span class="neon-bolt">⚡</span>
+        <span class="footer-title">DAEM APPS ARCHIVE</span>
       </div>
-      <p class="footer-text">© 2026 DAEM · All Rights Reserved ⚡</p>
+      <p class="footer-note">Crafted for perfection · Powered by electric dreams · 2026</p>
     </div>
   </footer>
 
-  <!-- Modal: Add New App -->
-  <div class="modal-overlay" id="addModal">
-    <div class="modal-box">
-      <div class="modal-title">
-        <span>⚡</span> Add New Application
-        <button id="closeModal" class="modal-close">✕</button>
-      </div>
-      <form id="addAppForm">
-        <div class="fgroup">
-          <label>App Name</label>
-          <input type="text" id="fName" placeholder="e.g. My Next Project" required>
+  <!-- Modal: Add New Application -->
+  <div class="modal-backdrop" id="addModal">
+    <div class="cyber-modal-card">
+      <div class="modal-hud-header">
+        <div class="modal-title-wrap">
+          <span class="modal-bolt">⚡</span>
+          <h3>DEPLOY APPLICATION</h3>
         </div>
-        <div class="frow">
-          <div class="fgroup">
-            <label>Category</label>
+        <button id="closeModal" class="modal-close-trigger" title="Cancel">✕</button>
+      </div>
+
+      <form id="addAppForm" class="modal-form">
+        <div class="input-block">
+          <label>APP NAME / IDENTIFIER</label>
+          <input type="text" id="fName" placeholder="e.g. CyberVault Pro" required autocomplete="off">
+        </div>
+
+        <div class="input-grid">
+          <div class="input-block">
+            <label>CATEGORY</label>
             <select id="fCat">
-              <option value="android">📱 Android</option>
-              <option value="tools">🛠️ Tools</option>
-              <option value="games">🎮 Games</option>
-              <option value="web">🌐 Web App</option>
+              <option value="android">📱 Android (APK)</option>
+              <option value="tools">🛠️ Tools & Utilities</option>
+              <option value="games">🎮 Games & Arcade</option>
+              <option value="web">🌐 Web Application</option>
             </select>
           </div>
-          <div class="fgroup">
-            <label>Icon (Emoji)</label>
-            <input type="text" id="fIcon" placeholder="🚀" value="🚀">
+          <div class="input-block">
+            <label>ICON (EMOJI)</label>
+            <input type="text" id="fIcon" placeholder="🚀" value="⚡">
           </div>
         </div>
-        <div class="frow">
-          <div class="fgroup">
-            <label>Version</label>
+
+        <div class="input-grid">
+          <div class="input-block">
+            <label>VERSION TAG</label>
             <input type="text" id="fVersion" placeholder="v1.0.0" value="v1.0.0">
           </div>
-          <div class="fgroup">
-            <label>File Size</label>
-            <input type="text" id="fSize" placeholder="10 MB">
+          <div class="input-block">
+            <label>FILE SIZE</label>
+            <input type="text" id="fSize" placeholder="e.g. 15 MB">
           </div>
         </div>
-        <div class="fgroup">
-          <label>Description</label>
-          <textarea id="fDesc" rows="3" placeholder="Brief description of the app..." required></textarea>
+
+        <div class="input-block">
+          <label>DESCRIPTION</label>
+          <textarea id="fDesc" rows="3" placeholder="Brief system overview of the application..." required></textarea>
         </div>
-        <div class="fgroup">
-          <label>Download URL / File Link</label>
+
+        <div class="input-block">
+          <label>DIRECT DOWNLOAD URL / FILE PATH</label>
           <input type="text" id="fUrl" placeholder="downloads/app.apk or https://..." required>
         </div>
-        <div class="fgroup">
-          <label>Demo / Live Preview URL (optional)</label>
-          <input type="text" id="fDemo" placeholder="https://... or leave empty">
+
+        <div class="input-block">
+          <label>LIVE DEMO / PREVIEW URL (OPTIONAL)</label>
+          <input type="text" id="fDemo" placeholder="https://... or leave blank">
         </div>
-        <div class="modal-actions">
-          <button type="button" id="cancelModal" class="btn-ghost-sm">Cancel</button>
-          <button type="submit" class="btn-electric-sm"><span>⚡</span> Save App</button>
+
+        <div class="modal-foot">
+          <button type="button" id="cancelModal" class="cyber-btn cyber-btn-ghost">ABORT</button>
+          <button type="submit" class="cyber-btn cyber-btn-primary">
+            <span>⚡ INITIATE DEPLOY</span>
+          </button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Toast Notification -->
-  <div id="toast" class="toast"></div>
+  <!-- Cyber Toast Notification -->
+  <div id="cyberToast" class="cyber-toast">
+    <span class="toast-bolt">⚡</span>
+    <span id="toastMsg" class="toast-msg"></span>
+  </div>
 
-  <script src="script.js?v=5.0"></script>
+  <script src="script.js?v=6.0"></script>
 </body>
 </html>
