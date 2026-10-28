@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rafeeqi-app-v2';
+const CACHE_NAME = 'sanad-app-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

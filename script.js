@@ -4,8 +4,8 @@
 
 const DEFAULT_APPS = [
   {
-    id: 'rafiqi-prayer-app',
-    name: 'تطبيق رَفِيقِي | رفيق المسلم والمهام',
+    id: 'sanad-app',
+    name: 'تطبيق سَنَد | رفيقك اليومي والعبادات',
     category: 'web',
     version: '1.0.0',
     size: '1.2 MB',
