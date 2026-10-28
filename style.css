@@ -1620,3 +1620,12 @@ body {
   font-weight: 700;
   color: var(--text-main);
 }
+
+
+/* Real-Time Dynamic Latency Badge */
+.latency-value {
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+  font-family: var(--font-orbitron);
+  font-weight: 800;
+  display: inline-block;
+}

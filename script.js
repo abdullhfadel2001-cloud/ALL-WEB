@@ -410,15 +410,57 @@ function setupModal() {
 }
 
 // ==========================================================================
-// 6. Live Latency Ticker & Toast
+// 6. Real-Time Dynamic Network Latency (Ping) Engine & Toast
 // ==========================================================================
+async function updateRealPing() {
+  const latencyBadge = document.querySelector('.latency-value') || document.getElementById('latencyVal');
+  if (!latencyBadge) return;
+
+  const startTime = performance.now();
+  try {
+    await fetch(`https://1.1.1.1/cdn-cgi/trace?_=${Date.now()}`, {
+      method: 'HEAD',
+      mode: 'no-cors',
+      cache: 'no-store'
+    });
+    const latency = Math.max(1, Math.round(performance.now() - startTime));
+    latencyBadge.textContent = `${latency}ms`;
+
+    // Visual feedback according to response time thresholds
+    if (latency < 60) {
+      latencyBadge.style.color = '#00ffaa';
+      latencyBadge.style.textShadow = '0 0 8px rgba(0, 255, 170, 0.4)';
+    } else if (latency < 150) {
+      latencyBadge.style.color = '#ffaa00';
+      latencyBadge.style.textShadow = '0 0 8px rgba(255, 170, 0, 0.4)';
+    } else {
+      latencyBadge.style.color = '#ff3366';
+      latencyBadge.style.textShadow = '0 0 8px rgba(255, 51, 102, 0.4)';
+    }
+  } catch (err) {
+    try {
+      // Fallback endpoint
+      const fStart = performance.now();
+      await fetch(`https://api.github.com/?_=${Date.now()}`, {
+        method: 'HEAD',
+        mode: 'no-cors',
+        cache: 'no-store'
+      });
+      const fLatency = Math.max(1, Math.round(performance.now() - fStart));
+      latencyBadge.textContent = `${fLatency}ms`;
+      if (fLatency < 60) latencyBadge.style.color = '#00ffaa';
+      else if (fLatency < 150) latencyBadge.style.color = '#ffaa00';
+      else latencyBadge.style.color = '#ff3366';
+    } catch (e) {
+      latencyBadge.textContent = 'N/A';
+      latencyBadge.style.color = '#94a3b8';
+    }
+  }
+}
+
 function setupLatencyTicker() {
-  const latencyEl = document.getElementById('latencyVal');
-  if (!latencyEl) return;
-  setInterval(() => {
-    const lat = 14 + Math.floor(Math.random() * 12);
-    latencyEl.textContent = lat + 'ms';
-  }, 3000);
+  updateRealPing();
+  setInterval(updateRealPing, 15000);
 }
 
 function toast(msg) {
