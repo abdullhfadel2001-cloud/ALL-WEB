@@ -1,9 +1,10 @@
 // ==========================================================================
 // تطبيق «سَنَد» - العقل المدبر ومحرك التطبيق الديني الكامل
+// تشغيل أصوات MP3 حقيقية + مصحف حقيقي كامل 604 صفحات بتقليب تفاعلي
 // ==========================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. إنشاء الكائنات الأساسية
+  // 1. الكائنات الأساسية
   const prayerEngine = new PrayerEngine();
   const audioEngine = new AudioEngine();
 
@@ -14,18 +15,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const tabPanes = document.querySelectorAll('.tab-pane');
 
   // بيانات التخزين
-  let selectedAdhanId = localStorage.getItem('sanad_selected_adhan') || 'adhan_makkah';
-  let selectedTakbeerId = localStorage.getItem('sanad_selected_takbeer') || 'takbeer_eid_1';
+  let selectedAdhanId = localStorage.getItem('sanad_selected_adhan') || 'adhan_ali_mullah';
+  let selectedTakbeerId = localStorage.getItem('sanad_selected_takbeer') || 'takbeer_ali_mullah';
   let tasbeehCount = parseInt(localStorage.getItem('sanad_tasbeeh_count') || '0', 10);
   let tasbeehTotal = parseInt(localStorage.getItem('sanad_tasbeeh_total') || '0', 10);
   let currentPhrase = localStorage.getItem('sanad_tasbeeh_phrase') || 'سُبْحَانَ اللَّهِ';
-  let readerFontSize = parseInt(localStorage.getItem('sanad_reader_font_size') || '24', 10);
-  let readerThemeIndex = 0; // 0: default, 1: sepia, 2: night
-  const readerThemes = ['', 'theme-sepia', 'theme-night'];
 
-  // حالة الأذكار اللحظية
+  // حالة المصحف الشريف
+  let currentMushafPage = parseInt(localStorage.getItem('sanad_mushaf_last_page') || '1', 10);
+  let mushafThemes = ['', 'sepia', 'night'];
+  let currentMushafThemeIdx = parseInt(localStorage.getItem('sanad_mushaf_theme_idx') || '0', 10);
+
+  // حالة الأذكار
   let currentAzkarCat = 'morning';
-  let azkarProgress = {}; // { zekrId: remainingCount }
+  let azkarProgress = {};
 
   // --------------------------------------------------------------------------
   // دالة إظهار التنبيهات (Toast)
@@ -41,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // 1. نظام المظهر المريح للعين (Dark / Light)
+  // 1. نظام المظهر العام (Dark / Light)
   // --------------------------------------------------------------------------
   function initTheme() {
     const savedTheme = localStorage.getItem('sanad_theme') || 'dark';
@@ -80,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         targetPane.classList.add('active');
       }
 
-      // إيقاف أي معاينة صوتية نشطة عند التنقل
+      // إيقاف أي صوت نشط عند التنقل
       audioEngine.stopAll();
       resetAudioPreviewButtons();
     });
@@ -94,7 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePrayerUI();
     setInterval(updatePrayerUI, 1000);
 
-    // زر تحديث الموقع
     const locBtn = document.getElementById('locationChangeBtn');
     if (locBtn) {
       locBtn.addEventListener('click', async () => {
@@ -109,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function updatePrayerUI() {
     if (!prayerEngine.times) return;
 
-    // تحديث أوقات الصلوات في الشريط الأفقي
     const keys = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
     keys.forEach(k => {
       const el = document.getElementById(`time_${k}`);
@@ -118,7 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // تمييز الصلاة النشطة
     prayerEngine.calculateNextPrayer();
     const nextKey = prayerEngine.nextPrayerKey;
 
@@ -129,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // تحديث اسم الصلاة القادمة والعداد
     const heroName = document.getElementById('heroNextPrayerName');
     const heroTime = document.getElementById('heroNextPrayerTime');
     const heroClock = document.getElementById('heroCountdownTimer');
@@ -147,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
       cityDisplay.textContent = prayerEngine.cityName || 'موقعي الحالي';
     }
 
-    // التاريخ الهجري التقريبي
     if (hijriDisplay) {
       const today = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', {
         day: 'numeric',
@@ -159,13 +157,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // 4. مكتبة الأصوات (10 أذان + 10 تكبيرات مع معاينة فورية)
+  // 4. مكتبة الأصوات الحقيقية (10 أذان MP3 + 10 تكبيرات MP3 حقيقية)
   // --------------------------------------------------------------------------
   function initAudioLibrary() {
     const adhanGrid = document.getElementById('adhanAudioGrid');
     const takbeerGrid = document.getElementById('takbeerAudioGrid');
 
-    // توليد أصوات الأذان
+    // توليد بطاقات أصوات الأذان الحقيقية
     if (adhanGrid && AUDIO_LIBRARY.adhans) {
       adhanGrid.innerHTML = '';
       AUDIO_LIBRARY.adhans.forEach(ad => {
@@ -180,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="audio-desc">${ad.mood}</span>
           </div>
           <div class="audio-item-actions">
-            <button class="play-preview-btn" data-audio-id="${ad.id}" data-type="adhan" title="استماع">▶</button>
+            <button class="play-preview-btn" data-audio-id="${ad.id}" data-type="adhan" title="استماع حقيقي">▶</button>
             <input type="radio" name="selected_adhan" value="${ad.id}" class="select-sound-radio" ${isSelected ? 'checked' : ''} title="تعيين كأذان رئيسي">
           </div>
         `;
@@ -188,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // توليد أصوات التكبيرات
+    // توليد بطاقات أصوات التكبيرات الحقيقية
     if (takbeerGrid && AUDIO_LIBRARY.takbeers) {
       takbeerGrid.innerHTML = '';
       AUDIO_LIBRARY.takbeers.forEach(tk => {
@@ -203,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="audio-desc">${tk.style}</span>
           </div>
           <div class="audio-item-actions">
-            <button class="play-preview-btn" data-audio-id="${tk.id}" data-type="takbeer" title="استماع">▶</button>
+            <button class="play-preview-btn" data-audio-id="${tk.id}" data-type="takbeer" title="استماع حقيقي">▶</button>
             <input type="radio" name="selected_takbeer" value="${tk.id}" class="select-sound-radio" ${isSelected ? 'checked' : ''} title="تعيين كتنبيه رئيسي">
           </div>
         `;
@@ -211,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // إدارة الاستماع المسبق
+    // إدارة الاستماع المسبق للأصوات الحقيقية MP3
     document.querySelectorAll('.play-preview-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -227,24 +225,23 @@ document.addEventListener('DOMContentLoaded', () => {
           btn.textContent = '⏹';
           btn.classList.add('playing');
 
-          if (type === 'adhan') {
-            audioEngine.playAdhanSound(audioId);
-          } else {
-            audioEngine.playTakbeerSound(audioId);
-          }
+          const resetCallback = () => {
+            btn.textContent = '▶';
+            btn.classList.remove('playing');
+          };
 
-          // إعادة الزر بعد انتهاء النغمة
-          setTimeout(() => {
-            if (btn.classList.contains('playing')) {
-              btn.textContent = '▶';
-              btn.classList.remove('playing');
-            }
-          }, 7000);
+          if (type === 'adhan') {
+            audioEngine.playAdhanSound(audioId, resetCallback);
+            showToast('🔊 جاري تشغيل الأذان الحقيقي...');
+          } else {
+            audioEngine.playTakbeerSound(audioId, resetCallback);
+            showToast('✨ جاري تشغيل التكبيرات الحقيقية...');
+          }
         }
       });
     });
 
-    // إدارة اختيار الصوت وحفظه
+    // حفظ الاختيار
     document.querySelectorAll('input[name="selected_adhan"]').forEach(radio => {
       radio.addEventListener('change', () => {
         selectedAdhanId = radio.value;
@@ -252,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('#adhanAudioGrid .audio-item-card').forEach(c => c.classList.remove('selected-sound'));
         const activeCard = document.getElementById(`card_${selectedAdhanId}`);
         if (activeCard) activeCard.classList.add('selected-sound');
-        showToast('📢 تم تعيين صوت الأذان المفضل!');
+        showToast('📢 تم تعيين صوت الأذان المفضل بنجاح!');
       });
     });
 
@@ -263,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('#takbeerAudioGrid .audio-item-card').forEach(c => c.classList.remove('selected-sound'));
         const activeCard = document.getElementById(`card_${selectedTakbeerId}`);
         if (activeCard) activeCard.classList.add('selected-sound');
-        showToast('✨ تم تعيين نغمة التكبير المفضلة!');
+        showToast('✨ تم تعيين التكبير المفضل بنجاح!');
       });
     });
   }
@@ -276,25 +273,40 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // 5. قسم المصحف الشريف وقارئ الآيات العثماني
+  // 5. المصحف الشريف الكامل (604 صفحات وتقليب كالمصحف الحقيقي باليد)
   // --------------------------------------------------------------------------
   const surahsContainer = document.getElementById('surahsGridContainer');
-  const readerModal = document.getElementById('quranReaderModal');
-  const closeReaderBtn = document.getElementById('closeReaderBtn');
-  const quranContent = document.getElementById('quranReaderContent');
-  const modalSurahName = document.getElementById('modalSurahName');
-  const modalSurahMeta = document.getElementById('modalSurahMeta');
-  const fontIncBtn = document.getElementById('fontIncBtn');
-  const fontDecBtn = document.getElementById('fontDecBtn');
-  const readingThemeBtn = document.getElementById('readingThemeBtn');
-  const saveBookmarkBtn = document.getElementById('saveBookmarkBtn');
-  const resumeBookmarkBtn = document.getElementById('resumeBookmarkBtn');
   const quranSearchInput = document.getElementById('quranSearchInput');
+  const mushafScreen = document.getElementById('mushafFullScreenView');
+  const exitMushafBtn = document.getElementById('exitMushafBtn');
+  const openFirstSurahBtn = document.getElementById('openFirstSurahBtn');
 
-  let currentReadingSurah = null;
+  // عناصر صفحة المصحف
+  const mushafPageAyahs = document.getElementById('mushafPageAyahsContent');
+  const mushafPageFrame = document.getElementById('mushafPageFrame');
+  const pageNumberDisplay = document.getElementById('mushafPageNumberDisplay');
+  const pageJuzLabel = document.getElementById('pageJuzLabel');
+  const pageHizbLabel = document.getElementById('pageHizbLabel');
+  const pageSurahLabel = document.getElementById('pageSurahLabel');
+  const headerSurahName = document.getElementById('mushafHeaderSurahName');
+  const headerJuzName = document.getElementById('mushafHeaderJuzName');
+  const pageSlider = document.getElementById('mushafPageSlider');
+  const sliderPageIndicator = document.getElementById('sliderPageIndicator');
+  const prevPageBtn = document.getElementById('prevPageBtn');
+  const nextPageBtn = document.getElementById('nextPageBtn');
+  const savePageBookmarkBtn = document.getElementById('savePageBookmarkBtn');
+  const mushafThemeToggleBtn = document.getElementById('mushafThemeToggleBtn');
+
+  // عناصر بطاقة الفاصلة بالفهرس
+  const bookmarkResumeCard = document.getElementById('bookmarkResumeCard');
+  const bmSurahNameEl = document.getElementById('bmSurahName');
+  const bmPageInfoEl = document.getElementById('bmPageInfo');
+  const resumeBookmarkBtn = document.getElementById('resumeBookmarkBtn');
 
   function initQuranSection() {
     renderSurahsList(QURAN_SURAHS);
+    updateBookmarkCardUI();
+    applyMushafTheme();
 
     // البحث في السور
     if (quranSearchInput) {
@@ -309,73 +321,161 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // إغلاق نافذة القراءة
-    if (closeReaderBtn) {
-      closeReaderBtn.addEventListener('click', () => {
-        readerModal.classList.remove('open');
+    // فتح المصحف من الصفحة الأولى
+    if (openFirstSurahBtn) {
+      openFirstSurahBtn.addEventListener('click', () => {
+        openMushafPage(1);
       });
     }
 
-    // تكبير وتصغير خط المصحف
-    if (fontIncBtn) {
-      fontIncBtn.addEventListener('click', () => {
-        if (readerFontSize < 42) {
-          readerFontSize += 2;
-          applyReaderFontSize();
-        }
-      });
-    }
-    if (fontDecBtn) {
-      fontDecBtn.addEventListener('click', () => {
-        if (readerFontSize > 18) {
-          readerFontSize -= 2;
-          applyReaderFontSize();
-        }
+    // الخروج من شاشة المصحف الكاملة والعودة للفهرس
+    if (exitMushafBtn) {
+      exitMushafBtn.addEventListener('click', () => {
+        mushafScreen.classList.remove('open');
+        updateBookmarkCardUI();
       });
     }
 
-    // تبديل نمط خلفية المصحف (افتراضي، ورق مصحف كلاسيكي، ليلي)
-    if (readingThemeBtn) {
-      readingThemeBtn.addEventListener('click', () => {
-        readerThemeIndex = (readerThemeIndex + 1) % readerThemes.length;
-        const box = document.querySelector('.reader-modal-box');
-        box.classList.remove('theme-sepia', 'theme-night');
-        if (readerThemes[readerThemeIndex]) {
-          box.classList.add(readerThemes[readerThemeIndex]);
-        }
-        showToast('🎨 تم تغيير نمط القراءة لراحة العين');
-      });
-    }
-
-    // حفظ الفاصلة
-    if (saveBookmarkBtn) {
-      saveBookmarkBtn.addEventListener('click', () => {
-        if (currentReadingSurah) {
-          const bookmark = {
-            surahId: currentReadingSurah.id,
-            surahName: currentReadingSurah.name,
-            date: new Date().toLocaleDateString('ar-EG')
-          };
-          localStorage.setItem('sanad_quran_bookmark', JSON.stringify(bookmark));
-          showToast(`🔖 تم حفظ الفاصلة عند سورة ${currentReadingSurah.name}`);
+    // التقليب بالزر: الصفحة التالية (التقدم لليسار)
+    if (nextPageBtn) {
+      nextPageBtn.addEventListener('click', () => {
+        if (currentMushafPage < 604) {
+          triggerPageFlipAnimation('flip-next');
+          openMushafPage(currentMushafPage + 1);
         }
       });
     }
 
-    // متابعة القراءة من الفاصلة المحفوظة
-    if (resumeBookmarkBtn) {
-      resumeBookmarkBtn.addEventListener('click', () => {
-        const bookmark = JSON.parse(localStorage.getItem('sanad_quran_bookmark') || 'null');
-        if (bookmark) {
-          const target = QURAN_SURAHS.find(s => s.id === bookmark.surahId);
-          if (target) {
-            openSurahReader(target);
-            showToast(`📖 تم فتح سورة ${target.name} من مكان توقفك`);
+    // التقليب بالزر: الصفحة السابقة (الرجوع لليمين)
+    if (prevPageBtn) {
+      prevPageBtn.addEventListener('click', () => {
+        if (currentMushafPage > 1) {
+          triggerPageFlipAnimation('flip-prev');
+          openMushafPage(currentMushafPage - 1);
+        }
+      });
+    }
+
+    // القفز عبر شريط التمرير (Slider)
+    if (pageSlider) {
+      pageSlider.addEventListener('input', (e) => {
+        const p = parseInt(e.target.value, 10);
+        openMushafPage(p);
+      });
+    }
+
+    // تقليب الصفحات بالسحب باللمس على الشاشة (Swipe Gestures) كالمصحف في اليد
+    const stage = document.getElementById('mushafPageStage');
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    if (stage) {
+      stage.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      stage.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipeGesture();
+      }, { passive: true });
+    }
+
+    function handleSwipeGesture() {
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 45) {
+        if (diff > 0) {
+          // سحب لليمين -> الصفحة السابقة
+          if (currentMushafPage > 1) {
+            triggerPageFlipAnimation('flip-prev');
+            openMushafPage(currentMushafPage - 1);
           }
         } else {
-          showToast('لا توجد فاصلة محفوظة بعد. احفظ فاصلة عند أي سورة أولاً!');
+          // سحب لليسار -> الصفحة التالية
+          if (currentMushafPage < 604) {
+            triggerPageFlipAnimation('flip-next');
+            openMushafPage(currentMushafPage + 1);
+          }
+        }
+      }
+    }
+
+    // التنقل بأسهم لوحة المفاتيح
+    window.addEventListener('keydown', (e) => {
+      if (!mushafScreen.classList.contains('open')) return;
+      if (e.key === 'ArrowLeft' && currentMushafPage < 604) {
+        triggerPageFlipAnimation('flip-next');
+        openMushafPage(currentMushafPage + 1);
+      } else if (e.key === 'ArrowRight' && currentMushafPage > 1) {
+        triggerPageFlipAnimation('flip-prev');
+        openMushafPage(currentMushafPage - 1);
+      } else if (e.key === 'Escape') {
+        mushafScreen.classList.remove('open');
+      }
+    });
+
+    // حفظ الفاصلة من شاشة المصحف
+    if (savePageBookmarkBtn) {
+      savePageBookmarkBtn.addEventListener('click', () => {
+        const pageAyahs = QURAN_PAGES[currentMushafPage] || [];
+        const surahName = pageAyahs.length ? pageAyahs[0].surahName : '';
+        const bookmark = {
+          page: currentMushafPage,
+          surahName: surahName,
+          date: new Date().toLocaleDateString('ar-EG')
+        };
+        localStorage.setItem('sanad_quran_bookmark', JSON.stringify(bookmark));
+        showToast(`🔖 تم حفظ الفاصلة عند صفحة ${currentMushafPage} (سورة ${surahName})`);
+        updateBookmarkCardUI();
+      });
+    }
+
+    // متابعة القراءة من زر الفاصلة في الفهرس
+    if (resumeBookmarkBtn) {
+      resumeBookmarkBtn.addEventListener('click', () => {
+        const bm = JSON.parse(localStorage.getItem('sanad_quran_bookmark') || 'null');
+        if (bm && bm.page) {
+          openMushafPage(bm.page);
+        } else {
+          openMushafPage(currentMushafPage);
         }
       });
+    }
+
+    // تبديل نمط ورق المصحف (عاجي كلاسيكي، ليلي، ناصع)
+    if (mushafThemeToggleBtn) {
+      mushafThemeToggleBtn.addEventListener('click', () => {
+        currentMushafThemeIdx = (currentMushafThemeIdx + 1) % mushafThemes.length;
+        localStorage.setItem('sanad_mushaf_theme_idx', currentMushafThemeIdx);
+        applyMushafTheme();
+        const names = ['المصحف الطبيعي', 'ورق المصحف العاجي الدافئ', 'المصحف الليلي المعتم'];
+        showToast(`🎨 تم تفعيل ${names[currentMushafThemeIdx]}`);
+      });
+    }
+  }
+
+  function applyMushafTheme() {
+    const theme = mushafThemes[currentMushafThemeIdx];
+    if (theme) {
+      document.documentElement.setAttribute('data-mushaf-theme', theme);
+    } else {
+      document.documentElement.removeAttribute('data-mushaf-theme');
+    }
+  }
+
+  function triggerPageFlipAnimation(className) {
+    if (!mushafPageFrame) return;
+    mushafPageFrame.classList.add(className);
+    setTimeout(() => {
+      mushafPageFrame.classList.remove(className);
+    }, 280);
+  }
+
+  function updateBookmarkCardUI() {
+    const bm = JSON.parse(localStorage.getItem('sanad_quran_bookmark') || 'null');
+    if (bm && bookmarkResumeCard) {
+      bookmarkResumeCard.style.display = 'flex';
+      if (bmSurahNameEl) bmSurahNameEl.textContent = `سورة ${bm.surahName}`;
+      if (bmPageInfoEl) bmPageInfoEl.textContent = `صفحة ${bm.page} • ${bm.date || ''}`;
     }
   }
 
@@ -396,61 +496,82 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="surah-number-badge">${surah.id}</div>
           <div class="surah-info">
             <div class="surah-name">سورة ${surah.name}</div>
-            <div class="surah-meta">${surah.type} • ${surah.verses} آيات • ص ${surah.startPage || 1}</div>
+            <div class="surah-meta">${surah.type} • ${surah.verses} آيات • ص ${surah.startPage}</div>
           </div>
         </div>
         <div class="read-arrow">←</div>
       `;
-      card.addEventListener('click', () => openSurahReader(surah));
+      card.addEventListener('click', () => {
+        openMushafPage(surah.startPage);
+      });
       surahsContainer.appendChild(card);
     });
   }
 
-  function openSurahReader(surah) {
-    currentReadingSurah = surah;
-    if (modalSurahName) modalSurahName.textContent = `سورة ${surah.name}`;
-    if (modalSurahMeta) modalSurahMeta.textContent = `${surah.type} • ${surah.verses} آيات`;
+  // فتح صفحة المصحف وعرض آياتها بالرسم العثماني
+  function openMushafPage(pageNumber) {
+    currentMushafPage = Math.max(1, Math.min(604, pageNumber));
+    localStorage.setItem('sanad_mushaf_last_page', currentMushafPage);
 
-    applyReaderFontSize();
+    const ayahs = QURAN_PAGES[currentMushafPage] || [];
+    if (!ayahs.length) return;
 
-    // جلب أو توليد آيات السورة
-    let versesHtml = '';
-    if (surah.id !== 9) { // التوبة بدون بسملة
-      versesHtml += `<div class="bismillah-header">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>`;
+    const firstAyah = ayahs[0];
+    const surahName = firstAyah.surahName;
+    const juzNum = firstAyah.juz;
+
+    // تحديث الترويسات والبيانات
+    if (headerSurahName) headerSurahName.textContent = `سورة ${surahName}`;
+    if (headerJuzName) headerJuzName.textContent = `الجزء ${toArabicDigits(juzNum)}`;
+    if (pageSurahLabel) pageSurahLabel.textContent = `سورة ${surahName}`;
+    if (pageJuzLabel) pageJuzLabel.textContent = `الجزء ${toArabicDigits(juzNum)}`;
+    if (pageHizbLabel) pageHizbLabel.textContent = `صفحة ${toArabicDigits(currentMushafPage)}`;
+    if (pageNumberDisplay) pageNumberDisplay.textContent = toArabicDigits(currentMushafPage);
+
+    if (pageSlider) pageSlider.value = currentMushafPage;
+    if (sliderPageIndicator) sliderPageIndicator.textContent = `صفحة ${toArabicDigits(currentMushafPage)} من ٦٠٤`;
+
+    // بناء نص الصفحة بالرسم العثماني
+    let html = '';
+    let currentSurahInPage = null;
+
+    ayahs.forEach(ayah => {
+      // إذا بدأت سورة جديدة في هذه الصفحة نضع شريط السورة والبسملة
+      if (ayah.ayah === 1 && ayah.surah !== currentSurahInPage) {
+        html += `<div class="surah-banner-header">سُورَةُ ${ayah.surahName}</div>`;
+        if (ayah.surah !== 9 && ayah.surah !== 1) { // التوبة والفاتحة
+          html += `<div class="bismillah-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>`;
+        }
+        currentSurahInPage = ayah.surah;
+      }
+
+      // إزالة البسملة من أول الآية إذا كانت مكررة
+      let ayahText = ayah.text;
+      if (ayah.ayah === 1 && ayah.surah !== 1 && ayahText.startsWith('بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ')) {
+        ayahText = ayahText.replace('بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ', '');
+      }
+
+      html += `${ayahText} <span class="ayah-end-symbol">﴿${toArabicDigits(ayah.ayah)}﴾</span> `;
+    });
+
+    if (mushafPageAyahs) {
+      mushafPageAyahs.innerHTML = html;
+      mushafPageAyahs.scrollTop = 0;
     }
 
-    const sample = SAMPLE_SURAHS_TEXT[surah.id];
-    if (sample && sample.length) {
-      versesHtml += sample.join(' ');
-    } else {
-      // عرض توضيحي عثماني عالي الجودة
-      versesHtml += `
-        <div style="text-align: center; margin: 15px 0; font-size: 0.95em; color: var(--gold);">
-          ﴿ قراءة سورة ${surah.name} المباركة ﴾
-        </div>
-        الحمد لله رب العالمين ﴿١﴾ الرحمن الرحيم ﴿٢﴾ مالك يوم الدين ﴿٣﴾ إياك نعبد وإياك نستعين ﴿٤﴾ اهدنا الصراط المستقيم ﴿٥﴾ صراط الذين أنعمت عليهم غير المغضوب عليهم ولا الضالين ﴿٦﴾.
-      `;
-    }
-
-    if (quranContent) {
-      quranContent.innerHTML = versesHtml;
-    }
-
-    readerModal.classList.add('open');
+    // فتح الشاشة الكاملة
+    mushafScreen.classList.add('open');
   }
 
-  function applyReaderFontSize() {
-    if (quranContent) {
-      quranContent.style.fontSize = `${readerFontSize}px`;
-    }
-    localStorage.setItem('sanad_reader_font_size', readerFontSize);
+  function toArabicDigits(num) {
+    const arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    return String(num).replace(/[0-9]/g, d => arabic[d]);
   }
 
   // --------------------------------------------------------------------------
   // 6. قسم الأذكار والسبحة الرقمية
   // --------------------------------------------------------------------------
   function initAzkarAndTasbeeh() {
-    // إعداد السبحة
     const tasbeehBtn = document.getElementById('tasbeehTapArea');
     const tasbeehCountEl = document.getElementById('tasbeehCurrentCount');
     const tasbeehTotalEl = document.getElementById('tasbeehTotalCount');
@@ -462,7 +583,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tasbeehTotalEl) tasbeehTotalEl.textContent = tasbeehTotal;
     if (tasbeehPhraseEl) tasbeehPhraseEl.textContent = currentPhrase;
 
-    // نقر السبحة
     if (tasbeehBtn) {
       tasbeehBtn.addEventListener('click', () => {
         tasbeehCount++;
@@ -473,13 +593,11 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('sanad_tasbeeh_count', tasbeehCount);
         localStorage.setItem('sanad_tasbeeh_total', tasbeehTotal);
 
-        // اهتزاز خفيف ونغمة نقرة
         if ('vibrate' in navigator) navigator.vibrate(25);
         audioEngine.playTasbeehClick();
       });
     }
 
-    // تصفير العداد
     if (resetTasbeehBtn) {
       resetTasbeehBtn.addEventListener('click', () => {
         if (confirm('هل تريد تصفير عداد السبحة الحالي؟')) {
@@ -491,7 +609,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // اختيار ذكر سريع للسبحة
     presetBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         presetBtns.forEach(b => b.classList.remove('active'));
@@ -502,7 +619,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // تبويبات موسوعة الأذكار
     const catBtns = document.querySelectorAll('.azkar-cat-btn');
     catBtns.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -566,7 +682,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // بدء تشغيل جميع أقسام التطبيق
+  // بدء تشغيل التطبيق بالكامل
   // --------------------------------------------------------------------------
   initTheme();
   initPrayerSection();

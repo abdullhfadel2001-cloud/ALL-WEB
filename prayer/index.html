@@ -18,11 +18,11 @@
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Amiri:wght@400;700&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Amiri:wght@400;700&family=Amiri+Quran&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
 </head>
 <body data-prayer-sky="night">
 
-  <div class="app-container">
+  <div class="app-container" id="mainAppContainer">
 
     <!-- شريط الرأس النقي -->
     <header class="sanad-header">
@@ -145,28 +145,28 @@
           </div>
         </div>
 
-        <!-- مكتبة أصوات الأذان (10 أصوات مع استماع مسبق) -->
+        <!-- مكتبة أصوات الأذان الحقيقية (10 أصوات مع استماع مسبق) -->
         <div class="sanad-card">
           <div class="card-head flex-between">
             <div>
-              <h3>📢 مكتبة أصوات الأذان (10 أصوات)</h3>
-              <p class="card-hint">اختر صوت الأذان المفضل واستمع له مسبقاً</p>
+              <h3>📢 مكتبة أصوات الأذان الحقيقية (10 أصوات)</h3>
+              <p class="card-hint">تسجيلات أذان حقيقية بأصوات أشهر مؤذني الحرمين الشريفين</p>
             </div>
-            <span class="badge-count">10 أصوات</span>
+            <span class="badge-count">10 أصوات MP3</span>
           </div>
           <div class="audio-grid" id="adhanAudioGrid">
             <!-- يولد عبر JavaScript -->
           </div>
         </div>
 
-        <!-- مكتبة أصوات التكبيرات والتنبيه (10 أصوات) -->
+        <!-- مكتبة أصوات التكبيرات الحقيقية (10 أصوات) -->
         <div class="sanad-card">
           <div class="card-head flex-between">
             <div>
-              <h3>✨ تكبيرات العيد ونغمات السكينة (10 أصوات)</h3>
-              <p class="card-hint">نغمات وتكبيرات هادئة مع استماع فوري</p>
+              <h3>✨ تكبيرات العيد الحقيقية (10 أصوات)</h3>
+              <p class="card-hint">تسجيلات تكبيرات حقيقية بأصوات مشايخ الحرم المكي الشريف</p>
             </div>
-            <span class="badge-count">10 نغمات</span>
+            <span class="badge-count">10 تسجيلات MP3</span>
           </div>
           <div class="audio-grid" id="takbeerAudioGrid">
             <!-- يولد عبر JavaScript -->
@@ -176,22 +176,34 @@
       </section>
 
       <!-- ========================================== -->
-      <!-- 2. تبويب المصحف الشريف -->
+      <!-- 2. تبويب المصحف الشريف (فهرس السور الـ 114) -->
       <!-- ========================================== -->
       <section id="tab-quran" class="tab-pane">
 
-        <!-- أدوات المصحف والبحث والفاصلة -->
+        <!-- بطاقة متابعة القراءة والفاصلة -->
+        <div class="bookmark-resume-card" id="bookmarkResumeCard" style="display: none;">
+          <div class="bm-info">
+            <span class="bm-icon">🔖</span>
+            <div>
+              <div class="bm-title" id="bmSurahName">آخر موضع قراءة</div>
+              <div class="bm-sub" id="bmPageInfo">صفحة --</div>
+            </div>
+          </div>
+          <button id="resumeBookmarkBtn" class="bm-resume-btn">متابعة القراءة ←</button>
+        </div>
+
+        <!-- شريط أدوات البحث في السور -->
         <div class="quran-search-bar">
           <div class="search-input-wrapper">
             <span class="search-ico">🔍</span>
             <input type="text" id="quranSearchInput" placeholder="ابحث باسم السورة أو رقمها (مثال: الكهف، البقرة)...">
           </div>
-          <button id="resumeBookmarkBtn" class="bookmark-shortcut-btn" title="العودة إلى آخر مكان توقفت عنده">
-            🔖 متابعة القراءة
+          <button id="openFirstSurahBtn" class="bookmark-shortcut-btn" title="فتح المصحف من الصفحة الأولى">
+            📖 فتح المصحف
           </button>
         </div>
 
-        <!-- قائمة وسور القرآن الكريم -->
+        <!-- قائمة وسور القرآن الكريم الـ 114 كاملة -->
         <div class="surahs-grid" id="surahsGridContainer">
           <!-- يولد عبر JavaScript لجميع السور الـ 114 -->
         </div>
@@ -261,35 +273,86 @@
 
   </div>
 
-  <!-- ========================================== -->
-  <!-- نافذة قارئ المصحف الشريف المريحة للعين -->
-  <!-- ========================================== -->
-  <div class="reader-modal-overlay" id="quranReaderModal">
-    <div class="reader-modal-box">
-      <div class="reader-header">
-        <div class="reader-title-info">
-          <h2 id="modalSurahName">سورة الفاتحة</h2>
-          <span id="modalSurahMeta">مكية • 7 آيات</span>
-        </div>
-        <div class="reader-controls">
-          <button id="fontDecBtn" class="reader-ctrl-btn" title="تصغير الخط">A-</button>
-          <button id="fontIncBtn" class="reader-ctrl-btn" title="تكبير الخط">A+</button>
-          <button id="readingThemeBtn" class="reader-ctrl-btn" title="نمط القراءة">🎨</button>
-          <button id="saveBookmarkBtn" class="reader-ctrl-btn bookmark-btn" title="حفظ الفاصلة هنا">🔖 حفظ الفاصلة</button>
-          <button id="closeReaderBtn" class="reader-ctrl-btn close-btn" title="إغلاق">✕</button>
-        </div>
+  <!-- ====================================================================== -->
+  <!-- شاشة المصحف الشريف الكاملة بتقليب الصفحات كالمصحف الحقيقي في اليد -->
+  <!-- ====================================================================== -->
+  <div class="mushaf-full-screen" id="mushafFullScreenView">
+    
+    <!-- شريط رأس المصحف العلوي -->
+    <div class="mushaf-top-bar">
+      <button id="exitMushafBtn" class="mushaf-nav-btn exit-btn" title="العودة للفهرس">
+        <span>←</span> الفهرس
+      </button>
+
+      <div class="mushaf-center-meta">
+        <span class="mushaf-surah-title" id="mushafHeaderSurahName">سورة الفاتحة</span>
+        <span class="mushaf-juz-title" id="mushafHeaderJuzName">الجزء الأول</span>
       </div>
 
-      <div class="reader-body" id="quranReaderContent">
-        <!-- نص الآيات القرآني العثماني -->
+      <div class="mushaf-tools">
+        <button id="savePageBookmarkBtn" class="mushaf-tool-btn" title="حفظ فاصلة عند هذه الصفحة">
+          🔖 <span class="hide-mobile">فاصلة</span>
+        </button>
+        <button id="mushafThemeToggleBtn" class="mushaf-tool-btn" title="تغيير نمط الورق لراحة العين">
+          🎨
+        </button>
       </div>
     </div>
+
+    <!-- إطار صفحة المصحف الملكي المزخرف بتقليب ثلاثي الأبعاد باللمس -->
+    <div class="mushaf-page-stage" id="mushafPageStage">
+      <div class="mushaf-ornate-page" id="mushafPageFrame">
+        
+        <!-- الترويسة العلوية للصفحة (رقم الجزء والحزب) -->
+        <div class="mushaf-page-top-decor">
+          <span id="pageJuzLabel">الجزء ١</span>
+          <span class="page-title-embellishment" id="pageSurahLabel">سورة الفاتحة</span>
+          <span id="pageHizbLabel">الحزب ١</span>
+        </div>
+
+        <!-- جسد نص الصفحة بالرسم العثماني -->
+        <div class="mushaf-page-content" id="mushafPageAyahsContent">
+          <!-- الآيات القرآنية العثمانية لصفحة المصحف -->
+        </div>
+
+        <!-- أسفل الصفحة (رقم الصفحة الرسمي من 1 إلى 604) -->
+        <div class="mushaf-page-bottom-decor">
+          <div class="ornate-line"></div>
+          <span class="page-number-display" id="mushafPageNumberDisplay">١</span>
+          <div class="ornate-line"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- شريط التقليب السفلي السلس -->
+    <div class="mushaf-bottom-bar">
+      
+      <!-- زر الصفحة السابقة (الرجوع لليمين) -->
+      <button id="prevPageBtn" class="page-turn-btn" title="الصفحة السابقة">
+        <span>▶</span> الصفحة السابقة
+      </button>
+
+      <!-- شريط القفز السريع للصفحات -->
+      <div class="page-slider-box">
+        <input type="range" id="mushafPageSlider" min="1" max="604" value="1">
+        <span class="page-indicator-text" id="sliderPageIndicator">صفحة ١ من ٦٠٤</span>
+      </div>
+
+      <!-- زر الصفحة التالية (التقدم لليسار) -->
+      <button id="nextPageBtn" class="page-turn-btn" title="الصفحة التالية">
+        الصفحة التالية <span>◀</span>
+      </button>
+
+    </div>
+
   </div>
 
   <!-- تنبيه عام عائم (Toast) -->
   <div class="sanad-toast" id="sanadToast"></div>
 
-  <!-- سكربتات التطبيق الدينية -->
+  <!-- ربط السكربتات البرمجية بالترتيب المعماري الدقيق -->
+  <script src="quran_data.js"></script>
   <script src="data.js"></script>
   <script src="audio.js"></script>
   <script src="prayer.js"></script>

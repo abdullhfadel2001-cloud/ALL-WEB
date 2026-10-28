@@ -1,8 +1,9 @@
-const CACHE_NAME = 'sanad-app-v4';
+const CACHE_NAME = 'sanad-app-v5';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './style.css',
+  './quran_data.js',
   './data.js',
   './audio.js',
   './prayer.js',

@@ -15,6 +15,7 @@
   --primary-glow: rgba(16, 185, 129, 0.25);
   
   --gold: #f59e0b;
+  --gold-dark: #b45309;
   --gold-glow: rgba(245, 158, 11, 0.2);
 
   --text-main: #f8fafc;
@@ -35,8 +36,13 @@
   --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.35);
 
   --font-ui: 'Cairo', system-ui, -apple-system, sans-serif;
-  --font-quran: 'Amiri', serif;
+  --font-quran: 'Amiri Quran', 'Amiri', serif;
   --font-mono: 'JetBrains Mono', monospace;
+
+  /* أنماط ورق المصحف */
+  --mushaf-paper-bg: #0f172a;
+  --mushaf-paper-text: #f8fafc;
+  --mushaf-border-color: #d97706;
 }
 
 /* الوضع النهاري المريح للعين ومناسب لمرضى الاستكماتزم وقصر النظر */
@@ -51,6 +57,7 @@
   --primary-glow: rgba(4, 120, 87, 0.15);
 
   --gold: #b45309;
+  --gold-dark: #92400e;
   --gold-glow: rgba(180, 83, 9, 0.15);
 
   --text-main: #090d16;
@@ -64,6 +71,24 @@
 
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+  --mushaf-paper-bg: #fdfbf7;
+  --mushaf-paper-text: #1a1510;
+  --mushaf-border-color: #b45309;
+}
+
+/* نمط ورق المصحف الكلاسيكي الدافئ (Sepia Paper) */
+[data-mushaf-theme="sepia"] {
+  --mushaf-paper-bg: #f8f1df;
+  --mushaf-paper-text: #2c1f10;
+  --mushaf-border-color: #92400e;
+}
+
+/* نمط ورق المصحف الليلي المعتم */
+[data-mushaf-theme="night"] {
+  --mushaf-paper-bg: #050811;
+  --mushaf-paper-text: #e2e8f0;
+  --mushaf-border-color: #059669;
 }
 
 /* التصفير العام والخطوط */
@@ -472,7 +497,7 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   5. شبكة مكتبة الأصوات (10 أصوات مع استماع مسبق)
+   5. شبكة مكتبة الأصوات الحقيقية (10 أصوات مع استماع مسبق)
    -------------------------------------------------------------------------- */
 .audio-grid {
   display: grid;
@@ -515,12 +540,12 @@ body {
 .audio-item-actions {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .play-preview-btn {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: var(--radius-full);
   border: none;
   background: var(--primary);
@@ -528,9 +553,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s, background 0.2s;
 }
 
 .play-preview-btn.playing {
@@ -551,8 +576,57 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   6. قسم المصحف الشريف
+   6. فهرس المصحف الشريف
    -------------------------------------------------------------------------- */
+.bookmark-resume-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%);
+  border: 1px solid var(--gold);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.bm-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bm-icon {
+  font-size: 1.6rem;
+}
+
+.bm-title {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.bm-sub {
+  font-size: 0.78rem;
+  color: var(--gold);
+}
+
+.bm-resume-btn {
+  background: var(--gold);
+  color: #ffffff;
+  border: none;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.bm-resume-btn:hover {
+  background: var(--gold-dark);
+}
+
 .quran-search-bar {
   display: flex;
   gap: 10px;
@@ -587,25 +661,17 @@ body {
 }
 
 .bookmark-shortcut-btn {
-  background: var(--bg-card);
-  border: 1px solid var(--gold);
-  color: var(--gold);
+  background: var(--primary);
+  color: #ffffff;
+  border: none;
   border-radius: var(--radius-sm);
-  padding: 0 14px;
+  padding: 0 16px;
   font-family: var(--font-ui);
   font-weight: 700;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   cursor: pointer;
   white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
   transition: all 0.2s;
-}
-
-.bookmark-shortcut-btn:hover {
-  background: var(--gold);
-  color: #ffffff;
 }
 
 .surahs-grid {
@@ -670,128 +736,270 @@ body {
   font-size: 1.2rem;
 }
 
-/* نافذة قراءة القرآن */
-.reader-modal-overlay {
+/* --------------------------------------------------------------------------
+   7. شاشة المصحف الشريف الكاملة بتقليب الصفحات كالمصحف الحقيقي
+   -------------------------------------------------------------------------- */
+.mushaf-full-screen {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(6px);
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-}
-
-.reader-modal-overlay.open {
-  display: flex;
-}
-
-.reader-modal-box {
-  background: var(--bg-card);
-  border: 1px solid var(--bg-card-border);
-  border-radius: var(--radius-lg);
-  width: 100%;
-  max-width: 640px;
-  max-height: 88vh;
-  display: flex;
+  background: var(--bg-app);
+  z-index: 9999;
   flex-direction: column;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
   overflow: hidden;
 }
 
-.reader-header {
+.mushaf-full-screen.open {
+  display: flex;
+}
+
+.mushaf-top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 18px;
+  padding: 10px 16px;
+  background: var(--bg-card);
   border-bottom: 1px solid var(--bg-card-border);
+  z-index: 10;
+}
+
+.mushaf-nav-btn {
   background: var(--bg-card-sub);
-}
-
-.reader-title-info h2 {
-  font-size: 1.2rem;
-  font-weight: 800;
   color: var(--text-main);
-}
-
-.reader-title-info span {
-  font-size: 0.76rem;
-  color: var(--text-muted);
-}
-
-.reader-controls {
-  display: flex;
+  border: 1px solid var(--bg-card-border);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
 }
 
-.reader-ctrl-btn {
-  padding: 5px 10px;
-  border-radius: var(--radius-sm);
-  background: var(--bg-card);
+.mushaf-center-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mushaf-surah-title {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--gold);
+}
+
+.mushaf-juz-title {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.mushaf-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mushaf-tool-btn {
+  background: var(--bg-card-sub);
+  color: var(--text-main);
   border: 1px solid var(--bg-card-border);
-  color: var(--text-main);
   font-family: var(--font-ui);
-  font-size: 0.8rem;
   font-weight: 700;
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
   cursor: pointer;
-  transition: all 0.2s;
 }
 
-.reader-ctrl-btn:hover {
-  border-color: var(--primary);
+@media (max-width: 480px) {
+  .hide-mobile {
+    display: none;
+  }
 }
 
-.reader-ctrl-btn.bookmark-btn {
-  background: var(--gold);
-  color: #ffffff;
-  border-color: var(--gold);
-}
-
-.reader-ctrl-btn.close-btn {
-  background: #dc2626;
-  color: #ffffff;
-  border-color: #dc2626;
-}
-
-.reader-body {
-  padding: 24px 20px;
+/* مسرح صفحة المصحف وتقليب الصفحات */
+.mushaf-page-stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 14px;
   overflow-y: auto;
+  perspective: 1400px;
+  user-select: none;
+  touch-action: pan-y;
+}
+
+.mushaf-ornate-page {
+  background: var(--mushaf-paper-bg);
+  color: var(--mushaf-paper-text);
+  border: 4px double var(--mushaf-border-color);
+  outline: 1px solid var(--primary);
+  border-radius: var(--radius-md);
+  width: 100%;
+  max-width: 600px;
+  min-height: 82vh;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
+/* حركة تقليب الصفحة */
+.mushaf-ornate-page.flip-next {
+  transform: rotateY(-18deg) scale(0.97);
+  opacity: 0.4;
+}
+
+.mushaf-ornate-page.flip-prev {
+  transform: rotateY(18deg) scale(0.97);
+  opacity: 0.4;
+}
+
+.mushaf-page-top-decor {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--gold);
+  font-weight: 700;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(217, 119, 6, 0.2);
+  margin-bottom: 14px;
+}
+
+.page-title-embellishment {
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.mushaf-page-content {
+  flex: 1;
   font-family: var(--font-quran);
-  font-size: 1.45rem;
-  line-height: 2.2;
+  font-size: 1.55rem;
+  line-height: 2.3;
   text-align: justify;
-  color: var(--text-main);
+  text-align-last: center;
+  direction: rtl;
 }
 
-.bismillah-header {
+.surah-banner-header {
+  background: linear-gradient(90deg, transparent 0%, rgba(217, 119, 6, 0.15) 50%, transparent 100%);
+  border: 1px solid var(--gold);
+  border-radius: var(--radius-sm);
+  padding: 6px;
   text-align: center;
-  font-size: 1.6rem;
-  margin-bottom: 20px;
+  font-weight: 800;
+  font-size: 1.3rem;
   color: var(--gold);
+  margin: 14px 0 10px 0;
 }
 
-.ayah-num {
+.bismillah-text {
+  text-align: center;
+  font-size: 1.45rem;
   color: var(--gold);
+  margin: 8px 0 14px 0;
+  font-weight: 700;
+}
+
+.ayah-end-symbol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-mono);
-  font-size: 0.9em;
+  font-size: 0.75em;
+  color: var(--gold);
   margin: 0 4px;
+  user-select: none;
 }
 
-/* أنماط القراءة لراحة العين */
-.reader-modal-box.theme-sepia .reader-body {
-  background: #fbf0d9;
-  color: #2b1f14;
+.mushaf-page-bottom-decor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(217, 119, 6, 0.2);
+  margin-top: 14px;
 }
 
-.reader-modal-box.theme-night .reader-body {
-  background: #000000;
-  color: #e2e8f0;
+.ornate-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.page-number-display {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--gold);
+  background: rgba(245, 158, 11, 0.1);
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+}
+
+/* شريط التقليب السفلي */
+.mushaf-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--bg-card);
+  border-top: 1px solid var(--bg-card-border);
+  gap: 12px;
+}
+
+.page-turn-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--primary);
+  color: #ffffff;
+  border: none;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 10px var(--primary-glow);
+  transition: transform 0.15s, background 0.15s;
+}
+
+.page-turn-btn:active {
+  transform: scale(0.94);
+}
+
+.page-slider-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.page-slider-box input[type="range"] {
+  width: 100%;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.page-indicator-text {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 700;
 }
 
 /* --------------------------------------------------------------------------
-   7. قسم الأذكار والسبحة الرقمية
+   8. قسم الأذكار والسبحة الرقمية
    -------------------------------------------------------------------------- */
 .tasbeeh-hero-card {
   background: var(--bg-card);
@@ -1025,7 +1233,7 @@ body {
   border-radius: var(--radius-full);
   font-size: 0.88rem;
   font-weight: 700;
-  z-index: 2000;
+  z-index: 10000;
   opacity: 0;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
