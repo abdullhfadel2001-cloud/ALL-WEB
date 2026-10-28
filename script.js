@@ -2,7 +2,7 @@
 // DAEM - Core Script
 // ==========================================
 
-// قائمة التطبيقات الافتراضية (فارغة حالياً حسب طلبك)
+// القائمة فارغة تماماً - تم حذف كل البرامج التجريبية
 const DEFAULT_APPS = [];
 
 const CATEGORY_INFO = {
@@ -16,25 +16,31 @@ let apps = [];
 let filterCat = 'all';
 let searchQ = '';
 
+// تنظيف أي بيانات قديمة من التخزين المؤقت للمتصفح
+try {
+  localStorage.removeItem('daem_apps');
+  localStorage.removeItem('daem_custom_apps');
+} catch (e) {}
+
 // --- إدارة البيانات ---
 function loadApps() {
-  const custom = JSON.parse(localStorage.getItem('daem_apps') || '[]');
-  apps = [...custom, ...DEFAULT_APPS];
+  const userApps = JSON.parse(localStorage.getItem('daem_v2_apps') || '[]');
+  apps = [...userApps, ...DEFAULT_APPS];
   renderApps();
 }
 
 function saveApp(app) {
-  const custom = JSON.parse(localStorage.getItem('daem_apps') || '[]');
-  custom.unshift(app);
-  localStorage.setItem('daem_apps', JSON.stringify(custom));
+  const userApps = JSON.parse(localStorage.getItem('daem_v2_apps') || '[]');
+  userApps.unshift(app);
+  localStorage.setItem('daem_v2_apps', JSON.stringify(userApps));
   loadApps();
   toast(`⚡ "${app.name}" added to My Applications!`);
 }
 
 function deleteApp(id) {
-  let custom = JSON.parse(localStorage.getItem('daem_apps') || '[]');
-  custom = custom.filter(a => a.id !== id);
-  localStorage.setItem('daem_apps', JSON.stringify(custom));
+  let userApps = JSON.parse(localStorage.getItem('daem_v2_apps') || '[]');
+  userApps = userApps.filter(a => a.id !== id);
+  localStorage.setItem('daem_v2_apps', JSON.stringify(userApps));
   loadApps();
   toast('Application removed.');
 }
@@ -56,7 +62,7 @@ function renderApps() {
       <div class="empty-state">
         <div class="e-icon">⚡</div>
         <h3>NO APPLICATIONS YET</h3>
-        <p>Projects will be listed here soon. You can add new apps anytime using the button below.</p>
+        <p>Your applications list is currently empty. Click the button below to add your first app.</p>
       </div>`;
     return;
   }
@@ -70,9 +76,7 @@ function renderApps() {
       ? `<a href="${esc(app.demoUrl)}" target="_blank" class="btn-demo">👁️ Demo</a>`
       : '';
 
-    const delBtn = app.isCustom
-      ? `<button class="btn-del del-trigger" data-id="${app.id}" title="Remove">🗑️</button>`
-      : '';
+    const delBtn = `<button class="btn-del del-trigger" data-id="${app.id}" title="Remove">🗑️</button>`;
 
     const dlAttr = app.downloadUrl && app.downloadUrl !== '#' && !app.downloadUrl.startsWith('http')
       ? `download="${esc(app.name)}"` : '';
