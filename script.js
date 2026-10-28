@@ -2,6 +2,30 @@
 // DAEM - Cybernetic Electric Core Engine (with Interactive Theme Core)
 // ==========================================================================
 
+// ==========================================================================
+// Haptic Vibration Engine (Physical tactile feedback for mobile devices)
+// ==========================================================================
+function haptic(pattern = 40) {
+  if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+    try {
+      navigator.vibrate(pattern);
+    } catch (e) {
+      // Graceful fallback for devices or browsers without vibration support
+    }
+  }
+}
+
+function setupHapticFeedback() {
+  document.addEventListener('click', (e) => {
+    const interactiveTarget = e.target.closest(
+      'button, a.cyber-btn, a.btn-dl, a.btn-demo, .cat-pill, .theme-core-sphere, .hud-status, .nav-action-btn, .del-trigger, [data-haptic]'
+    );
+    if (interactiveTarget) {
+      haptic(40);
+    }
+  }, { passive: true });
+}
+
 const DEFAULT_APPS = [];
 
 const CATEGORY_INFO = {
@@ -250,6 +274,7 @@ function saveApp(app) {
   userApps.unshift(app);
   localStorage.setItem('daem_v2_apps', JSON.stringify(userApps));
   loadApps();
+  haptic([40, 60, 80]);
   toast(`⚡ تمت إضافة «${app.name}» إلى قائمة البرامج!`);
 }
 
@@ -258,6 +283,7 @@ function deleteApp(id) {
   userApps = userApps.filter(a => a.id !== id);
   localStorage.setItem('daem_v2_apps', JSON.stringify(userApps));
   loadApps();
+  haptic([70, 50, 70]);
   toast('تم حذف البرنامج من القائمة.');
 }
 
@@ -464,6 +490,7 @@ function setupLatencyTicker() {
 }
 
 function toast(msg) {
+  haptic(35);
   const el = document.getElementById('cyberToast');
   const msgEl = document.getElementById('toastMsg');
   if (!el || !msgEl) return;
@@ -476,6 +503,7 @@ function toast(msg) {
 // Initialization
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
+  setupHapticFeedback();
   setupThemeCore();
   initElectricCanvas();
   loadApps();
@@ -533,6 +561,7 @@ function setupCyberSpeedTest() {
   }
 
   startBtn.addEventListener('click', async () => {
+    haptic(50);
     startBtn.disabled = true;
     startBtn.style.opacity = '0.6';
     if (evalBox) evalBox.style.display = 'none';
@@ -690,6 +719,7 @@ function setupCyberSpeedTest() {
     phaseBadge.textContent = 'اكتمل الفحص بنجاح';
     phaseDesc.textContent = 'تم قياس كفاءة الاتصال وسرعة الإنترنت بدقة كاملة';
     setGauge(finalDlMbps, 120);
+    haptic([60, 50, 60, 50, 120]);
 
     if (evalBox) {
       evalBox.style.display = 'flex';
