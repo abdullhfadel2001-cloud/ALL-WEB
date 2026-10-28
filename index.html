@@ -15,7 +15,7 @@
   <meta name="author" content="DAEM">
   <meta name="robots" content="index, follow">
 
-  <link rel="stylesheet" href="style.css?v=9.0">
+  <link rel="stylesheet" href="style.css?v=10.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -102,6 +102,10 @@
           <span>⚡ My Applications</span>
         </a>
 
+        <a href="#speedtest" class="cyber-btn cyber-btn-primary">
+          <span>🚀 فحص سرعة النت</span>
+        </a>
+
         <div class="hud-stats-pill">
           <span class="hud-stat-title">الحالة:</span>
           <span class="hud-stat-val">نشط</span>
@@ -111,6 +115,117 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ======================================================================== -->
+  <!-- قسم قياس سرعة الإنترنت: DAEM CYBER SPEEDTEST                             -->
+  <!-- ======================================================================== -->
+  <section class="speedtest-section" id="speedtest">
+    <div class="speedtest-container">
+      <div class="section-hud-header">
+        <div class="hud-badge-line">
+          <span class="hud-badge-text">NETWORK TELEMETRY // سرعة الاتصال الحقيقية</span>
+        </div>
+        <h2 class="section-heading"><span class="neon-title">Cyber Speedtest</span></h2>
+        <p class="section-subtext">قياس فوري ودقيق لسرعة التحميل، سرعة الرفع، وزمن استجابة الشبكة (Ping & Jitter).</p>
+      </div>
+
+      <div class="speedtest-dashboard">
+        
+        <!-- العداد الدائري الكهربائي المركزي -->
+        <div class="gauge-center-stage">
+          <div class="speed-gauge-wrap">
+            <svg class="speed-gauge-svg" viewBox="0 0 240 240">
+              <circle class="gauge-track" cx="120" cy="120" r="95"></circle>
+              <circle class="gauge-progress" id="speedGaugeProgress" cx="120" cy="120" r="95"></circle>
+            </svg>
+            
+            <div class="gauge-content">
+              <span class="gauge-phase-badge" id="speedPhaseBadge">جاهز للفحص</span>
+              <div class="gauge-speed-val" id="speedMainValue">0.0</div>
+              <span class="gauge-unit">Mbps</span>
+              <div class="gauge-live-spark" id="gaugeSpark">⚡</div>
+            </div>
+          </div>
+
+          <!-- شريط حالة الفحص الخطي -->
+          <div class="test-progress-bar-wrap">
+            <div class="test-progress-bar" id="speedProgressBar"></div>
+          </div>
+          <span class="test-phase-desc" id="speedPhaseDesc">اضغط على زر الفحص للبدء</span>
+        </div>
+
+        <!-- بطاقات القياسات الأربعة -->
+        <div class="telemetry-grid">
+          
+          <!-- Ping -->
+          <div class="telemetry-card" id="cardPing">
+            <div class="telemetry-head">
+              <span class="tel-icon">⚡</span>
+              <span class="tel-label">PING (الاستجابة)</span>
+            </div>
+            <div class="tel-val-box">
+              <span class="tel-val" id="telPingVal">--</span>
+              <span class="tel-unit">ms</span>
+            </div>
+            <span class="tel-status" id="telPingStatus">في الانتظار</span>
+          </div>
+
+          <!-- Jitter -->
+          <div class="telemetry-card" id="cardJitter">
+            <div class="telemetry-head">
+              <span class="tel-icon">📉</span>
+              <span class="tel-label">JITTER (الاستقرار)</span>
+            </div>
+            <div class="tel-val-box">
+              <span class="tel-val" id="telJitterVal">--</span>
+              <span class="tel-unit">ms</span>
+            </div>
+            <span class="tel-status" id="telJitterStatus">في الانتظار</span>
+          </div>
+
+          <!-- Download -->
+          <div class="telemetry-card" id="cardDownload">
+            <div class="telemetry-head">
+              <span class="tel-icon">⬇️</span>
+              <span class="tel-label">DOWNLOAD (التحميل)</span>
+            </div>
+            <div class="tel-val-box">
+              <span class="tel-val" id="telDownloadVal">--</span>
+              <span class="tel-unit">Mbps</span>
+            </div>
+            <span class="tel-status" id="telDownloadStatus">في الانتظار</span>
+          </div>
+
+          <!-- Upload -->
+          <div class="telemetry-card" id="cardUpload">
+            <div class="telemetry-head">
+              <span class="tel-icon">⬆️</span>
+              <span class="tel-label">UPLOAD (الرفع)</span>
+            </div>
+            <div class="tel-val-box">
+              <span class="tel-val" id="telUploadVal">--</span>
+              <span class="tel-unit">Mbps</span>
+            </div>
+            <span class="tel-status" id="telUploadStatus">في الانتظار</span>
+          </div>
+
+        </div>
+
+        <!-- تقييم جودة الاتصال والزر الرئيسي -->
+        <div class="speedtest-footer-action">
+          <div class="connection-eval-box" id="connectionEvalBox" style="display: none;">
+            <div class="eval-badge" id="evalGradeBadge">S+ EXCELLENT</div>
+            <div class="eval-text" id="evalDescText">اتصالك فائق السرعة وممتاز للألعاب وبث الفيديو بدقة 4K!</div>
+          </div>
+
+          <button id="startSpeedTestBtn" class="cyber-btn cyber-btn-large cyber-btn-glow">
+            <span>⚡ ابدأ فحص السرعة // START TEST</span>
+          </button>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -241,6 +356,6 @@
     <span id="toastMsg" class="toast-msg"></span>
   </div>
 
-  <script src="script.js?v=8.0"></script>
+  <script src="script.js?v=10.0"></script>
 </body>
 </html>

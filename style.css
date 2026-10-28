@@ -1322,3 +1322,301 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ==========================================================================
+   DAEM CYBER SPEEDTEST (مقياس سرعة الإنترنت المتقدم)
+   ========================================================================== */
+
+.speedtest-section {
+  position: relative;
+  padding: 5rem 1.5rem;
+  z-index: 2;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.speedtest-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.speedtest-dashboard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-dim);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.speedtest-dashboard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #0284c7, #00f0ff, transparent);
+}
+
+[data-theme="light"] .speedtest-dashboard {
+  background: #ffffff;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* العداد الدائري المركزي */
+.gauge-center-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.speed-gauge-wrap {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.speed-gauge-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.gauge-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 12;
+}
+
+[data-theme="light"] .gauge-track {
+  stroke: rgba(0, 0, 0, 0.08);
+}
+
+.gauge-progress {
+  fill: none;
+  stroke: var(--neon-cyan);
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-dasharray: 597; /* 2 * PI * 95 */
+  stroke-dashoffset: 597;
+  transition: stroke-dashoffset 0.15s ease-out, stroke 0.3s;
+  filter: drop-shadow(0 0 8px var(--neon-cyan));
+}
+
+[data-theme="light"] .gauge-progress {
+  stroke: #0284c7;
+  filter: drop-shadow(0 0 6px rgba(2, 132, 199, 0.4));
+}
+
+.gauge-content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.gauge-phase-badge {
+  font-family: var(--font-arabic);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  background: var(--bg-input);
+  padding: 3px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border-dim);
+  margin-bottom: 4px;
+}
+
+.gauge-speed-val {
+  font-family: var(--font-orbitron);
+  font-size: 3.2rem;
+  font-weight: 900;
+  color: var(--text-main);
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.gauge-unit {
+  font-family: var(--font-tech);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--neon-cyan);
+}
+
+[data-theme="light"] .gauge-unit {
+  color: #0284c7;
+}
+
+.gauge-live-spark {
+  font-size: 1.1rem;
+  color: #f59e0b;
+  margin-top: 4px;
+  animation: pulseBolt 1s infinite alternate;
+}
+
+@keyframes pulseBolt {
+  from { transform: scale(0.9); opacity: 0.7; }
+  to { transform: scale(1.2); opacity: 1; }
+}
+
+/* شريط التقدم */
+.test-progress-bar-wrap {
+  width: 100%;
+  max-width: 320px;
+  height: 6px;
+  background: var(--bg-input);
+  border-radius: 10px;
+  border: 1px solid var(--border-dim);
+  overflow: hidden;
+}
+
+.test-progress-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #0284c7, #00f0ff);
+  transition: width 0.2s ease;
+}
+
+.test-phase-desc {
+  font-family: var(--font-arabic);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+/* شبكة القياسات الأربعة */
+.telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .telemetry-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.telemetry-card {
+  background: var(--bg-input);
+  border: 1px solid var(--border-dim);
+  border-radius: 14px;
+  padding: 1.2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  transition: all 0.25s ease;
+}
+
+.telemetry-card.testing-active {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+[data-theme="light"] .telemetry-card.testing-active {
+  border-color: #0284c7;
+  box-shadow: 0 0 12px rgba(2, 132, 199, 0.2);
+}
+
+.telemetry-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tel-icon {
+  font-size: 1.1rem;
+}
+
+.tel-label {
+  font-family: var(--font-tech);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+}
+
+.tel-val-box {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.tel-val {
+  font-family: var(--font-orbitron);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1;
+}
+
+.tel-unit {
+  font-family: var(--font-tech);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+
+.tel-status {
+  font-family: var(--font-arabic);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+/* شريط الإجراءات والتقييم النهائي */
+.speedtest-footer-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.connection-eval-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid #059669;
+  border-radius: 12px;
+  padding: 10px 18px;
+  max-width: 500px;
+}
+
+.eval-badge {
+  font-family: var(--font-orbitron);
+  font-weight: 900;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.2);
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.eval-text {
+  font-family: var(--font-arabic);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
