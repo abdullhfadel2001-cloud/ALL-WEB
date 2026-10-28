@@ -32,7 +32,7 @@
   <meta property="twitter:description" content="منصة دايم الرقمية - أدوات فحص الشبكة، قياس السرعة، ومشاركة التطبيقات البرمجية.">
   <meta property="twitter:image" content="https://abdullhfadel2001-cloud.github.io/ALL-WEB/preview.png">
 
-  <link rel="stylesheet" href="style.css?v=14.0">
+  <link rel="stylesheet" href="style.css?v=15.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -68,10 +68,6 @@
           <span class="status-indicator"></span>
           <span class="status-label" id="statusThemeLabel">الوضع الليلي 🌙</span>
         </div>
-
-        <a href="#terminal" class="nav-terminal-pill" title="فتح الشاشة الطرفية">
-          <span>&gt;_ Terminal</span>
-        </a>
 
         <button id="addAppNavBtn" class="cyber-btn cyber-btn-primary">
           <span>➕</span>
@@ -125,10 +121,6 @@
 
         <a href="#speedtest" class="cyber-btn cyber-btn-primary">
           <span>🚀 فحص سرعة النت</span>
-        </a>
-
-        <a href="#terminal" class="cyber-btn cyber-btn-ghost">
-          <span>&gt;_ Terminal</span>
         </a>
 
         <div class="hud-stats-pill">
@@ -295,90 +287,6 @@
     </div>
   </section>
 
-  <!-- ======================================================================== -->
-  <!-- قسم الشاشة الطرفية التفاعلية: Interactive Cyber Terminal                   -->
-  <!-- ======================================================================== -->
-  <section class="cyber-terminal-section" id="terminal">
-    <div class="terminal-container">
-      <div class="section-hud-header">
-        <div class="hud-badge-line">
-          <span class="hud-badge-text">CYBER COMMAND CONSOLE // سطر الأوامر التفاعلي</span>
-        </div>
-        <h2 class="section-heading"><span class="neon-title">&gt;_ Interactive Cyber Terminal</span></h2>
-        <p class="section-subtext">شاشة طرفية تفاعلية حقيقية. اكتب الأوامر في الأسفل لاستعراض التقنيات، نبذة المطور، أو التحكم بالمنصة.</p>
-      </div>
-
-      <!-- إطار الشاشة الطرفية الكبرى -->
-      <div class="terminal-window" id="terminalWindow">
-        <!-- شريط علوي للشاشة -->
-        <div class="terminal-header">
-          <div class="terminal-dots">
-            <span class="term-dot dot-red" id="termDotClose" title="مسح وتنظيف الشاشة (clear)"></span>
-            <span class="term-dot dot-yellow" id="termDotMin" title="التركيز على سطر الأوامر"></span>
-            <span class="term-dot dot-green" id="termDotMax" title="تبديل حجم الشاشة الطرفية"></span>
-          </div>
-          <div class="terminal-title">
-            <span class="term-title-bolt">⚡</span>
-            <span class="term-title-text">guest@daem-core: ~ (interactive bash shell)</span>
-          </div>
-          <div class="terminal-header-tools">
-            <button type="button" class="term-tool-btn" id="termClearBtn" title="مسح الشاشة">
-              <span>🧹 CLEAR</span>
-            </button>
-            <button type="button" class="term-tool-btn" id="termHelpBtn" title="عرض الأوامر">
-              <span>❓ HELP</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- جسم الشاشة وعرض الأسطر والمخرجات -->
-        <div class="terminal-body" id="terminalBody">
-          <div class="term-welcome-box">
-            <pre class="term-banner">
-██████╗  █████╗ ███████╗███╗   ███╗
-██╔══██╗██╔══██╗██╔════╝████╗ ████║
-██║  ██║███████║█████╗  ██╔████╔██║
-██║  ██║██╔══██║██╔══╝  ██║╚██╔╝██║
-██████╔╝██║  ██║███████╗██║ ╚═╝ ██║
-╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝
-            </pre>
-            <div class="term-welcome-info">
-              <span class="term-system-badge">⚡ DAEM CYBER CORE v2.5.0-STABLE</span>
-              <p class="term-welcome-text">أهلاً بك في الشاشة الطرفية التفاعلية لمنصة <strong>DAEM</strong>. اكتب <span class="cmd-code">help</span> لعرض كافة الأوامر المتاحة، أو اختر أمراً سريعاً:</p>
-            </div>
-            
-            <!-- أزرار الأوامر السريعة بنقرة واحدة -->
-            <div class="term-quick-chips">
-              <button type="button" class="term-chip" data-cmd="help">❓ help</button>
-              <button type="button" class="term-chip" data-cmd="whoami">👤 whoami</button>
-              <button type="button" class="term-chip" data-cmd="skills">⚡ skills</button>
-              <button type="button" class="term-chip" data-cmd="speedtest">🚀 speedtest</button>
-              <button type="button" class="term-chip" data-cmd="theme">☀️ theme</button>
-              <button type="button" class="term-chip" data-cmd="matrix">🟢 matrix</button>
-              <button type="button" class="term-chip" data-cmd="apps">📱 apps</button>
-              <button type="button" class="term-chip" data-cmd="clear">🧹 clear</button>
-            </div>
-          </div>
-
-          <!-- الأسطر والمخرجات الديناميكية -->
-          <div class="terminal-history" id="terminalHistory"></div>
-        </div>
-
-        <!-- سطر إدخال الأمر النشط Active Prompt -->
-        <div class="terminal-prompt-bar" id="termPromptBar">
-          <span class="term-user-prompt">guest@daem</span>
-          <span class="term-separator">:</span>
-          <span class="term-path">~</span>
-          <span class="term-prompt-char">$</span>
-          <input type="text" id="terminalInput" class="terminal-input" placeholder="Type command here (e.g. help, whoami, skills)..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-          <button type="button" id="termSubmitBtn" class="term-send-trigger" title="تنفيذ الأمر">
-            <span>⏎</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- تذييل الصفحة Footer -->
   <footer class="cyber-footer">
     <div class="footer-wrap">
@@ -465,6 +373,6 @@
     <span id="toastMsg" class="toast-msg"></span>
   </div>
 
-  <script src="script.js?v=14.0"></script>
+  <script src="script.js?v=15.0"></script>
 </body>
 </html>
