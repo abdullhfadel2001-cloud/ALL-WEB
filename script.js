@@ -1,62 +1,9 @@
 // ==========================================
-// DAEM - Electric Sky Theme · Script
+// DAEM - Core Script
 // ==========================================
 
-// --- قاعدة البيانات الافتراضية للتطبيقات ---
-const DEFAULT_APPS = [
-  {
-    id: 'rafeeqi',
-    name: 'Rafeeqi — رَفِيقِي',
-    category: 'android',
-    icon: '🕌',
-    version: 'v1.0.0',
-    size: '1.2 MB',
-    date: 'Oct 2026',
-    desc: 'All-in-one Islamic & productivity app. Prayer times by GPS, daily task reminders, Azkar, and an interactive Tasbeeh counter.',
-    downloadUrl: '../my-web-project/index.html',
-    demoUrl: '../my-web-project/index.html',
-    isCustom: false
-  },
-  {
-    id: 'focusflow',
-    name: 'Focus Flow — مؤقت التركيز',
-    category: 'tools',
-    icon: '⏱️',
-    version: 'v1.2.0',
-    size: '850 KB',
-    date: 'Oct 2026',
-    desc: 'Pomodoro-style focus timer with ambient sounds to boost productivity during study sessions.',
-    downloadUrl: '#',
-    demoUrl: '#',
-    isCustom: false
-  },
-  {
-    id: 'trivia',
-    name: 'Trivia Master — تحدي العباقرة',
-    category: 'games',
-    icon: '🧠',
-    version: 'v2.0.1',
-    size: '3.4 MB',
-    date: 'Sep 2026',
-    desc: 'Fun trivia quiz game with a points system and fast-paced challenge timer. Compete with friends!',
-    downloadUrl: '#',
-    demoUrl: '#',
-    isCustom: false
-  },
-  {
-    id: 'qrgen',
-    name: 'QR Generator — صانع QR',
-    category: 'tools',
-    icon: '📱',
-    version: 'v1.0.0',
-    size: '420 KB',
-    date: 'Aug 2026',
-    desc: 'Instant QR code generator for links, text, and Wi-Fi. Export in high-resolution PNG.',
-    downloadUrl: '#',
-    demoUrl: '#',
-    isCustom: false
-  }
-];
+// قائمة التطبيقات الافتراضية (فارغة حالياً حسب طلبك)
+const DEFAULT_APPS = [];
 
 const CATEGORY_INFO = {
   android: { label: 'ANDROID', cls: 'cat-android' },
@@ -65,17 +12,15 @@ const CATEGORY_INFO = {
   web:     { label: 'WEB APP', cls: 'cat-web'      }
 };
 
-// --- حالة التطبيق ---
 let apps = [];
 let filterCat = 'all';
 let searchQ = '';
 
-// --- تحميل البيانات ---
+// --- إدارة البيانات ---
 function loadApps() {
   const custom = JSON.parse(localStorage.getItem('daem_apps') || '[]');
   apps = [...custom, ...DEFAULT_APPS];
   renderApps();
-  animateStats(apps.length);
 }
 
 function saveApp(app) {
@@ -83,7 +28,7 @@ function saveApp(app) {
   custom.unshift(app);
   localStorage.setItem('daem_apps', JSON.stringify(custom));
   loadApps();
-  toast(`⚡ "${app.name}" added to DAEM!`);
+  toast(`⚡ "${app.name}" added to My Applications!`);
 }
 
 function deleteApp(id) {
@@ -91,10 +36,10 @@ function deleteApp(id) {
   custom = custom.filter(a => a.id !== id);
   localStorage.setItem('daem_apps', JSON.stringify(custom));
   loadApps();
-  toast('App removed from DAEM');
+  toast('Application removed.');
 }
 
-// --- عرض التطبيقات ---
+// --- عرض البطاقات ---
 function renderApps() {
   const grid = document.getElementById('appsGrid');
   grid.innerHTML = '';
@@ -110,8 +55,8 @@ function renderApps() {
     grid.innerHTML = `
       <div class="empty-state">
         <div class="e-icon">⚡</div>
-        <h3>NO APPS FOUND</h3>
-        <p>Try a different search or category filter</p>
+        <h3>NO APPLICATIONS YET</h3>
+        <p>Projects will be listed here soon. You can add new apps anytime using the button below.</p>
       </div>`;
     return;
   }
@@ -155,10 +100,11 @@ function renderApps() {
     grid.appendChild(card);
   });
 
-  // مستمعي الحذف
   grid.querySelectorAll('.del-trigger').forEach(btn => {
     btn.addEventListener('click', e => {
-      if (confirm('Remove this app from DAEM?')) deleteApp(e.currentTarget.dataset.id);
+      if (confirm('Delete this application from DAEM?')) {
+        deleteApp(e.currentTarget.dataset.id);
+      }
     });
   });
 }
@@ -170,27 +116,7 @@ function esc(str) {
   return d.innerHTML;
 }
 
-// --- عداد الإحصائيات المتحرك ---
-function animateStats(total) {
-  const statsData = [
-    { el: document.getElementById('statApps'), target: total },
-    { el: document.getElementById('statDownloads'), target: total * 47 },
-    { el: document.getElementById('statUsers'), target: total * 23 }
-  ];
-
-  statsData.forEach(({ el, target }) => {
-    if (!el) return;
-    let current = 0;
-    const step = Math.max(1, Math.ceil(target / 60));
-    const interval = setInterval(() => {
-      current = Math.min(current + step, target);
-      el.textContent = current.toLocaleString();
-      if (current >= target) clearInterval(interval);
-    }, 30);
-  });
-}
-
-// --- البحث والفلاتر ---
+// --- البحث والفلترة ---
 function setupFilters() {
   document.getElementById('searchInput').addEventListener('input', e => {
     searchQ = e.target.value.trim();
@@ -209,18 +135,20 @@ function setupFilters() {
 
 // --- Modal إضافة تطبيق ---
 function setupModal() {
-  const modal   = document.getElementById('addModal');
-  const openBtn = document.getElementById('addAppBtn');
-  const closeBtn= document.getElementById('closeModal');
-  const cancel  = document.getElementById('cancelModal');
-  const form    = document.getElementById('addAppForm');
+  const modal      = document.getElementById('addModal');
+  const openBtn    = document.getElementById('addAppBtn');
+  const navOpenBtn = document.getElementById('addAppNavBtn');
+  const closeBtn   = document.getElementById('closeModal');
+  const cancel     = document.getElementById('cancelModal');
+  const form       = document.getElementById('addAppForm');
 
   const open  = () => { modal.classList.add('open'); document.getElementById('fName').focus(); };
   const close = () => { modal.classList.remove('open'); form.reset(); };
 
-  openBtn.addEventListener('click', open);
-  closeBtn.addEventListener('click', close);
-  cancel.addEventListener('click', close);
+  if (openBtn) openBtn.addEventListener('click', open);
+  if (navOpenBtn) navOpenBtn.addEventListener('click', open);
+  if (closeBtn) closeBtn.addEventListener('click', close);
+  if (cancel) cancel.addEventListener('click', close);
   modal.addEventListener('click', e => { if (e.target === modal) close(); });
 
   form.addEventListener('submit', e => {
@@ -243,7 +171,7 @@ function setupModal() {
   });
 }
 
-// --- تأثير البرق الخلفي العشوائي ---
+// --- تأثير البرق الكهربائي العشوائي في السماء ---
 function setupLightning() {
   const container = document.getElementById('lightningBg');
   if (!container) return;
@@ -251,8 +179,8 @@ function setupLightning() {
   function spawnBolt() {
     const bolt = document.createElement('div');
     const x = Math.random() * 100;
-    const h = 30 + Math.random() * 50;
-    const opacity = 0.03 + Math.random() * 0.07;
+    const h = 40 + Math.random() * 70;
+    const opacity = 0.05 + Math.random() * 0.1;
 
     bolt.style.cssText = `
       position: absolute;
@@ -260,55 +188,17 @@ function setupLightning() {
       top: ${Math.random() * 50}%;
       width: 1px;
       height: ${h}px;
-      background: linear-gradient(180deg, #00c8ff, transparent);
+      background: linear-gradient(180deg, #00c8ff, #8b00ff, transparent);
       opacity: ${opacity};
       pointer-events: none;
-      animation: boltFade ${0.3 + Math.random() * 0.4}s ease-out forwards;
+      animation: boltFade 0.4s ease-out forwards;
     `;
 
     container.appendChild(bolt);
-    setTimeout(() => bolt.remove(), 800);
+    setTimeout(() => bolt.remove(), 700);
   }
 
-  // إضافة keyframe للبرق
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes boltFade {
-      0% { opacity: var(--o, 0.08); transform: scaleX(1); }
-      100% { opacity: 0; transform: scaleX(0.3); }
-    }
-  `;
-  document.head.appendChild(style);
-
-  // برق عشوائي
-  setInterval(spawnBolt, 800 + Math.random() * 2000);
-  setInterval(() => {
-    // وميض كبير أحياناً
-    document.body.style.transition = 'background-color 0.05s';
-    document.body.style.backgroundColor = '#020408';
-    const flash = Math.random();
-    if (flash > 0.95) {
-      document.body.style.backgroundColor = '#010b1a';
-      setTimeout(() => { document.body.style.backgroundColor = '#020408'; }, 80);
-    }
-  }, 4000);
-}
-
-// --- إعداد روابط التنقل ---
-function setupNavHighlight() {
-  const sections = ['hero', 'apps', 'about'];
-  const links = document.querySelectorAll('.nav-link');
-
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(id => {
-      const sec = document.getElementById(id);
-      if (sec && window.scrollY >= sec.offsetTop - 120) current = id;
-    });
-    links.forEach(link => {
-      link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
-    });
-  });
+  setInterval(spawnBolt, 1200 + Math.random() * 2000);
 }
 
 // --- Toast ---
@@ -327,5 +217,4 @@ document.addEventListener('DOMContentLoaded', () => {
   setupFilters();
   setupModal();
   setupLightning();
-  setupNavHighlight();
 });
