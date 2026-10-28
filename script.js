@@ -511,6 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupModal();
   setupLatencyTicker();
   setupCyberSpeedTest();
+  setupCyberTerminal();
 });
 
 
@@ -742,5 +743,280 @@ function setupCyberSpeedTest() {
     startBtn.style.opacity = '1';
     startBtn.innerHTML = '<span>⚡ إعادة فحص السرعة // RE-TEST</span>';
     toast(`⚡ سرعة التحميل: ${finalDlMbps.toFixed(1)} Mbps | الاستجابة: ${minPing}ms`);
+  });
+}
+
+// ==========================================================================
+// 8. DAEM Interactive Cyber Terminal Engine (شاشة طرفية تفاعلية حقيقية)
+// ==========================================================================
+function setupCyberTerminal() {
+  const terminalWindow  = document.getElementById('terminalWindow');
+  const terminalBody    = document.getElementById('terminalBody');
+  const terminalHistory = document.getElementById('terminalHistory');
+  const terminalInput   = document.getElementById('terminalInput');
+  const submitBtn       = document.getElementById('termSubmitBtn');
+  const clearBtn        = document.getElementById('termClearBtn');
+  const helpBtn         = document.getElementById('termHelpBtn');
+  const dotClose        = document.getElementById('termDotClose');
+  const dotMin          = document.getElementById('termDotMin');
+  const dotMax          = document.getElementById('termDotMax');
+
+  if (!terminalInput || !terminalHistory) return;
+
+  const commandHistory = [];
+  let historyIndex = -1;
+
+  // التركيز التلقائي على خانة الإدخال عند النقر داخل الشاشة الطرفية
+  if (terminalWindow) {
+    terminalWindow.addEventListener('click', (e) => {
+      if (!e.target.closest('button, a, .term-chip')) {
+        terminalInput.focus();
+      }
+    });
+  }
+
+  function scrollToBottom() {
+    if (terminalBody) {
+      terminalBody.scrollTop = terminalBody.scrollHeight;
+    }
+  }
+
+  function appendEntry(cmd, outputHtml, outputClass = '') {
+    const entry = document.createElement('div');
+    entry.className = 'term-entry';
+
+    const echoLine = document.createElement('div');
+    echoLine.className = 'term-echo-line';
+    echoLine.innerHTML = `
+      <span class="term-echo-user">guest@daem</span>
+      <span class="term-separator">:</span>
+      <span class="term-echo-path">~</span>
+      <span class="term-echo-char">$</span>
+      <span class="term-echo-cmd">${esc(cmd)}</span>
+    `;
+
+    const outBox = document.createElement('div');
+    outBox.className = `term-output ${outputClass}`.trim();
+    outBox.innerHTML = outputHtml;
+
+    entry.appendChild(echoLine);
+    entry.appendChild(outBox);
+    terminalHistory.appendChild(entry);
+    scrollToBottom();
+  }
+
+  function executeCommand(rawInput) {
+    const trimmed = rawInput.trim();
+    if (!trimmed) return;
+
+    // حفظ في سجل الأوامر للتنقل بالأسهم Up / Down
+    commandHistory.push(trimmed);
+    historyIndex = commandHistory.length;
+
+    haptic(35);
+
+    const parts = trimmed.split(' ');
+    const cmd = parts[0].toLowerCase();
+    const args = parts.slice(1).join(' ');
+
+    switch (cmd) {
+      case 'help':
+        appendEntry(trimmed, `
+<div class="term-card-box">
+  <div style="color: var(--neon-cyan); font-weight: bold; margin-bottom: 8px;">⚡ DAEM CYBER SHELL - AVAILABLE COMMANDS:</div>
+  <div class="term-card-row"><span class="term-card-label">help</span><span class="term-card-val">عرض قائمة المساعدة وجميع الأوامر المتاحة</span></div>
+  <div class="term-card-row"><span class="term-card-label">whoami</span><span class="term-card-val">نبذة عن هوية المطور ومواصفات النظام (Hacker Bio)</span></div>
+  <div class="term-card-row"><span class="term-card-label">skills</span><span class="term-card-val">استعراض لغات البرمجة والتقنيات البرمجية للمطور</span></div>
+  <div class="term-card-row"><span class="term-card-label">speedtest</span><span class="term-card-val">تشغيل فحص سرعة الإنترنت الحقيقية فوراً والانتقال للعداد</span></div>
+  <div class="term-card-row"><span class="term-card-label">theme</span><span class="term-card-val">تبديل الوضع بين الليلي والنهاري</span></div>
+  <div class="term-card-row"><span class="term-card-label">apps</span><span class="term-card-val">عرض قائمة التطبيقات والبرامج المسجلة</span></div>
+  <div class="term-card-row"><span class="term-card-label">matrix</span><span class="term-card-val">تفعيل تدفق شفرة الماتريكس الرقمية الخضراء</span></div>
+  <div class="term-card-row"><span class="term-card-label">date</span><span class="term-card-val">عرض الوقت والتاريخ الحالي للشبكة</span></div>
+  <div class="term-card-row"><span class="term-card-label">echo [text]</span><span class="term-card-val">طباعة النص المدخل في الطرفية</span></div>
+  <div class="term-card-row"><span class="term-card-label">repo</span><span class="term-card-val">رابط مستودع المنصة على GitHub</span></div>
+  <div class="term-card-row"><span class="term-card-label">clear</span><span class="term-card-val">تنظيف ومسح شاشة الطرفية</span></div>
+</div>
+        `);
+        break;
+
+      case 'whoami':
+        appendEntry(trimmed, `
+<div class="term-card-box">
+  <div style="color: var(--neon-cyan); font-weight: 800; font-size: 1.05rem; margin-bottom: 8px;">
+    [DAEM ROOT IDENTITY REPORT]
+  </div>
+  <div class="term-card-row"><span class="term-card-label">IDENTIFIER:</span><span class="term-card-val" style="color: #10b981; font-weight: bold;">DAEM (دايم)</span></div>
+  <div class="term-card-row"><span class="term-card-label">ROLE:</span><span class="term-card-val">Cyber Architect & Full-Stack Systems Engineer</span></div>
+  <div class="term-card-row"><span class="term-card-label">EXPERTISE:</span><span class="term-card-val">High-Performance Web Engines, Responsive UIs, Interactive Telemetry, PWA</span></div>
+  <div class="term-card-row"><span class="term-card-label">SECURITY:</span><span class="term-card-val" style="color: #00f0ff;">LEVEL 5 // ROOT PRIVILEGES GRANTED</span></div>
+  <div class="term-card-row"><span class="term-card-label">PHILOSOPHY:</span><span class="term-card-val">"Building modern, ultra-fast, and electric digital experiences."</span></div>
+</div>
+        `, 'out-accent');
+        break;
+
+      case 'skills':
+        appendEntry(trimmed, `
+<div class="term-card-box">
+  <div style="color: var(--neon-cyan); font-weight: 800; margin-bottom: 10px;">
+    [TECHNICAL PROFICIENCY & STACK MATRIX]
+  </div>
+  <div class="term-skill-bar-wrap">
+    <span class="term-skill-name">JavaScript (ESNext/TS/Node)</span>
+    <span class="term-skill-meter">[██████████] 100%</span>
+  </div>
+  <div class="term-skill-bar-wrap">
+    <span class="term-skill-name">Modern CSS / Cyberpunk UI</span>
+    <span class="term-skill-meter">[██████████] 100%</span>
+  </div>
+  <div class="term-skill-bar-wrap">
+    <span class="term-skill-name">Python & Automation APIs</span>
+    <span class="term-skill-meter">[█████████░]  90%</span>
+  </div>
+  <div class="term-skill-bar-wrap">
+    <span class="term-skill-name">Canvas 2D / Interactive WebGL</span>
+    <span class="term-skill-meter">[█████████░]  92%</span>
+  </div>
+  <div class="term-skill-bar-wrap">
+    <span class="term-skill-name">Network Telemetry & Latency</span>
+    <span class="term-skill-meter">[█████████░]  95%</span>
+  </div>
+  <div class="term-skill-bar-wrap">
+    <span class="term-skill-name">Haptic Engine & Mobile UX</span>
+    <span class="term-skill-meter">[██████████] 100%</span>
+  </div>
+  <div class="term-skill-bar-wrap">
+    <span class="term-skill-name">Git & GitHub Deployment</span>
+    <span class="term-skill-meter">[█████████░]  95%</span>
+  </div>
+</div>
+        `, 'out-success');
+        break;
+
+      case 'clear':
+      case 'cls':
+        terminalHistory.innerHTML = '';
+        haptic(30);
+        return;
+
+      case 'speedtest':
+        appendEntry(trimmed, `⚡ Initializing Cyber Speedtest sequence... Redirecting to dashboard.`, 'out-accent');
+        const speedSection = document.getElementById('speedtest');
+        if (speedSection) {
+          speedSection.scrollIntoView({ behavior: 'smooth' });
+          const startBtn = document.getElementById('startSpeedTestBtn');
+          if (startBtn && !startBtn.disabled) {
+            setTimeout(() => startBtn.click(), 700);
+          }
+        }
+        break;
+
+      case 'theme':
+        const themeBtn = document.getElementById('themeSphereToggle');
+        if (themeBtn) {
+          themeBtn.click();
+          appendEntry(trimmed, `⚡ Theme toggled successfully! Current mode: ${currentTheme}`, 'out-success');
+        }
+        break;
+
+      case 'apps':
+        let listText = `INDEXED APPLICATIONS [Total: ${apps.length}]:\n`;
+        if (apps.length === 0) {
+          listText += '  (No applications added yet. Use "إضافة تطبيق" to index applications.)';
+        } else {
+          apps.forEach((a, idx) => {
+            listText += `  [${idx + 1}] ${a.name} (${a.category.toUpperCase()}) - ${a.version || 'v1.0'}\n`;
+          });
+        }
+        appendEntry(trimmed, listText, 'out-accent');
+        break;
+
+      case 'matrix':
+        let matrixLines = '';
+        const chars = '01アカサタナハマヤラワン0123456789ABCDEF!@#$%^&*';
+        for (let i = 0; i < 8; i++) {
+          let line = '';
+          for (let j = 0; j < 40; j++) {
+            line += chars[Math.floor(Math.random() * chars.length)] + ' ';
+          }
+          matrixLines += line + '\n';
+        }
+        appendEntry(trimmed, matrixLines + '>> WAKE UP, NEO... THE MATRIX HAS YOU.', 'out-matrix');
+        haptic([40, 40, 40, 40]);
+        break;
+
+      case 'date':
+      case 'time':
+        const now = new Date();
+        appendEntry(trimmed, `CURRENT SYSTEM TIME: ${now.toUTCString()} (Local: ${now.toLocaleString()})`, 'out-accent');
+        break;
+
+      case 'echo':
+        appendEntry(trimmed, esc(args) || '(empty)');
+        break;
+
+      case 'repo':
+      case 'github':
+        appendEntry(trimmed, `GitHub Repository: <a href="https://github.com/abdullhfadel2001-cloud/ALL-WEB" target="_blank" class="term-link">https://github.com/abdullhfadel2001-cloud/ALL-WEB</a>`, 'out-success');
+        break;
+
+      default:
+        appendEntry(trimmed, `bash: command not found: ${esc(cmd)}. Type '<span class="cmd-code">help</span>' for available commands.`, 'out-error');
+        break;
+    }
+  }
+
+  // دعم الضغط على Enter والتنقل في السجل بالأسهم Up/Down
+  terminalInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const val = terminalInput.value;
+      terminalInput.value = '';
+      executeCommand(val);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (commandHistory.length > 0 && historyIndex > 0) {
+        historyIndex--;
+        terminalInput.value = commandHistory[historyIndex];
+      }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex < commandHistory.length - 1) {
+        historyIndex++;
+        terminalInput.value = commandHistory[historyIndex];
+      } else {
+        historyIndex = commandHistory.length;
+        terminalInput.value = '';
+      }
+    }
+  });
+
+  if (submitBtn) {
+    submitBtn.addEventListener('click', () => {
+      const val = terminalInput.value;
+      terminalInput.value = '';
+      executeCommand(val);
+      terminalInput.focus();
+    });
+  }
+
+  if (clearBtn) clearBtn.addEventListener('click', () => executeCommand('clear'));
+  if (helpBtn)  helpBtn.addEventListener('click', () => executeCommand('help'));
+
+  if (dotClose) dotClose.addEventListener('click', () => executeCommand('clear'));
+  if (dotMin)   dotMin.addEventListener('click', () => terminalInput.focus());
+  if (dotMax)   dotMax.addEventListener('click', () => {
+    terminalWindow.classList.toggle('term-expanded');
+    haptic(30);
+  });
+
+  // دعم النقر على أزرار الأوامر السريعة
+  document.querySelectorAll('.term-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const cmd = chip.dataset.cmd;
+      if (cmd) {
+        executeCommand(cmd);
+        terminalInput.focus();
+      }
+    });
   });
 }
