@@ -2,7 +2,19 @@
 // DAEM - Cybernetic Electric Core Engine (with Interactive Theme Core)
 // ==========================================================================
 
-const DEFAULT_APPS = [];
+const DEFAULT_APPS = [
+  {
+    id: 'rafiqi-prayer-app',
+    name: 'تطبيق رَفِيقِي | رفيق المسلم والمهام',
+    category: 'web',
+    version: '1.0.0',
+    size: '1.2 MB',
+    date: '2026-10-28',
+    desc: 'تطبيق شامل متكامل: أوقات الصلاة الدقيقة، 10 أصوات أذان و10 تكبيرات، المصحف الشريف بالبحث، الأذكار، مؤقت تمارين ذكي، ملاحظات ومهام، متتبع الماء، ومصاريف يومية.',
+    url: 'prayer/index.html',
+    iconText: '🌿'
+  }
+];
 
 const CATEGORY_INFO = {
   android: { label: 'ANDROID', cls: 'cat-android' },
