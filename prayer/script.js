@@ -855,7 +855,7 @@ function setupPWA() {
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
-          showToast('جاري تثبيت تطبيق رفيقي على هاتفك! 🎉');
+          showToast('جاري تثبيت تطبيق سَنَد على هاتفك! 🎉');
           installBtn.style.display = 'none';
         }
         deferredPrompt = null;

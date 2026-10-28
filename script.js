@@ -5,14 +5,15 @@
 const DEFAULT_APPS = [
   {
     id: 'sanad-app',
-    name: 'تطبيق سَنَد | رفيقك اليومي والعبادات',
-    category: 'web',
+    name: 'تطبيق سَنَد | تنظيم اليوم والعبادات',
+    category: 'android',
     version: '1.0.0',
     size: '1.2 MB',
     date: '2026-10-28',
-    desc: 'تطبيق شامل متكامل: أوقات الصلاة الدقيقة، 10 أصوات أذان و10 تكبيرات، المصحف الشريف بالبحث، الأذكار، مؤقت تمارين ذكي، ملاحظات ومهام، متتبع الماء، ومصاريف يومية.',
-    url: 'prayer/index.html',
-    iconText: '🌿'
+    desc: 'تطبيق شامل ومتكامل: مواقيت الصلاة الدقيقة، 10 أصوات أذان و10 تكبيرات، المصحف الشريف بالبحث، الأذكار، مؤقت تمارين ذكي، مهام وملاحظات صوتية، متتبع الماء، ومصاريف يومية. تثبيت مباشر لجميع الهواتف.',
+    downloadUrl: 'prayer/index.html',
+    demoUrl: 'prayer/index.html',
+    icon: '🌿'
   }
 ];
 
@@ -246,8 +247,12 @@ function initElectricCanvas() {
 // 3. Applications Data Archive
 // ==========================================================================
 function loadApps() {
-  const userApps = JSON.parse(localStorage.getItem('daem_v2_apps') || '[]');
-  apps = [...userApps, ...DEFAULT_APPS];
+  let userApps = JSON.parse(localStorage.getItem('daem_v2_apps') || '[]');
+  // حذف أي تطبيق قديم يحمل اسم رفيق أو رفيقي أو المعرف القديم لتنظيف الذاكرة
+  userApps = userApps.filter(a => a.id !== 'rafiqi-prayer-app' && a.id !== 'sanad-app' && !a.name.includes('رفيق'));
+  localStorage.setItem('daem_v2_apps', JSON.stringify(userApps));
+
+  apps = [...DEFAULT_APPS, ...userApps];
   const countEl = document.getElementById('countAll');
   if (countEl) countEl.textContent = apps.length;
   renderApps();
@@ -302,13 +307,16 @@ function renderApps() {
     const card = document.createElement('div');
     card.className = 'app-card';
 
+    const isSanad = app.id === 'sanad-app';
+    const actionLabel = isSanad ? '📲 تثبيت مباشر (APK/PWA)' : '⬇️ DOWNLOAD';
+
     const demoBtn = app.demoUrl && app.demoUrl !== '#'
-      ? `<a href="${esc(app.demoUrl)}" target="_blank" class="btn-demo">👁️ تجربة</a>`
+      ? `<a href="${esc(app.demoUrl)}" target="_blank" class="btn-demo">👁️ فتح وتشغيل</a>`
       : '';
 
-    const delBtn = `<button class="btn-del del-trigger" data-id="${app.id}" title="حذف">🗑️</button>`;
+    const delBtn = isSanad ? '' : `<button class="btn-del del-trigger" data-id="${app.id}" title="حذف">🗑️</button>`;
 
-    const dlAttr = app.downloadUrl && app.downloadUrl !== '#' && !app.downloadUrl.startsWith('http')
+    const dlAttr = app.downloadUrl && app.downloadUrl !== '#' && !app.downloadUrl.startsWith('http') && !app.downloadUrl.endsWith('.html')
       ? `download="${esc(app.name)}"` : '';
 
     card.innerHTML = `
@@ -323,10 +331,10 @@ function renderApps() {
       <div class="card-meta">
         <span class="meta-pill">🏷️ ${esc(app.version || 'v1.0')}</span>
         <span class="meta-pill">💾 ${esc(app.size || '—')}</span>
-        <span class="meta-pill">📅 ${esc(app.date || 'Recent')}</span>
+        <span class="meta-pill">⚡ تثبيت فوري</span>
       </div>
       <div class="card-actions">
-        <a href="${esc(app.downloadUrl)}" ${dlAttr} class="btn-dl">⬇️ DOWNLOAD</a>
+        <a href="${esc(app.downloadUrl)}" ${dlAttr} class="btn-dl">${actionLabel}</a>
         ${demoBtn}
         ${delBtn}
       </div>`;

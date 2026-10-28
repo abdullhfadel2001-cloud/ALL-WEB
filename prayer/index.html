@@ -538,23 +538,40 @@
       });
     }
 
-    // زر تثبيت التطبيق الفوري على الهاتف
+    // زر وتجربة تثبيت التطبيق الفوري على الهاتف (PWA / Direct Mobile Install)
     let deferredPrompt;
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    const installBtn = document.getElementById('pwaInstallPromptBtn');
+
+    if (!isStandalone && installBtn) {
+      installBtn.style.display = 'inline-flex';
+    }
+
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      const installBtn = document.getElementById('pwaInstallPromptBtn');
-      if (installBtn) {
-        installBtn.style.display = 'inline-flex';
-        installBtn.addEventListener('click', () => {
-          installBtn.style.display = 'none';
+      if (installBtn) installBtn.style.display = 'inline-flex';
+    });
+
+    if (installBtn) {
+      installBtn.addEventListener('click', () => {
+        if (deferredPrompt) {
           deferredPrompt.prompt();
           deferredPrompt.userChoice.then(() => {
             deferredPrompt = null;
+            installBtn.style.display = 'none';
           });
-        });
-      }
-    });
+        } else {
+          // في حال كان المتصفح Safari على آيفون أو لا يدعم beforeinstallprompt المباشر
+          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+          if (isIOS) {
+            alert('📲 لتثبيت تطبيق سَنَد على الآيفون:\n1. اضغط على زر المشاركة (المربع ذو السهم ⎋) أسفل المتصفح.\n2. اختر "إضافة إلى الشاشة الرئيسية" (Add to Home Screen).');
+          } else {
+            alert('📲 لتثبيت تطبيق سَنَد على هاتفك:\nاضغط على قائمة المتصفح (⋮) ثم اختر "تثبيت التطبيق" أو "إضافة إلى الشاشة الرئيسية".');
+          }
+        }
+      });
+    }
   </script>
 </body>
 </html>
