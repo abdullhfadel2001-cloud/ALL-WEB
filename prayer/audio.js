@@ -1,5 +1,5 @@
 // ==========================================================================
-// تطبيق «سَنَد» - محرك الصوت الحقيقي لتشغيل أصوات الأذان والتكبيرات MP3
+// تطبيق «سَنَد» - محرك الصوت الحقيقي لتشغيل أصوات الأذان والتكبيرات MP3 الفورية
 // ==========================================================================
 
 class AudioEngine {
@@ -22,7 +22,7 @@ class AudioEngine {
     this.currentPreviewId = null;
   }
 
-  // تشغيل ملف صوتي حقيقي مع إدارة المعاينة والإيقاف التلقائي
+  // تشغيل ملف صوتي محلي مع بدء فوري بدون أي تأخير
   playAudioUrl(url, id, onEndCallback) {
     this.stopAll();
     this.isPlayingPreview = true;
@@ -30,11 +30,15 @@ class AudioEngine {
 
     try {
       this.currentAudio = new Audio(url);
-      this.currentAudio.play().catch(err => {
-        console.warn("تعذر تشغيل الصوت أو تم منع التشغيل التلقائي:", err);
-        this.stopAll();
-        if (onEndCallback) onEndCallback();
-      });
+      this.currentAudio.preload = "auto";
+      const playPromise = this.currentAudio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(err => {
+          console.warn("Audio play error:", err);
+          this.stopAll();
+          if (onEndCallback) onEndCallback();
+        });
+      }
 
       this.currentAudio.onended = () => {
         this.stopAll();
@@ -42,6 +46,7 @@ class AudioEngine {
       };
     } catch (e) {
       this.stopAll();
+      if (onEndCallback) onEndCallback();
     }
   }
 

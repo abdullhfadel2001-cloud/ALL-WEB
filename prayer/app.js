@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const tabPanes = document.querySelectorAll('.tab-pane');
 
   // بيانات التخزين
-  let selectedAdhanId = localStorage.getItem('sanad_selected_adhan') || 'adhan_ali_mullah';
-  let selectedTakbeerId = localStorage.getItem('sanad_selected_takbeer') || 'takbeer_ali_mullah';
+  let selectedAdhanId = localStorage.getItem('sanad_selected_adhan') || 'adhan_1';
+  let selectedTakbeerId = localStorage.getItem('sanad_selected_takbeer') || 'takbeer_1';
   let tasbeehCount = parseInt(localStorage.getItem('sanad_tasbeeh_count') || '0', 10);
   let tasbeehTotal = parseInt(localStorage.getItem('sanad_tasbeeh_total') || '0', 10);
   let currentPhrase = localStorage.getItem('sanad_tasbeeh_phrase') || 'سُبْحَانَ اللَّهِ';
@@ -557,6 +557,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mushafPageAyahs) {
       mushafPageAyahs.innerHTML = html;
       mushafPageAyahs.scrollTop = 0;
+    }
+
+    const stageEl = document.getElementById('mushafPageStage');
+    if (stageEl) {
+      stageEl.scrollTop = 0;
     }
 
     // فتح الشاشة الكاملة

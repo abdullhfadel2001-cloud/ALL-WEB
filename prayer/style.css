@@ -823,13 +823,14 @@ body {
 .mushaf-page-stage {
   flex: 1;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 12px 14px;
+  padding: 16px 14px 24px 14px;
   overflow-y: auto;
   perspective: 1400px;
   user-select: none;
   touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
 }
 
 .mushaf-ornate-page {
@@ -839,13 +840,14 @@ body {
   outline: 1px solid var(--primary);
   border-radius: var(--radius-md);
   width: 100%;
-  max-width: 600px;
-  min-height: 82vh;
+  max-width: 620px;
+  min-height: auto;
+  margin: 0 auto;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-  padding: 18px 20px;
+  padding: 20px 22px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   position: relative;
   transition: transform 0.28s ease, opacity 0.28s ease;
 }
@@ -879,13 +881,24 @@ body {
 }
 
 .mushaf-page-content {
-  flex: 1;
   font-family: var(--font-quran);
-  font-size: 1.55rem;
-  line-height: 2.3;
+  font-size: 1.45rem;
+  line-height: 2.2;
   text-align: justify;
   text-align-last: center;
   direction: rtl;
+  margin: 10px 0;
+  padding: 0 4px;
+}
+
+@media (max-width: 480px) {
+  .mushaf-page-content {
+    font-size: 1.32rem;
+    line-height: 2.05;
+  }
+  .mushaf-ornate-page {
+    padding: 14px 14px;
+  }
 }
 
 .surah-banner-header {

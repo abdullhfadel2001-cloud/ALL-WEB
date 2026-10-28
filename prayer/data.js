@@ -1,131 +1,131 @@
 // ==========================================================================
 // تطبيق «سَنَد» - قاعدة بيانات الأذكار والمكتبة الصوتية الحقيقية للأذان والتكبيرات
+// ملفات MP3 محلية سريعة التشغيل بنسبة 100% بدون أي بطء
 // ==========================================================================
 
-// 1. مكتبة الأصوات الحقيقية (تسجيلات MP3 حقيقية بأصوات أشهر المؤذنين للحرم المكي وكبار القراء)
 const AUDIO_LIBRARY = {
   adhans: [
     {
-      id: "adhan_ali_mullah",
+      id: "adhan_1",
       name: "أذان الحرم المكي الشريف (الشيخ علي ملا)",
       mood: "أشهر أذان في العالم الإسلامي",
-      url: "https://archive.org/download/MuadhinsMakkah/ADHAAN%2FSheikh%20Ali%20Mullah%2FAli%20Ahmed%20Mullah.mp3"
+      url: "./audio/adhan_1.mp3"
     },
     {
-      id: "adhan_alafasy",
+      id: "adhan_2",
+      name: "أذان المسجد النبوي الشريف",
+      mood: "صوت روحاني هادئ ومؤثر",
+      url: "./audio/adhan_2.mp3"
+    },
+    {
+      id: "adhan_3",
+      name: "أذان المسجد الأقصى المبارك",
+      mood: "نبرة شجية عريقة من بيت المقدس",
+      url: "./audio/adhan_3.mp3"
+    },
+    {
+      id: "adhan_4",
+      name: "أذان الطراز المصري الأصيل",
+      mood: "نبرة كلاسيكية خاشعة",
+      url: "./audio/adhan_4.mp3"
+    },
+    {
+      id: "adhan_5",
+      name: "أذان الفجر من الحرم المكي الشريف",
+      mood: "سكينة وروحانية صلاة الفجر",
+      url: "./audio/adhan_5.mp3"
+    },
+    {
+      id: "adhan_6",
+      name: "أذان النغمات الهادئة (Low Pitch)",
+      mood: "مريح ولطيف للمنزل والمكتب",
+      url: "./audio/adhan_6.mp3"
+    },
+    {
+      id: "adhan_7",
+      name: "أذان مساجد إسطنبول التاريخية",
+      mood: "الطراز العثماني العريق",
+      url: "./audio/adhan_7.mp3"
+    },
+    {
+      id: "adhan_8",
+      name: "أذان الطراز البغدادي الشجي",
+      mood: "نبرة شجن عراقية مؤثرة",
+      url: "./audio/adhan_8.mp3"
+    },
+    {
+      id: "adhan_9",
       name: "أذان بصوت الشيخ مشاري راشد العفاسي",
-      mood: "صوت شجي خاشع ومؤثر",
-      url: "https://cdn.aladhan.com/audio/adhans/a9.mp3"
+      mood: "صوت ندي خاشع ومعروف",
+      url: "./audio/adhan_9.mp3"
     },
     {
-      id: "adhan_makkah_fajr",
-      name: "أذان الفجر من الحرم المكي (الصلاة خير من النوم)",
-      mood: "سكينة وروحانية الفجر",
-      url: "https://cdn.aladhan.com/audio/adhans/a1.mp3"
-    },
-    {
-      id: "adhan_khoja",
-      name: "أذان الحرم المكي (الشيخ أحمد خوجة)",
-      mood: "نبرة حجازية كلاسيكية مهيبة",
-      url: "https://archive.org/download/MuadhinsMakkah/ADHAAN%2FSheikh%20Ahmed%20Khoja%2FAhmed%20Yunus%20Khoja.mp3"
-    },
-    {
-      id: "adhan_nuhas",
-      name: "أذان الحرم المكي (الشيخ أحمد نحاس)",
-      mood: "صوت رخيم وخشوع عالي",
-      url: "https://archive.org/download/MuadhinsMakkah/ADHAAN%2FSheikh%20Ahmed%20Nuhas%2FAhmad%20Ali%20Nuhas.mp3"
-    },
-    {
-      id: "adhan_baqree",
-      name: "أذان الحرم المكي (الشيخ عماد بقري)",
-      mood: "أداء حجازي مكي أصيل",
-      url: "https://archive.org/download/MuadhinsMakkah/ADHAAN%2FSheikh%20Emad%20Baqree%2FEmad%20Ismaeel%20Baqree.mp3"
-    },
-    {
-      id: "adhan_faydah",
-      name: "أذان الحرم المكي (الشيخ نايف فيدة)",
-      mood: "جهوري ومميز",
-      url: "https://archive.org/download/MuadhinsMakkah/ADHAAN%2FSheikh%20Naif%20Faydah%2FNaif%20Saleh%20Faydah.mp3"
-    },
-    {
-      id: "adhan_saqaf",
-      name: "أذان الحرم المكي (الشيخ هاشم سقاف)",
-      mood: "طبقات صوتية شجية ونقية",
-      url: "https://archive.org/download/MuadhinsMakkah/ADHAAN%2FSheikh%20Hashim%20Saqaf%2FHashim%20Muhammad%20Saqaaf.mp3"
-    },
-    {
-      id: "adhan_turkey",
-      name: "أذان مساجد إسطنبول (الشيخ مصطفى أوزجان)",
-      mood: "الطراز العثماني التاريخي",
-      url: "https://cdn.aladhan.com/audio/adhans/a2.mp3"
-    },
-    {
-      id: "adhan_nafees",
+      id: "adhan_10",
       name: "أذان بصوت الشيخ أحمد النفيس",
-      mood: "صوت عذب ندي وخاشع",
-      url: "https://cdn.aladhan.com/audio/adhans/a3.mp3"
+      mood: "صوت عذب رقيق ومؤثر",
+      url: "./audio/adhan_10.mp3"
     }
   ],
   takbeers: [
     {
-      id: "takbeer_ali_mullah",
+      id: "takbeer_1",
       name: "تكبيرات العيد من الحرم المكي (الشيخ علي ملا)",
       style: "تكبيرات الحرم المكي الشهيرة والمهيبة",
-      url: "https://archive.org/download/MuadhinsMakkah/Eid%20Takbeerat%2FSheikh%20Ali%20Mullah%2FAli%20Ahmed%20Mullah.mp3"
+      url: "./audio/takbeer_1.mp3"
     },
     {
-      id: "takbeer_alafasy",
+      id: "takbeer_2",
       name: "تكبيرات العيد بصوت الشيخ مشاري العفاسي",
       style: "الله أكبر الله أكبر ولله الحمد",
-      url: "https://archive.org/download/TakbeeratForEid/EidTakbeer-MisharyAlAfasy-Youtube.mp3"
+      url: "./audio/takbeer_2.mp3"
     },
     {
-      id: "takbeer_basnawi",
-      name: "تكبيرات العيد (الشيخ أحمد بصنوي - الحرم)",
-      style: "أداء مكي خاشع",
-      url: "https://archive.org/download/MuadhinsMakkah/Eid%20Takbeerat%2FSheikh%20Ahmed%20Basnawi%2FAhmed%20Abdullah%20Basnawi.mp3"
+      id: "takbeer_3",
+      name: "تكبيرات العيد النمط المصري الجماعي",
+      style: "أجواء صبيحة العيد البهيجة",
+      url: "./audio/takbeer_3.mp3"
     },
     {
-      id: "takbeer_khoja",
+      id: "takbeer_4",
       name: "تكبيرات العيد (الشيخ أحمد خوجة - الحرم)",
       style: "نغمات عيد مبهجة من رحاب مكة",
-      url: "https://archive.org/download/MuadhinsMakkah/Eid%20Takbeerat%2FSheikh%20Ahmed%20Khoja%2FAhmed%20Yunus%20Khoja.mp3"
+      url: "./audio/takbeer_4.mp3"
     },
     {
-      id: "takbeer_nuhas",
+      id: "takbeer_5",
       name: "تكبيرات العيد (الشيخ أحمد نحاس - الحرم)",
       style: "تكبيرات جماعية من الحرم المكي",
-      url: "https://archive.org/download/MuadhinsMakkah/Eid%20Takbeerat%2FSheikh%20Ahmed%20Nuhas%2FAhmed%20Ali%20Nuhas.mp3"
+      url: "./audio/takbeer_5.mp3"
     },
     {
-      id: "takbeer_baqree",
+      id: "takbeer_6",
+      name: "تكبيرات العيد وتلبية الحج (لبيك اللهم لبيك)",
+      style: "تلبية الحجيج وأجواء المشاعر المقدسة",
+      url: "./audio/takbeer_6.mp3"
+    },
+    {
+      id: "takbeer_7",
+      name: "تكبيرات العيد (الشيخ أحمد خوجة ٢)",
+      style: "أداء مكي خاشع",
+      url: "./audio/takbeer_7.mp3"
+    },
+    {
+      id: "takbeer_8",
+      name: "تكبيرات العيد (الشيخ أحمد نحاس ٢)",
+      style: "تكبير جماعي من صحن المطاف",
+      url: "./audio/takbeer_8.mp3"
+    },
+    {
+      id: "takbeer_9",
       name: "تكبيرات العيد (الشيخ عماد بقري - الحرم)",
       style: "أصوات مؤذني الكعبة المشرفة",
-      url: "https://archive.org/download/MuadhinsMakkah/Eid%20Takbeerat%2FSheikh%20Emad%20Baqree%2FEmad%20Ismaaeel%20Ali%20Baqree.mp3"
+      url: "./audio/takbeer_9.mp3"
     },
     {
-      id: "takbeer_daghreeree",
-      name: "تكبيرات العيد (الشيخ حمد دغريري - الحرم)",
-      style: "خشوع وسكينة بهيجة",
-      url: "https://archive.org/download/MuadhinsMakkah/Eid%20Takbeerat%2FSheikh%20Hamd%20Daghreeree%2FHamd%20Ahmed%20Daghreeree.mp3"
-    },
-    {
-      id: "takbeer_maghribi",
-      name: "تكبيرات العيد (الشيخ محمد مغربي - الحرم)",
-      style: "تكبير جماعي من صحن المطاف",
-      url: "https://archive.org/download/MuadhinsMakkah/Eid%20Takbeerat%2FSheikh%20Muhammad%20Maghribi%2FMuhammad%20Ahmed%20Maghribi.mp3"
-    },
-    {
-      id: "takbeer_fullatah",
-      name: "تكبيرات العيد (الشيخ سعيد فلاتة - الحرم)",
-      style: "أجواء صبيحة العيد في المسجد الحرام",
-      url: "https://archive.org/download/MuadhinsMakkah/Eid%20Takbeerat%2FSheikh%20Saeed%20Fullatah%2FSaeed%20Umar%20Fullatah.mp3"
-    },
-    {
-      id: "takbeer_shahat",
-      name: "تكبيرات العيد (الشيخ حسين شحات - الحرم)",
+      id: "takbeer_10",
+      name: "تكبيرات العيد (الشيخ أحمد بصنوي - الحرم)",
       style: "الله أكبر كبيراً والحمد لله كثيراً",
-      url: "https://archive.org/download/MuadhinsMakkah/Eid%20Takbeerat%2FSheikh%20Hussain%20Shahat%2FHussain%20Hassan%20Shahaat.mp3"
+      url: "./audio/takbeer_10.mp3"
     }
   ]
 };
