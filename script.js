@@ -2,20 +2,7 @@
 // DAEM - Cybernetic Electric Core Engine (with Interactive Theme Core)
 // ==========================================================================
 
-const DEFAULT_APPS = [
-  {
-    id: 'sanad-app',
-    name: 'تطبيق سَنَد | رفيقك اليومي للعبادات والصلاة',
-    category: 'android',
-    version: '2.0.0',
-    size: '1.2 MB',
-    date: '2026-10-28',
-    desc: 'تطبيق إسلامي نقي ومتخصص: مواقيت الصلاة الدقيقة بالـ GPS، مكتبة 10 أصوات أذان و10 تكبيرات مع المعاينة، المصحف الشريف بالبحث وحفظ الفاصلة، موسوعة الأذكار، والسبحة الرقمية. تثبيت مباشر لجميع الهواتف.',
-    downloadUrl: 'prayer/index.html',
-    demoUrl: 'prayer/index.html',
-    icon: '🌿'
-  }
-];
+const DEFAULT_APPS = [];
 
 const CATEGORY_INFO = {
   android: { label: 'ANDROID', cls: 'cat-android' },
@@ -248,8 +235,8 @@ function initElectricCanvas() {
 // ==========================================================================
 function loadApps() {
   let userApps = JSON.parse(localStorage.getItem('daem_v2_apps') || '[]');
-  // حذف أي تطبيق قديم يحمل اسم رفيق أو رفيقي أو المعرف القديم لتنظيف الذاكرة
-  userApps = userApps.filter(a => a.id !== 'rafiqi-prayer-app' && a.id !== 'sanad-app' && !a.name.includes('رفيق'));
+  // حذف أي تطبيق قديم
+  userApps = userApps.filter(a => a.id !== 'rafiqi-prayer-app' && a.id !== 'sanad-app' && !a.name.includes('رفيق') && !a.name.includes('سند'));
   localStorage.setItem('daem_v2_apps', JSON.stringify(userApps));
 
   apps = [...DEFAULT_APPS, ...userApps];
