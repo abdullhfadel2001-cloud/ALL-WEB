@@ -133,6 +133,18 @@ function initElectricCanvas() {
     }
   });
 
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0]) {
+      mouse.x = e.touches[0].clientX;
+      mouse.y = e.touches[0].clientY;
+      mouse.active = true;
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => {
+    mouse.active = false;
+  }, { passive: true });
+
   window.addEventListener('mouseleave', () => {
     mouse.active = false;
   });
