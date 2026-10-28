@@ -3,145 +3,228 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DAEM | منصة تحميل البرامج والتطبيقات</title>
+
+  <!-- SEO للظهور في جوجل -->
+  <title>DAEM | موقع عبدالله فاضل للتطبيقات والبرامج</title>
+  <meta name="description" content="DAEM - الموقع الرسمي لعبدالله فاضل. منصة لمشاركة وتحميل التطبيقات والبرامج الشخصية. تطبيقات أندرويد، أدوات، ألعاب.">
+  <meta name="keywords" content="DAEM, دايم, عبدالله فاضل, تطبيقات, برامج, أندرويد, تحميل تطبيقات">
+  <meta name="author" content="Abdullah Fadel">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph (مشاركة على شبكات التواصل) -->
+  <meta property="og:title" content="DAEM | My Applications">
+  <meta property="og:description" content="منصة DAEM - مشاركة وتحميل التطبيقات والبرامج الشخصية">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://abdullhfadel2001-cloud.github.io/ALL-WEB/">
+
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cairo:wght@400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="site-wrapper">
-    <!-- شريط الرأس والشعار -->
-    <header class="navbar">
-      <div class="nav-container">
-        <div class="brand">
-          <div class="brand-logo">D</div>
-          <div class="brand-text">
-            <h1>DAEM</h1>
-            <span class="tagline">مركز تحميل البرامج والتطبيقات</span>
-          </div>
-        </div>
 
-        <div class="nav-actions">
-          <button id="addAppModalBtn" class="btn btn-primary-sm">
-            <span>➕</span> إضافة تطبيق
-          </button>
-          <button id="themeToggleBtn" class="theme-btn" title="تبديل المظهر">
-            🌙
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <!-- الواجهة الترحيبية وشريط البحث -->
-    <section class="hero-section">
-      <div class="hero-content">
-        <h2>مرحباً بك في مكتبة <span class="highlight-text">DAEM</span></h2>
-        <p>مكتبة برامجي وتطبيقاتي الخاصة. يمكنك البحث عن أي تطبيق وتحميل ملفاته مباشرة بسرعة وأمان.</p>
-
-        <div class="search-box-wrapper">
-          <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" placeholder="ابحث عن اسم البرنامج، صيغة الملف (APK, ZIP)، أو التصنيف...">
-            <button id="clearSearchBtn" class="clear-btn" style="display: none;">✕</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- شريط التصنيفات والإحصائيات -->
-    <section class="controls-section">
-      <div class="category-filters" id="categoryFilters">
-        <button class="filter-chip active" data-category="all">الكل (<span id="countAll">0</span>)</button>
-        <button class="filter-chip" data-category="android">📱 تطبيقات أندرويد (APK)</button>
-        <button class="filter-chip" data-category="tools">🛠️ أدوات وبرامج</button>
-        <button class="filter-chip" data-category="games">🎮 ألعاب</button>
-        <button class="filter-chip" data-category="web">🌐 تطبيقات ويب</button>
-      </div>
-
-      <div class="view-status">
-        <span id="resultsCount">جاري تحميل التطبيقات...</span>
-      </div>
-    </section>
-
-    <!-- شبكة عرض البرامج -->
-    <main class="apps-grid-container">
-      <div id="appsGrid" class="apps-grid">
-        <!-- تضاف كروت التطبيقات تلقائياً عبر JavaScript -->
-      </div>
-    </main>
-
-    <!-- تذييل الصفحة -->
-    <footer class="footer">
-      <div class="footer-content">
-        <p><strong>DAEM</strong> - جميع ملفات البرامج جاهزة وموثوقة للتحميل المباشر.</p>
-        <p class="copyright">© 2026 DAEM. تم التطوير للمشاركة مع الأصدقاء.</p>
-      </div>
-    </footer>
+  <!-- تأثيرات البرق الخلفية -->
+  <div class="bg-layer">
+    <div class="stars"></div>
+    <div class="lightning-bg" id="lightningBg"></div>
+    <div class="grid-overlay"></div>
   </div>
 
-  <!-- نافذة منبثقة (Modal) لإضافة تطبيق جديد -->
-  <div id="appModal" class="modal-overlay">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3>➕ إضافة برنامج جديد إلى DAEM</h3>
-        <button id="closeModalBtn" class="close-modal-btn">✕</button>
-      </div>
-      <form id="newAppForm">
-        <div class="form-group">
-          <label for="appName">اسم البرنامج:</label>
-          <input type="text" id="appName" placeholder="مثال: تطبيق رفيقي، محول الصور..." required>
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <div class="logo">
+        <div class="logo-bolt">⚡</div>
+        <div class="logo-text">
+          <span class="logo-daem">DAEM</span>
+          <span class="logo-sub">BY ABDULLAH FADEL</span>
         </div>
+      </div>
+      <nav class="nav-links">
+        <a href="#hero" class="nav-link active">Home</a>
+        <a href="#apps" class="nav-link">My Apps</a>
+        <a href="#about" class="nav-link">About</a>
+      </nav>
+    </div>
+  </header>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="appCategory">التصنيف:</label>
-            <select id="appCategory">
-              <option value="android">📱 تطبيق أندرويد (APK)</option>
-              <option value="tools">🛠️ أدوات وبرامج</option>
-              <option value="games">🎮 ألعاب</option>
-              <option value="web">🌐 تطبيق ويب</option>
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <div class="electric-badge">⚡ POWER OF CODE ⚡</div>
+      <h1 class="hero-title">
+        <span class="glitch" data-text="DAEM">DAEM</span>
+      </h1>
+      <p class="hero-subtitle">مرحباً، أنا <strong>عبدالله فاضل</strong> — هذا موقعي الشخصي لمشاركة تطبيقاتي وبرامجي</p>
+      <div class="hero-cta-row">
+        <a href="#apps" class="btn-electric">
+          <span class="btn-bolt">⚡</span>
+          Explore My Apps
+        </a>
+        <a href="#about" class="btn-ghost">About Me</a>
+      </div>
+
+      <!-- إحصائيات -->
+      <div class="stats-row">
+        <div class="stat-item">
+          <span class="stat-number" id="statApps">0</span>
+          <span class="stat-label">Apps Built</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number" id="statDownloads">0</span>
+          <span class="stat-label">Downloads</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number" id="statUsers">0</span>
+          <span class="stat-label">Happy Users</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="orb-container">
+        <div class="orb"></div>
+        <div class="orb-ring orb-ring-1"></div>
+        <div class="orb-ring orb-ring-2"></div>
+        <div class="orb-ring orb-ring-3"></div>
+        <div class="orb-bolt">⚡</div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <span>Scroll Down</span>
+    </div>
+  </section>
+
+  <!-- ===== MY APPLICATIONS SECTION ===== -->
+  <section class="apps-section" id="apps">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-badge">MY APPLICATIONS</div>
+        <h2 class="section-title">تطبيقاتي <span class="electric-word">My Apps</span></h2>
+        <p class="section-desc">كل التطبيقات والبرامج التي طوّرتها. متاحة للتحميل المباشر.</p>
+
+        <!-- شريط البحث والفلترة -->
+        <div class="search-filter-bar">
+          <div class="search-input-wrap">
+            <span>🔍</span>
+            <input type="text" id="searchInput" placeholder="Search apps...">
+          </div>
+          <div class="filter-tabs" id="filterTabs">
+            <button class="ftab active" data-cat="all">All</button>
+            <button class="ftab" data-cat="android">Android</button>
+            <button class="ftab" data-cat="tools">Tools</button>
+            <button class="ftab" data-cat="games">Games</button>
+            <button class="ftab" data-cat="web">Web</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- شبكة التطبيقات -->
+      <div class="apps-grid" id="appsGrid"></div>
+
+      <!-- زر إضافة تطبيق -->
+      <div class="add-app-row">
+        <button id="addAppBtn" class="btn-add-app">
+          <span>⚡</span> Add New App
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT SECTION ===== -->
+  <section class="about-section" id="about">
+    <div class="section-container">
+      <div class="about-card">
+        <div class="about-avatar">⚡</div>
+        <div class="about-info">
+          <h3>Abdullah Fadel</h3>
+          <p class="about-handle">@abdullhfadel2001</p>
+          <p class="about-bio">مطور تطبيقات شغوف بالتقنية والبرمجة. أطوّر تطبيقات ويب وأندرويد وأشاركها مع أصدقائي على منصة DAEM.</p>
+          <div class="about-links">
+            <a href="https://github.com/abdullhfadel2001-cloud" target="_blank" class="about-link">
+              <span>🔗</span> GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span>⚡</span> <strong>DAEM</strong>
+      </div>
+      <p class="footer-text">© 2026 Abdullah Fadel · All apps powered by passion ⚡</p>
+    </div>
+  </footer>
+
+  <!-- Modal إضافة تطبيق -->
+  <div class="modal-overlay" id="addModal">
+    <div class="modal-box">
+      <div class="modal-title">
+        <span>⚡</span> Add New Application
+        <button id="closeModal" class="modal-close">✕</button>
+      </div>
+      <form id="addAppForm">
+        <div class="fgroup">
+          <label>App Name</label>
+          <input type="text" id="fName" placeholder="e.g. Rafeeqi App" required>
+        </div>
+        <div class="frow">
+          <div class="fgroup">
+            <label>Category</label>
+            <select id="fCat">
+              <option value="android">📱 Android</option>
+              <option value="tools">🛠️ Tools</option>
+              <option value="games">🎮 Games</option>
+              <option value="web">🌐 Web App</option>
             </select>
           </div>
-          <div class="form-group">
-            <label for="appVersion">رقم الإصدار:</label>
-            <input type="text" id="appVersion" placeholder="v1.0.0" value="v1.0.0">
+          <div class="fgroup">
+            <label>Icon (Emoji)</label>
+            <input type="text" id="fIcon" placeholder="🚀" value="🚀">
           </div>
         </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="appSize">حجم الملف:</label>
-            <input type="text" id="appSize" placeholder="مثال: 12 MB، 850 KB">
+        <div class="frow">
+          <div class="fgroup">
+            <label>Version</label>
+            <input type="text" id="fVersion" placeholder="v1.0.0" value="v1.0.0">
           </div>
-          <div class="form-group">
-            <label for="appIcon">رمز الأيقونة (Emoji):</label>
-            <input type="text" id="appIcon" placeholder="مثلاً: 🕌 أو ⚡ أو 🚀" value="🚀">
+          <div class="fgroup">
+            <label>File Size</label>
+            <input type="text" id="fSize" placeholder="12 MB">
           </div>
         </div>
-
-        <div class="form-group">
-          <label for="appDesc">وصف مختصر للبرنامج:</label>
-          <textarea id="appDesc" rows="3" placeholder="اشرح لأصدقائك ما الذي يفعله هذا البرنامج..." required></textarea>
+        <div class="fgroup">
+          <label>Description (وصف مختصر)</label>
+          <textarea id="fDesc" rows="3" placeholder="What does this app do?" required></textarea>
         </div>
-
-        <div class="form-group">
-          <label for="appFileUrl">رابط الملف المباشر (أو مسار التحميل):</label>
-          <input type="text" id="appFileUrl" placeholder="مثلاً: downloads/my-app.apk أو رابط خارجي" required>
+        <div class="fgroup">
+          <label>Download URL or File Path</label>
+          <input type="text" id="fUrl" placeholder="downloads/my-app.apk or https://..." required>
         </div>
-
-        <div class="form-actions">
-          <button type="button" id="cancelModalBtn" class="btn btn-outline">إلغاء</button>
-          <button type="submit" class="btn btn-primary">حفظ وإضافة للموقع</button>
+        <div class="fgroup">
+          <label>Demo / Live Preview URL (optional)</label>
+          <input type="text" id="fDemo" placeholder="https://... or leave empty">
+        </div>
+        <div class="modal-actions">
+          <button type="button" id="cancelModal" class="btn-ghost-sm">Cancel</button>
+          <button type="submit" class="btn-electric-sm"><span>⚡</span> Add App</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- إشعار Toast للموقع -->
-  <div id="toastMessage" class="toast"></div>
+  <!-- Toast notification -->
+  <div id="toast" class="toast"></div>
 
   <script src="script.js"></script>
 </body>
 </html>
-
