@@ -12,12 +12,12 @@
   <meta name="author" content="DAEM">
   <meta name="robots" content="index, follow">
 
-  <link rel="stylesheet" href="style.css?v=7.0">
+  <link rel="stylesheet" href="style.css?v=8.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
-<body>
+<body data-theme="dark">
 
   <!-- خلفية البرق والجزيئات الكهربائية الحية -->
   <canvas id="electricCanvas" class="electric-canvas"></canvas>
@@ -46,7 +46,7 @@
       <div class="nav-controls">
         <div class="hud-status">
           <span class="status-indicator"></span>
-          <span class="status-label">النظام متصل</span>
+          <span class="status-label" id="statusThemeLabel">الوضع الليلي 🌙</span>
         </div>
 
         <button id="addAppNavBtn" class="cyber-btn cyber-btn-primary">
@@ -57,49 +57,57 @@
     </div>
   </header>
 
-  <!-- قسم الواجهة الرئيسية Hero -->
+  <!-- قسم الواجهة الرئيسية Hero (كل شيء متموضع في المنتصف بالكامل) -->
   <section class="hero-section" id="hero">
-    <div class="hero-container">
-      <div class="hero-text-col">
-        <div class="cyber-badge">
-          <span class="badge-dot"></span>
-          <span>DAEM CORE // المنصة الرسمية</span>
-        </div>
+    <div class="hero-centered-container">
 
-        <h1 class="hero-glitch-title">
-          <span class="cyber-glitch" data-text="DAEM">DAEM</span>
-        </h1>
-
-        <p class="hero-lead">
-          منصة رقمية متطورة لمشاركة وتحميل البرامج والأدوات والتطبيقات المستقلة بأعلى أداء وسرعة.
-        </p>
-
-        <div class="hero-actions">
-          <a href="#apps" class="cyber-btn cyber-btn-glow">
-            <span>⚡ My Applications</span>
-          </a>
-
-          <div class="hud-stats-pill">
-            <span class="hud-stat-title">الحالة:</span>
-            <span class="hud-stat-val">نشط</span>
-            <span class="hud-divider">•</span>
-            <span class="hud-stat-title">سرعة الاستجابة:</span>
-            <span class="hud-stat-val" id="latencyVal">18ms</span>
-          </div>
-        </div>
+      <!-- الشارة العلوية -->
+      <div class="cyber-badge">
+        <span class="badge-dot"></span>
+        <span>DAEM CORE // المنصة الرسمية</span>
       </div>
 
-      <!-- نواة الطاقة الكهربائية ثلاثية الأبعاد بدون زوايا مشتتة -->
-      <div class="hero-visual-col">
-        <div class="holo-core-wrap">
+      <!-- عنوان DAEM النيون الكبير -->
+      <h1 class="hero-glitch-title">
+        <span class="cyber-glitch" data-text="DAEM">DAEM</span>
+      </h1>
+
+      <!-- نواة الطاقة في السنتر (تتحكم بتبديل الوضع النهاري والليلي) -->
+      <div class="core-center-wrapper">
+        <div class="holo-core-interactive" id="themeSphereToggle" title="اضغط هنا للتبديل بين الوضع النهاري والليلي ⚡" role="button" tabindex="0">
           <div class="holo-disk disk-1"></div>
           <div class="holo-disk disk-2"></div>
           <div class="holo-disk disk-3"></div>
-          <div class="holo-sphere">
-            <div class="sphere-inner">⚡</div>
+          <div class="holo-sphere" id="sphereBall">
+            <div class="sphere-inner" id="sphereIcon">⚡</div>
           </div>
         </div>
+        <div class="core-hint">
+          <span class="hint-pulse"></span>
+          <span id="coreHintText">اضغط على الكرة للتبديل بين النهاري ☀️ والليلي 🌙</span>
+        </div>
       </div>
+
+      <!-- الوصف المختصر -->
+      <p class="hero-lead">
+        منصة رقمية متطورة لمشاركة وتحميل البرامج والأدوات والتطبيقات المستقلة بأعلى أداء وسرعة.
+      </p>
+
+      <!-- الأزرار ومؤشر الاستجابة -->
+      <div class="hero-actions">
+        <a href="#apps" class="cyber-btn cyber-btn-glow">
+          <span>⚡ My Applications</span>
+        </a>
+
+        <div class="hud-stats-pill">
+          <span class="hud-stat-title">الحالة:</span>
+          <span class="hud-stat-val">نشط</span>
+          <span class="hud-divider">•</span>
+          <span class="hud-stat-title">الاستجابة:</span>
+          <span class="hud-stat-val" id="latencyVal">18ms</span>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -230,6 +238,6 @@
     <span id="toastMsg" class="toast-msg"></span>
   </div>
 
-  <script src="script.js?v=7.0"></script>
+  <script src="script.js?v=8.0"></script>
 </body>
 </html>
