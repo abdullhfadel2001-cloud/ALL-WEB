@@ -2,7 +2,7 @@
 // DAEM PWA Service Worker (Offline Cache & Network Engine)
 // ==========================================================================
 
-const CACHE_NAME = 'daem-core-v1.0';
+const CACHE_NAME = 'daem-core-v2.0';
 
 // الأصول الأساسية المطلوب تخزينها مؤقتاً للعمل دون اتصال بالإنترنت
 const CORE_ASSETS = [

@@ -43,7 +43,7 @@
   <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
   <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
 
-  <link rel="stylesheet" href="style.css?v=20.0">
+  <link rel="stylesheet" href="style.css?v=21.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -211,7 +211,7 @@
           <span class="loader-text" id="loaderText">جاري الاتصال بالخادم وفحص أعلى دقة متاحة للفيديو... ⚡</span>
         </div>
 
-        <!-- كارت نتيجة الفيديو بعد الاستخراج بنجاح -->
+        <!-- كارت نتيجة الفيديو بعد الاستخراج بنجاح (تنزيل ومعاينة مباشرة 100%) -->
         <div class="download-result-box" id="downloadResultBox" style="display: none;">
           <div class="result-card-inner">
             <div class="result-thumb-wrap">
@@ -224,19 +224,32 @@
               <h3 class="result-title" id="resTitle">عنوان الفيديو المستخرج</h3>
               <p class="result-meta" id="resMeta">بواسطة: DAEM Media Core | صيغة الفيديو: MP4 (H.264)</p>
 
+              <!-- مشغل فيديو تفاعلي مدمج للمعاينة الفورية -->
+              <div class="inpage-video-wrap" id="inpageVideoWrap" style="display: none;">
+                <video id="resVideoPlayer" class="inpage-video-player" controls playsinline preload="metadata"></video>
+              </div>
+
+              <!-- شريط تقدم التنزيل الفعلي إلى الجهاز -->
+              <div class="dl-progress-container" id="dlProgressContainer" style="display: none;">
+                <div class="dl-progress-bar-bg">
+                  <div class="dl-progress-fill" id="dlProgressFill" style="width: 0%;"></div>
+                </div>
+                <span class="dl-progress-status" id="dlProgressStatus">جاري سحب الفيديو وتنزيله: 0%</span>
+              </div>
+
               <div class="result-options-grid">
                 <button type="button" id="btnDownloadVideo" class="result-dl-btn primary">
                   <span class="btn-icon">📥</span>
                   <div class="btn-text-col">
-                    <span class="btn-main-label">تحميل الفيديو MP4 HD</span>
-                    <span class="btn-sub-label">مباشر إلى الاستوديو (بدون علامة مائية)</span>
+                    <span class="btn-main-label">تنزيل الفيديو MP4 HD</span>
+                    <span class="btn-sub-label">مباشر إلى الاستوديو (بدون أي تحويل خارجي)</span>
                   </div>
                 </button>
 
                 <button type="button" id="btnDownloadAudio" class="result-dl-btn secondary">
                   <span class="btn-icon">🎵</span>
                   <div class="btn-text-col">
-                    <span class="btn-main-label">تحميل الصوت MP3</span>
+                    <span class="btn-main-label">تنزيل الصوت MP3</span>
                     <span class="btn-sub-label">ملف صوتي نقي منفصل</span>
                   </div>
                 </button>
@@ -244,20 +257,22 @@
 
               <!-- تعليمات حفظ الفيديو للاستوديو -->
               <div class="studio-guide-note" id="studioGuideNote">
-                💡 <strong>حفظ مباشر:</strong> سيتم تنزيل الفيديو بصيغة MP4 القياسية وسيظهر تلقائياً في استوديو الصور / تطبيق الفيديوهات في جهازك.
+                💡 <strong>حفظ مباشر للاستوديو:</strong> يتم حفظ الفيديو بصيغة MP4 الرسمية مباشرة في مجلد التنزيلات ومعرض الصور بجهازك دون مغادرة المنصة.
               </div>
             </div>
           </div>
         </div>
 
-        <!-- صندوق التنزيل السريع البديل -->
-        <div class="download-fallback-box" id="downloadFallbackBox" style="display: none;">
-          <div class="fallback-inner">
-            <span class="fallback-bolt">⚡</span>
-            <div class="fallback-content">
-              <h4 id="fallbackTitle">بوابة الاستخراج المباشرة</h4>
-              <p id="fallbackDesc">تم تجهيز رابط الفيديو، اضغط بالأسفل لبدء التنزيل فائق السرعة:</p>
-              <div class="fallback-actions" id="fallbackActions"></div>
+        <!-- صندوق التنبيه الداخلي في حالة الروابط الخاصة أو المقيدة (بدون أي روابط خارجية) -->
+        <div class="download-alert-box" id="downloadAlertBox" style="display: none;">
+          <div class="alert-box-inner">
+            <span class="alert-box-icon" id="alertBoxIcon">⚠️</span>
+            <div class="alert-box-content">
+              <h4 id="alertBoxTitle">تنبيه فحص الرابط</h4>
+              <p id="alertBoxDesc">تعذر الوصول إلى الفيديو المطلوب مباشرة. يرجى التأكد أن الحساب عام (Public) وليس خاصاً (Private)، ثم أعد المحاولة.</p>
+              <button type="button" id="alertRetryBtn" class="cyber-btn cyber-btn-small">
+                <span>🔄 إعادة المحاولة</span>
+              </button>
             </div>
           </div>
         </div>
@@ -428,6 +443,6 @@
     <span id="toastMsg" class="toast-msg"></span>
   </div>
 
-  <script src="script.js?v=20.0"></script>
+  <script src="script.js?v=21.0"></script>
 </body>
 </html>

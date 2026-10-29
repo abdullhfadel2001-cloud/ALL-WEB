@@ -1792,66 +1792,91 @@ body {
   line-height: 1.6;
 }
 
-/* صندوق البدائل السريعة */
-.download-fallback-box {
-  background: rgba(245, 158, 11, 0.08);
-  border: 1px solid #f59e0b;
+/* مشغل الفيديو التفاعلي المدمج */
+.inpage-video-wrap {
+  width: 100%;
+  max-width: 480px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  margin-top: 4px;
+}
+
+.inpage-video-player {
+  width: 100%;
+  height: auto;
+  max-height: 280px;
+  display: block;
+  outline: none;
+}
+
+/* شريط تقدم التنزيل الفعلي إلى الجهاز */
+.dl-progress-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.dl-progress-bar-bg {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.dl-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00f0ff, #10b981);
+  border-radius: 4px;
+  transition: width 0.2s ease;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+}
+
+.dl-progress-status {
+  font-family: var(--font-arabic);
+  font-size: 0.82rem;
+  color: #10b981;
+  font-weight: 700;
+}
+
+/* صندوق التنبيه الداخلي بدون أي روابط خارجية */
+.download-alert-box {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.4);
   border-radius: 12px;
   padding: 1.25rem;
   animation: fadeInDown 0.3s ease;
 }
 
-.fallback-inner {
+.alert-box-inner {
   display: flex;
   align-items: flex-start;
   gap: 12px;
 }
 
-.fallback-bolt {
+.alert-box-icon {
   font-size: 1.5rem;
-  color: #f59e0b;
 }
 
-.fallback-content h4 {
+.alert-box-content h4 {
   font-family: var(--font-arabic);
   font-size: 1rem;
   font-weight: 800;
-  color: #f59e0b;
+  color: #ef4444;
   margin-bottom: 4px;
 }
 
-.fallback-content p {
+.alert-box-content p {
   font-family: var(--font-arabic);
   font-size: 0.85rem;
   color: var(--text-main);
   margin-bottom: 10px;
-}
-
-.fallback-actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.btn-fast-bridge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #f59e0b;
-  color: #000;
-  font-family: var(--font-arabic);
-  font-size: 0.85rem;
-  font-weight: 800;
-  padding: 6px 14px;
-  border-radius: 6px;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.btn-fast-bridge:hover {
-  background: #d97706;
-  color: #fff;
-  transform: translateY(-1px);
+  line-height: 1.5;
 }
 
 @media (max-width: 640px) {
