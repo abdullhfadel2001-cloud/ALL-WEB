@@ -26,7 +26,19 @@ function setupHapticFeedback() {
   }, { passive: true });
 }
 
-const DEFAULT_APPS = [];
+const DEFAULT_APPS = [
+  {
+    id: 'crochet-app',
+    name: 'خيوط وغرز | Crochet Assistant',
+    category: 'web',
+    icon: '🧶',
+    desc: 'الرفيق الذكي للكروشيه والحياكة: باترونات تفاعلية مصورة، عداد حياكة سحري مطور، حاسبة غرز وخيوط، مصطلحات مصورة، والمساعدة الذكية SAMAR.',
+    version: 'v2.5',
+    size: '161 KB',
+    downloadUrl: 'downloads/Crochet_App.html',
+    demoUrl: 'crochet/index.html'
+  }
+];
 
 const CATEGORY_INFO = {
   android: { label: 'ANDROID', cls: 'cat-android' },
@@ -272,7 +284,7 @@ function initElectricCanvas() {
 function loadApps() {
   let userApps = JSON.parse(localStorage.getItem('daem_v2_apps') || '[]');
   // حذف أي تطبيق قديم
-  userApps = userApps.filter(a => a.id !== 'rafiqi-prayer-app' && a.id !== 'sanad-app' && !a.name.includes('رفيق') && !a.name.includes('سند'));
+  userApps = userApps.filter(a => a.id !== 'rafiqi-prayer-app' && a.id !== 'sanad-app' && a.id !== 'crochet-app' && !a.name.includes('رفيق') && !a.name.includes('سند'));
   localStorage.setItem('daem_v2_apps', JSON.stringify(userApps));
 
   apps = [...DEFAULT_APPS, ...userApps];
@@ -332,16 +344,17 @@ function renderApps() {
     const card = document.createElement('div');
     card.className = 'app-card';
 
+    const isOfficial = app.id === 'sanad-app' || app.id === 'crochet-app';
     const isSanad = app.id === 'sanad-app';
-    const actionLabel = isSanad ? '📲 تثبيت مباشر (APK/PWA)' : '⬇️ DOWNLOAD';
+    const actionLabel = isSanad ? '📲 تثبيت مباشر (APK/PWA)' : (app.category === 'web' ? '⬇️ تحميل كملف مستقل' : '⬇️ DOWNLOAD');
 
     const demoBtn = app.demoUrl && app.demoUrl !== '#'
-      ? `<a href="${esc(app.demoUrl)}" target="_blank" class="btn-demo">👁️ فتح وتشغيل</a>`
+      ? `<a href="${esc(app.demoUrl)}" target="_blank" class="btn-demo">👁️ فتح وتشغيل الويب</a>`
       : '';
 
-    const delBtn = isSanad ? '' : `<button class="btn-del del-trigger" data-id="${app.id}" title="حذف">🗑️</button>`;
+    const delBtn = isOfficial ? '' : `<button class="btn-del del-trigger" data-id="${app.id}" title="حذف">🗑️</button>`;
 
-    const dlAttr = app.downloadUrl && app.downloadUrl !== '#' && !app.downloadUrl.startsWith('http') && !app.downloadUrl.endsWith('.html')
+    const dlAttr = app.downloadUrl && app.downloadUrl !== '#' && !app.downloadUrl.startsWith('http')
       ? `download="${esc(app.name)}"` : '';
 
     card.innerHTML = `
