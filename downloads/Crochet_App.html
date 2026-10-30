@@ -1745,6 +1745,134 @@
       font-size: 0.78rem;
     }
 
+  
+    /* Master Hook & Yarn Size Guide Modal */
+    .master-chart-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.72);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      backdrop-filter: blur(6px);
+      animation: fadeIn 0.25s ease;
+    }
+    .master-chart-card {
+      background: var(--surface-card);
+      border: 2px solid var(--border-purple);
+      border-radius: var(--radius-lg);
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+    .master-chart-header {
+      background: var(--primary-gradient);
+      color: #fff;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .master-chart-body {
+      padding: 16px 20px;
+      overflow-y: auto;
+      font-size: 0.84rem;
+    }
+    .master-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 20px;
+    }
+    .master-table th, .master-table td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: right;
+    }
+    .master-table th {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 900;
+    }
+    .master-table tr:nth-child(even) {
+      background: var(--bg);
+    }
+    .level-filter-bar {
+      display: flex;
+      gap: 8px;
+      margin: 10px 0;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .level-chip {
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .level-chip.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 2px 8px var(--primary-glow);
+    }
+    .pattern-level-tag {
+      font-size: 0.72rem;
+      font-weight: 900;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tag-beginner { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    .tag-intermediate { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+    .tag-advanced { background: #f3e8ff; color: #7e22ce; border: 1px solid #d8b4fe; }
+    [data-theme="dark"] .tag-beginner { background: #052e16; color: #4ade80; border-color: #166534; }
+    [data-theme="dark"] .tag-intermediate { background: #451a03; color: #fde047; border-color: #854d0e; }
+    [data-theme="dark"] .tag-advanced { background: #3b0764; color: #d8b4fe; border-color: #6b21a8; }
+
+    /* Finishing Tips Box in Pattern Reader */
+    .finishing-tips-box {
+      background: var(--surface-card);
+      border: 1.5px solid #10b981;
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin: 16px 0;
+    }
+    .symbols-key-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 16px;
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .symbols-key-table th, .symbols-key-table td {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      font-size: 0.8rem;
+    }
+    .symbols-key-table th {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 900;
+    }
+
   </style>
 </head>
 <body>
@@ -2531,6 +2659,9 @@
     </div>
 
     <div class="reader-container-inner">
+      <!-- Symbols and Finishing Tips Container -->
+      <div id="readerExtraInfoContainer"></div>
+
       <!-- In-Pattern Row Counter -->
       <div class="pattern-sticky-row-counter">
         <div class="psrc-info">
@@ -2926,6 +3057,49 @@ const STITCH_REAL_TEXTURES = {
 //  (خالية تماماً من صور الأشخاص وتحاكي شكل منتج الكروشيه الفعلي)
 // ═══════════════════════════════════════════════════════
 const PATTERN_COVERS = {
+  'ami-kitten': `<svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="220" rx="16" fill="#78350f"/>
+    <g transform="translate(150, 115)">
+      <circle cx="0" cy="40" r="45" fill="#f97316"/>
+      <circle cx="0" cy="-25" r="44" fill="#fb923c"/>
+      <polygon points="-38,-50 -18,-75 -5,-45" fill="#ea580c"/>
+      <polygon points="38,-50 18,-75 5,-45" fill="#ea580c"/>
+      <circle cx="-16" cy="-25" r="5" fill="#1e293b"/>
+      <circle cx="16" cy="-25" r="5" fill="#1e293b"/>
+      <polygon points="0,-16 -5,-22 5,-22" fill="#fda4af"/>
+      <line x1="-35" y1="-18" x2="-10" y2="-18" stroke="#1e293b" stroke-width="2"/>
+      <line x1="35" y1="-18" x2="10" y2="-18" stroke="#1e293b" stroke-width="2"/>
+    </g>
+  </svg>`,
+  'royal-lotus-shawl': `<svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="220" rx="16" fill="#1e1b4b"/>
+    <g transform="translate(150, 110)">
+      <polygon points="0,-55 -110,65 110,65" fill="#312e81" stroke="#818cf8" stroke-width="3"/>
+      <circle cx="0" cy="5" r="24" fill="#c084fc" opacity="0.8"/>
+      <path d="M 0,-40 Q 30,10 0,50 Q -30,10 0,-40" fill="#f472b6" opacity="0.85"/>
+      <circle cx="-45" cy="40" r="10" fill="#fbbf24"/>
+      <circle cx="45" cy="40" r="10" fill="#fbbf24"/>
+    </g>
+  </svg>`,
+  'boho-basket': `<svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="220" rx="16" fill="#064e3b"/>
+    <g transform="translate(150, 120)">
+      <ellipse cx="0" cy="45" rx="75" ry="25" fill="#047857"/>
+      <rect x="-70" y="-30" width="140" height="75" rx="12" fill="#059669" stroke="#34d399" stroke-width="3"/>
+      <path d="M -50,-30 Q -50,-55 -25,-55 Q 0,-55 0,-30" fill="none" stroke="#fbbf24" stroke-width="5"/>
+      <path d="M 0,-30 Q 0,-55 25,-55 Q 50,-55 50,-30" fill="none" stroke="#fbbf24" stroke-width="5"/>
+    </g>
+  </svg>`,
+  'retro-granny-tote': `<svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="220" rx="16" fill="#713f12"/>
+    <g transform="translate(150, 115)">
+      <rect x="-65" y="-35" width="130" height="95" rx="8" fill="#ca8a04" stroke="#fef08a" stroke-width="3"/>
+      <circle cx="0" cy="12" r="20" fill="#facc15"/>
+      <circle cx="0" cy="12" r="10" fill="#a16207"/>
+      <path d="M -35,-35 Q -35,-75 0,-75 Q 35,-75 35,-35" fill="none" stroke="#fef08a" stroke-width="6"/>
+    </g>
+  </svg>`,
+
   'ami-bear': `<svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
     <rect width="300" height="220" rx="16" fill="#451a03"/>
     <g transform="translate(150, 115)">
@@ -3316,6 +3490,142 @@ const GLOSSARY = [
 //  5. قائمة الباترونات المتكاملة المطابقة 100%
 // ═══════════════════════════════════════════════════════
 const PATTERNS = [
+  {
+    id: 'ami-kitten',
+    title: 'دمية قطة مشمشية كيو أميغورومي',
+    category: 'amigurumi',
+    emoji: '🐱',
+    level: 'beginner',
+    levelLabel: 'مبتدئ',
+    levelTagClass: 'tag-beginner',
+    yarn: 'يارن آرت جينز (YarnArt Jeans) لون مشمشي وأبيض (50غ = 160م)',
+    hook: '2.5 مم',
+    yarnBalls: 1,
+    time: '3-4 ساعات',
+    description: 'دمية قطة لطيفة ومكتنزة بأذنين مثلثتين وخدود وردية، مصممة بخطوات سطرية دقيقة مع أعداد الغرز الإلزامية.',
+    symbolsTable: [
+      { sym: 'حلقة', name: 'حلقة سحرية', en: 'Magic Ring (MR)' },
+      { sym: 'ح', name: 'غرزة حشو', en: 'Single Crochet (sc)' },
+      { sym: 'ت', name: 'تزايد (2 حشو بنفس العين)', en: 'Increase (inc)' },
+      { sym: 'تـن', name: 'تناقص خفي', en: 'Invisible Decrease (dec)' },
+      { sym: 'م', name: 'منزلقة', en: 'Slip Stitch (sl st)' }
+    ],
+    finishingTips: 'احشي الرأس بإحكام بقطن الفايبر وركبي عيون الأمان مقاس 8 مم بين السطرين 8 و9. طرزي الأنف والشاربين بخيط أسود قطني رفيع، ومرري أطراف الخيوط داخل الجسم لإخفائها بالكامل.',
+    steps: [
+      { text: 'السطر 1: ابدئي بعمل 6 غرز حشو في حلقة سحرية لتأسيس مركز رأس القطة (6).', svg: 'magicRing' },
+      { text: 'السطر 2: اشتغلي تزايد (2 حشو في كل غرزة) في الـ 6 غرز بالكامل (12).', svg: 'increase' },
+      { text: 'السطر 3: اشتغلي [1 غرزة حشو، 1 تزايد] وكرري التتابع 6 مرات (18).', svg: 'singleCrochet' },
+      { text: 'السطر 4: اشتغلي [2 غرزة حشو، 1 تزايد] وكرري التتابع 6 مرات (24).', svg: 'increase' },
+      { text: 'السطر 5: اشتغلي [3 غرز حشو، 1 تزايد] وكرري التتابع 6 مرات ليتسع الرأس (30).', svg: 'singleCrochet' },
+      { text: 'السطور 6 إلى 10: حياكة 30 غرزة حشو ثابتة في كل سطر بدون أي زيادة لإعطاء استدارة الرأس الجميلة (30).', svg: 'rowWork' },
+      { text: 'السطر 11: ابدئي بالتناقص: [3 غرز حشو، 1 تناقص خفي] كرري 6 مرات (24).', svg: 'decrease' },
+      { text: 'السطر 12: اشتغلي [2 غرزة حشو، 1 تناقص خفي] كرري 6 مرات وثبتي عيون الأمان بين السطرين 8 و9 (18).', svg: 'decrease' },
+      { text: 'احشي الرأس جيداً بقطن الفايبر المشدود بالتساوي دون أن تتوسع فتحات الغرز.', svg: 'stuffingFill' },
+      { text: 'السطر 13: اشتغلي [1 غرزة حشو، 1 تناقص خفي] كرري 6 مرات (12).', svg: 'decrease' },
+      { text: 'السطر 14: اشتغلي 6 تناقصات متتالية واغلقي الفتحة بإبرة التنظيف (6).', svg: 'closeOpening' },
+      { text: 'الأذنان (اعملي 2): السطر 1: 4 حشو في حلقة سحرية (4). السطر 2: [1 حشو، تزايد] × 2 (6). السطر 3: [2 حشو، تزايد] × 2 (8).', svg: 'magicRing' },
+      { text: 'الجسم: 6 حشو في حلقة سحرية -> تزايد للوصول لـ 24 غرزة، ثم 5 سطور ثبات، ثم تناقص وإغلاق (24).', svg: 'increase' },
+      { text: 'خياطة الأذنين واليدين والجسم بإبرة الصوف وإخفاء ذيول الخيوط داخل المجسم بطريقة الزجزاج مبارك قطتكِ اللطيفة! 🐱', svg: 'assembly' }
+    ]
+  },
+  {
+    id: 'royal-lotus-shawl',
+    title: 'شال زهرة اللوتس الملكي الدانتيل',
+    category: 'shawls',
+    emoji: '🪷',
+    level: 'intermediate',
+    levelLabel: 'متوسط',
+    levelTagClass: 'tag-intermediate',
+    yarn: 'خيط قطن تركي كيكة متدرجة الألوان (YarnArt Flowers) شلة 250غ (1000م)',
+    hook: '3.5 مم',
+    yarnBalls: 1,
+    time: '8-10 ساعات',
+    description: 'شال مثلثي فاخر مستوحى من بتلات زهرة اللوتس وأمواج البحر، بتدرج لوني انسيابي وغرز دانتيل مفتوحة خفيفة الوزن.',
+    symbolsTable: [
+      { sym: 'س', name: 'سلسلة', en: 'Chain (ch)' },
+      { sym: 'ع', name: 'عمود بلفة', en: 'Double Crochet (dc)' },
+      { sym: 'ع_مزدوج', name: 'عمود بلفتين', en: 'Treble Crochet (tr)' },
+      { sym: 'صدفة', name: 'غرزة الصدفة [2 عمود، 2 س، 2 عمود]', en: 'Shell Stitch' },
+      { sym: 'بيكو', name: 'حافة البيكو الفاخرة [3 سلاسل، منزلقة]', en: 'Picot' }
+    ],
+    finishingTips: 'فرد الشال بالماء (Wet Blocking) إلزامي لهذا الباترون: انقعي الشال بماء فاتر وشامبو صوف خفيف، اضغطي عليه بمنشفة لامتصاص الماء، ثم ثبتيه بدبابيس على سطح الفرد لتفتيح زوايا الصدفة واتركيه يجف تماماً ليأخذ شكله الملكي.',
+    steps: [
+      { text: 'السطر 1: ابدئي بـ 4 سلاسل، اشتغلي 3 عمود بلفة في أول سلسلة، ثم 2 سلسلة، ثم 4 عمود بلفة لتشكيل قمة المثلث الأولى (8).', svg: 'chainStitch' },
+      { text: 'السطر 2: ارتفاع 3 سلاسل (يُحسب كأول عمود)، عمود في نفس الغرزة (تزايد)، عمود في الغرز التالية، صدفة في الفراغ الأوسط [2 عمود، 2 س، 2 عمود]، عمود في كل غرزة حتى الأخيرة واشتغلي بها تزايد عمودين (14).', svg: 'doubleCrochet' },
+      { text: 'السطر 3: ارتفاع 3 سلاسل، تزايد في أول غرزة، اشتغلي [1 سلسلة، تخطي غرزة، 1 عمود] لنهاية الضلع، صدفة في رأس المثلث، تكرار الطرف المقابل وتزايد في آخر غرزة (20).', svg: 'doubleCrochet' },
+      { text: 'السطر 4: سطر أعمدة مصمتة: تزايد بالطرفين وصدفة بالوسط لتعزيز تماسك الشال (26).', svg: 'rowWork' },
+      { text: 'السطور 5 إلى 24: كرري نمط بتلات اللوتس المتبادلة بين الدانتيل والصدفات مع زيادة 6 غرز في كل سطر وصولاً للحجم المطلوب (150).', svg: 'rowWork' },
+      { text: 'السطر 25: سطر الحافة النهائية المزدانة بغرز البيكو (Picot) لإعطاء أطراف الشال ملمساً زركشياً ملكياً (165).', svg: 'assembly' },
+      { text: 'نظفي ذيول الخيوط بإبرة التنظيف وافردي الشال بالبخار لتبرز نقوش الدانتيل مبارك إبداعكِ الفاخر! 🪷', svg: 'yarnTail' }
+    ]
+  },
+  {
+    id: 'boho-basket',
+    title: 'سلة الخيوط البوهيمية المعقودة بخيط الكليم',
+    category: 'home',
+    emoji: '🧺',
+    level: 'beginner',
+    levelLabel: 'مبتدئ',
+    levelTagClass: 'tag-beginner',
+    yarn: 'خيط كليم تيشيرت سميك (T-shirt Yarn) أو حبل مكرمية قطن 5 مم',
+    hook: '6.5 مم - 7.0 مم',
+    yarnBalls: 2,
+    time: '2-3 ساعات',
+    description: 'سلة تنظيم دائرية عصرية ومتماسكة جداً لجلسات الكروشيه وترتيب الخيوط، مصنوعة بقاعدة صلبة بدون ثقوب ومقبضين مدمجين.',
+    symbolsTable: [
+      { sym: 'حلقة', name: 'حلقة سحرية', en: 'Magic Ring (mr)' },
+      { sym: 'ح', name: 'غرزة حشو', en: 'Single Crochet (sc)' },
+      { sym: 'سنبلة', name: 'حشو السنبلة (Waistcoat sc)', en: 'Knit/Waistcoat Stitch' },
+      { sym: 'ت', name: 'تزايد', en: 'Increase (inc)' },
+      { sym: 'م', name: 'منزلقة', en: 'Slip Stitch (sl st)' }
+    ],
+    finishingTips: 'لجعل جدران السلة واقفة وصلبة، تأكدي من إدخال السنارة في قلب حرف الـ V للغرزة (غرزة السنبلة). ادفني ذيل خيط الكليم السميك داخل الغرز الخلفية بواسطة إبرة تنظيف معدنية عريضة.',
+    steps: [
+      { text: 'السطر 1: ابدئي بعمل 8 غرز حشو داخل حلقة سحرية، شدي الخيط جيداً واغلقي بمنزلقة (8).', svg: 'magicRing' },
+      { text: 'السطر 2: ارتفاع 1 سلسلة، اشتغلي تزايد (2 حشو في كل غرزة) على مدار السطر، منزلقة (16).', svg: 'increase' },
+      { text: 'السطر 3: ارتفاع 1 سلسلة، اشتغلي [1 حشو، 1 تزايد] كرري 8 مرات، منزلقة (24).', svg: 'singleCrochet' },
+      { text: 'السطر 4: ارتفاع 1 سلسلة، اشتغلي [2 حشو، 1 تزايد] كرري 8 مرات، منزلقة (32).', svg: 'increase' },
+      { text: 'السطر 5: ارتفاع 1 سلسلة، اشتغلي [3 حشو، 1 تزايد] كرري 8 مرات لقاعدة مسطحة بقطر 20 سم (40).', svg: 'singleCrochet' },
+      { text: 'السطر 6: سطر زاوية الجدار: حياكة 40 غرزة حشو في اللفة الخلفية فقط (BLO) بدون أي تزايد لرفع الجدار رأسياً (40).', svg: 'rowWork' },
+      { text: 'السطور 7 إلى 13: حياكة جدران السلة بغرزة السنبلة الصلبة بدون تزايد لإعطاء صلابة ومتانة فائقة (40).', svg: 'rowWork' },
+      { text: 'السطر 14 (تشكيل المقبضين): 8 حشو، اشتغلي 10 سلاسل وتخطي 6 غرز، 14 حشو، 10 سلاسل وتخطي 6 غرز، 6 حشو (48).', svg: 'chainStitch' },
+      { text: 'السطر 15: حياكة غرز حشو فوق كل غرزة وفوق سلاسل المقبضين لتقويتهما، منزلقة وإغلاق السلة (48).', svg: 'assembly' },
+      { text: 'إخفاء طرف خيط الكليم السميك في قلب غرز الجدار الداخلي سلتكِ البوهيمية الأنيقة جاهزة لترتيب خيوطكِ! 🧺', svg: 'yarnTail' }
+    ]
+  },
+  {
+    id: 'retro-granny-tote',
+    title: 'حقيبة مربعات الجدة الكلاسيكية بالأقحوان',
+    category: 'bags',
+    emoji: '👜',
+    level: 'intermediate',
+    levelLabel: 'متوسط',
+    levelTagClass: 'tag-intermediate',
+    yarn: 'خيط قطن كوتون جولد (Cotton Gold) 4 ألوان: أبيض، أصفر، بيج، وزيتي',
+    hook: '3.5 مم',
+    yarnBalls: 3,
+    time: '6-8 ساعات',
+    description: 'حقيبة توت باج بتصميم ريترو ساحر، مكونة من 13 مربع جراني بزهور الأقحوان المجسمة مع حمالات كتف متينة ومريحة.',
+    symbolsTable: [
+      { sym: 'حلقة', name: 'حلقة سحرية', en: 'Magic Ring (mr)' },
+      { sym: 'ح', name: 'حشو', en: 'Single Crochet (sc)' },
+      { sym: 'ع', name: 'عمود بلفة', en: 'Double Crochet (dc)' },
+      { sym: 'بف', name: 'غرزة البف المجسمة للبتلات', en: 'Puff Stitch' },
+      { sym: 'س', name: 'سلسلة', en: 'Chain (ch)' }
+    ],
+    finishingTips: 'قومي بعمل بلوك (فرد) خفيف لكل مربع من المربعات الـ 13 بدبابيس قبل التشبيك لتكون جميع الزوايا متطابقة تماماً. يُنصح بتبطين الحقيبة بقماش كتان داخلي لحماية الغرز من التمدد.',
+    steps: [
+      { text: 'السطر 1 (مركز الزهرة): بالخيط الأصفر: اشتغلي 8 غرز حشو في حلقة سحرية، منزلقة (8).', svg: 'magicRing' },
+      { text: 'السطر 2 (بتلات الأقحوان): بالخيط الأبيض: في كل غرزة اشتغلي [غرزة بف من 4 أعمدة، 2 سلسلة] لتشكيل 8 بتلات بارزة (24).', svg: 'doubleCrochet' },
+      { text: 'السطر 3 (تحويل الدائرة لمربع): بالخيط البيج: في أول فراغ [3 عمود، 2 س، 3 عمود] لتشكيل الزاوية، الفراغ التالي 3 نصف عمود، وكرري لبناء 4 زوايا مربعة (36).', svg: 'doubleCrochet' },
+      { text: 'السطر 4 (إطار المربع): بالخيط الزيتي: اشتغلي 3 أعمدة في كل فراغ جانبي، و[3 عمود، 2 س، 3 عمود] في الزوايا الأربع (48).', svg: 'rowWork' },
+      { text: 'كرري حياكة 13 مربعاً متطابقاً بنفس الأبعاد ونظفي خيوطها.', svg: 'rowWork' },
+      { text: 'السطر 5 (تشبيك الحقيبة): صفي المربعات الـ 13 حسب المخطط الهندسي وشبكيها معاً بغرز المنزلقة أو إبرة الخياطة المخفية (13 مربع).', svg: 'assembly' },
+      { text: 'السطر 6 (حمالات الكتف): حياكة داير كامل حول فوهة الحقيبة، وارتفاع 70 سلسلة لكل يد وحياكة 3 أسطر حشو متينة فوقها (140).', svg: 'chainStitch' },
+      { text: 'كيّ خفيف بالبخار لتوحيد الغرز وإخفاء الخيوط في الداخل مبارك حقيبتكِ الكلاسيكية الفخمة! 👜', svg: 'yarnTail' }
+    ]
+  },
+
   {
     id: 'ami-bear', 
     title: 'دمية دب أميغورومي كيوت', 
@@ -4458,9 +4768,45 @@ function filterPatternsByCategory(catId, btnEl) {
   renderPatternsCatalog(catId);
 }
 
-function renderPatternsCatalog(catFilter) {
+let currentPatternLevelFilter = 'all';
+let currentPatternCategoryFilter = 'all';
+
+function filterPatternsByLevel(lvl, btnEl) {
+  currentPatternLevelFilter = lvl;
+  document.querySelectorAll('.level-chip').forEach(b => b.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
+  renderPatternsCatalogFiltered();
+}
+
+function filterPatternsByCategory(catId, btnEl) {
+  currentPatternCategoryFilter = catId;
+  document.querySelectorAll('.cat-chip').forEach(b => b.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
+  renderPatternsCatalogFiltered();
+}
+
+function renderPatternsCatalogFiltered() {
   const grid = document.getElementById('patternsGridList');
-  const items = catFilter === 'all' ? PATTERNS : PATTERNS.filter(p => p.category === catFilter);
+  let items = PATTERNS;
+
+  if (currentPatternCategoryFilter !== 'all') {
+    items = items.filter(p => p.category === currentPatternCategoryFilter);
+  }
+  if (currentPatternLevelFilter !== 'all') {
+    items = items.filter(p => (p.level || 'beginner') === currentPatternLevelFilter);
+  }
+
+  renderPatternsToGrid(items);
+}
+
+function renderPatternsCatalog(catFilter) {
+  currentPatternCategoryFilter = catFilter || 'all';
+  renderPatternsCatalogFiltered();
+}
+
+function renderPatternsToGrid(items) {
+  const grid = document.getElementById('patternsGridList');
+  if (!grid) return;
 
   grid.innerHTML = items.map(p => {
     const savedSteps = JSON.parse(localStorage.getItem(LOCAL_STORAGE.PATTERN_STEP_PREFIX + p.id) || '[]');
@@ -4476,7 +4822,10 @@ function renderPatternsCatalog(catFilter) {
         </div>
         <div class="pattern-card-body">
           <div>
-            <h3>${p.title}</h3>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+              <h3 style="margin-bottom:0;">${p.title}</h3>
+              <span class="pattern-level-tag ${p.levelTagClass || 'tag-beginner'}">${p.levelLabel || (p.level === 'intermediate' ? 'متوسط' : p.level === 'advanced' ? 'محترف' : 'مبتدئ')}</span>
+            </div>
             <p>${p.description}</p>
             <div class="pattern-specs-chips">
               <span class="spec-chip">🪡 ${p.hook}</span>
@@ -4513,6 +4862,23 @@ function toggleGlobalVisuals() {
 // ═══════════════════════════════════════════════════════
 //  PATTERN READER
 // ═══════════════════════════════════════════════════════
+
+function openMasterChartModal() {
+  const m = document.getElementById('masterChartModal');
+  if (m) {
+    m.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeMasterChartModal() {
+  const m = document.getElementById('masterChartModal');
+  if (m) {
+    m.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+}
+
 function openPatternReaderModal(patternId) {
   const p = PATTERNS.find(item => item.id === patternId);
   if (!p) return;
@@ -4524,6 +4890,49 @@ function openPatternReaderModal(patternId) {
 
   const savedRow = parseInt(localStorage.getItem(LOCAL_STORAGE.PATTERN_ROW_PREFIX + p.id) || '0');
   document.getElementById('readerRowCount').textContent = savedRow;
+
+  // Inject Header Level Chip and Specs
+  const levelText = p.levelLabel || (p.level === 'intermediate' ? 'متوسط 🟡' : p.level === 'advanced' ? 'محترف 🟣' : 'مبتدئ 🟢');
+  document.getElementById('readerTitleText').innerHTML = `${p.title} <span class="pattern-level-tag ${p.levelTagClass || 'tag-beginner'}" style="font-size:0.75rem;vertical-align:middle;margin-right:8px;">${levelText}</span>`;
+
+  // Render Symbols Key Table and Finishing Tips if available
+  const extraContainer = document.getElementById('readerExtraInfoContainer');
+  if (extraContainer) {
+    let extraHtml = '';
+
+    // Symbols Table
+    if (p.symbolsTable && p.symbolsTable.length) {
+      extraHtml += `
+        <div style="background:var(--surface);border:1px solid var(--border-purple);border-radius:var(--radius-md);padding:12px;margin:12px 0;">
+          <h4 style="font-size:0.86rem;font-weight:900;color:var(--primary);margin-bottom:8px;">
+            <i class="fa-solid fa-list-check"></i> جدول الرموز والاختصارات المعتمدة في هذا الباترون
+          </h4>
+          <table class="symbols-key-table">
+            <thead>
+              <tr><th>الرمز</th><th>اسم الغرزة</th><th>المصطلح الإنجليزي</th></tr>
+            </thead>
+            <tbody>
+              ${p.symbolsTable.map(s => `<tr><td><span class="symbol-char">${s.sym}</span></td><td><b>${s.name}</b></td><td>${s.en}</td></tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    // Finishing Tips
+    if (p.finishingTips) {
+      extraHtml += `
+        <div class="finishing-tips-box">
+          <h4 style="font-size:0.86rem;font-weight:900;color:#059669;margin-bottom:6px;">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> نصائح احترافية للتشطيب والتنظيف (Finishing & Cleaning)
+          </h4>
+          <p style="font-size:0.82rem;color:var(--text);line-height:1.6;">${p.finishingTips}</p>
+        </div>
+      `;
+    }
+
+    extraContainer.innerHTML = extraHtml;
+  }
 
   renderPatternReaderSteps(p);
 
@@ -5019,6 +5428,182 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
         <button class="btn-sw btn-sw-reset" onclick="snoozeHealthModal()">
           تذكير بعد 5 دقائق ⏳
         </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Master Hook & Yarn Size Guide Modal -->
+  <div class="master-chart-modal" id="masterChartModal" style="display:none;">
+    <div class="master-chart-card">
+      <div class="master-chart-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:1.4rem;">📐</span>
+          <h3 style="font-size:1.1rem;font-weight:900;">جدول مقاسات السنارات وأنواع الخيوط والغرز المعتمدة</h3>
+        </div>
+        <button class="reader-back-btn" style="background:rgba(255,255,255,0.2);color:#fff;" onclick="closeMasterChartModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="master-chart-body">
+        <p style="color:var(--text-muted);line-height:1.6;margin-bottom:12px;">
+          دليل قياسي شامل يوضح التوافق الهندسي بين مقاس السنارة (مليمتر)، تصنيف سمك الخيط (Standard Yarn Weight)، وأنواع الغرز المناسبة لضمان أفضل نتيجة لحياكتكِ:
+        </p>
+
+        <!-- Yarn & Hook Size Table -->
+        <h4 style="font-weight:900;color:var(--primary);margin-top:8px;">1. مقاسات السنارات والخيوط القياسية</h4>
+        <table class="master-table">
+          <thead>
+            <tr>
+              <th>سمك الخيط (Weight)</th>
+              <th>السنارة (Metric)</th>
+              <th>المقاس الأمريكي (US)</th>
+              <th>أنواع الخيوط الشائعة</th>
+              <th>المشاريع المناسبة</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>0 - دانتيل (Lace)</b></td>
+              <td>1.5 - 2.25 مم</td>
+              <td>Steel 00 - 7</td>
+              <td>قطن تركي رفيع، خيط إيتوال، حرير</td>
+              <td>مفارش كروشيه، دانتيل، حواف رفيعة</td>
+            </tr>
+            <tr>
+              <td><b>1 - رفيع جداً (Super Fine)</b></td>
+              <td>2.25 - 3.25 مم</td>
+              <td>B-1 إلى D-3</td>
+              <td>خيوط الجوارب، أليزا ديفا، صوف بيبي</td>
+              <td>جوارب، شالات خفيفة، ملابس أطفال</td>
+            </tr>
+            <tr>
+              <td><b>2 - ناعم (Fine / Sport)</b></td>
+              <td>3.25 - 3.75 مم</td>
+              <td>D-3 إلى F-5</td>
+              <td>يارن آرت جينز، قطن ممشط، كوتون جولد</td>
+              <td>دمى أميغورومي، بلايز صيفية، بطانيات بيبي</td>
+            </tr>
+            <tr>
+              <td><b>3 - متوسط خفيف (DK / Light)</b></td>
+              <td>3.75 - 4.50 مم</td>
+              <td>F-5 إلى 7</td>
+              <td>صوف أكريليك كلاسيك، خيوط كعكة متدرجة</td>
+              <td>كوفيات، قبعات بيني، سويترات نسائية</td>
+            </tr>
+            <tr>
+              <td><b>4 - متوسط قياسي (Worsted)</b></td>
+              <td>4.50 - 5.50 مم</td>
+              <td>7 إلى I-9</td>
+              <td>أكريليك 4 فتلات، صوف شتوي متوسط</td>
+              <td>بطانيات شتوية، شالات مثلثة، كنزات دافئة</td>
+            </tr>
+            <tr>
+              <td><b>5 - سميك (Bulky / Chunky)</b></td>
+              <td>5.50 - 8.00 مم</td>
+              <td>I-9 إلى L-11</td>
+              <td>هيمالايا دولفين مخمل، صوف غليظ</td>
+              <td>دمى مخملية سريعة، بطانيات ثقيلة، وسائد</td>
+            </tr>
+            <tr>
+              <td><b>6 - سميك جداً (Super Bulky)</b></td>
+              <td>8.00 - 12.00 مم</td>
+              <td>M-13 إلى P-16</td>
+              <td>خيط كليم (تيشيرت)، حبل مكرمية 4-5 مم</td>
+              <td>سلال تنظيم، سجاد كروشيه، حقائب متينة</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Standard Symbols Table -->
+        <h4 style="font-weight:900;color:var(--primary);margin-top:14px;">2. جدول الرموز والاختصارات المعتمدة في الباترونات</h4>
+        <table class="master-table">
+          <thead>
+            <tr>
+              <th>الرمز العربي</th>
+              <th>اسم الغرزة بالعربي</th>
+              <th>المصطلح الإنجليزي</th>
+              <th>الاختصار الإنجليزي</th>
+              <th>الوصف والاستخدام</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="symbol-char">س</span></td>
+              <td><b>سلسلة</b></td>
+              <td>Chain Stitch</td>
+              <td><b>ch</b></td>
+              <td>أساس بدء كل قطعة كروشيه وبناء الارتفاعات</td>
+            </tr>
+            <tr>
+              <td><span class="symbol-char">ح</span></td>
+              <td><b>حشو</b></td>
+              <td>Single Crochet</td>
+              <td><b>sc</b></td>
+              <td>غرزة متماسكة وقوية، الأساس لألعاب الأميغورومي</td>
+            </tr>
+            <tr>
+              <td><span class="symbol-char">نص_ع</span></td>
+              <td><b>نصف عمود</b></td>
+              <td>Half Double Crochet</td>
+              <td><b>hdc</b></td>
+              <td>غرزة مرنة وناعمة، ممتازة للبلوزات والحواف الضلعية</td>
+            </tr>
+            <tr>
+              <td><span class="symbol-char">ع</span></td>
+              <td><b>عمود بلفة</b></td>
+              <td>Double Crochet</td>
+              <td><b>dc</b></td>
+              <td>غرزة سريعة ومرتفعة، الأساس لمربعات الجدة والشالات</td>
+            </tr>
+            <tr>
+              <td><span class="symbol-char">ع_مزدوج</span></td>
+              <td><b>عمود بلفتين</b></td>
+              <td>Treble Crochet</td>
+              <td><b>tr</b></td>
+              <td>غرزة طويلة ومخرمة، ممتازة للدانتيل والأطراف الفاخرة</td>
+            </tr>
+            <tr>
+              <td><span class="symbol-char">م</span></td>
+              <td><b>منزلقة</b></td>
+              <td>Slip Stitch</td>
+              <td><b>sl st</b></td>
+              <td>إغلاق الأدوار الدائرية والانتقال بين الغرز بدون ارتفاع</td>
+            </tr>
+            <tr>
+              <td><span class="symbol-char">ت</span></td>
+              <td><b>تزايد</b></td>
+              <td>Increase</td>
+              <td><b>inc</b></td>
+              <td>حياكة غرزتين في نفس العين لتوسيع القطعة</td>
+            </tr>
+            <tr>
+              <td><span class="symbol-char">تـن</span></td>
+              <td><b>تناقص</b></td>
+              <td>Decrease</td>
+              <td><b>dec</b></td>
+              <td>دمج غرزتين في غرزة واحدة للتضييق وإغلاق المجسمات</td>
+            </tr>
+            <tr>
+              <td><span class="symbol-char">حلقة</span></td>
+              <td><b>حلقة سحرية</b></td>
+              <td>Magic Ring</td>
+              <td><b>MR</b></td>
+              <td>حلقة قابلة للشد للبدء الدائري بدون أي ثقب في المركز</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Finishing & Blocking Tips -->
+        <h4 style="font-weight:900;color:var(--primary);margin-top:14px;">3. نصائح احترافية للتشطيب والتنظيف (Finishing & Blocking)</h4>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px;line-height:1.7;">
+          <ul style="padding-right:18px;">
+            <li>🪡 <b>إخفاء ذيول الخيوط (Weaving in Ends):</b> استخدمي إبرة تنظيف صوف معدنية غير حادة، ومرري الخيط داخل ظهر الغرز في ثلاثة اتجاهات مختلفة (ذهاباً وإياباً) لضمان عدم انفلاته أثناء الغسيل.</li>
+            <li>💨 <b>الفرد بالبخار والماء (Blocking):</b> للشالات ومربعات الجدة والملابس، ثبّتي القطعة بدبابيس مقاومة للصدأ على بساط الفرد بمقاساتها الصحيحة، ثم وجّهي بخار المكواة عن بُعد (3-5 سم) بدون لمس الخيط، واتركيها تبرد لتكتسب استقامة زوايا خيالية.</li>
+            <li>🧸 <b>حشو ألعاب الأميغورومي:</b> احشي القطعة بقطع فايبر بوليستر صغيرة تدريجياً مع توزيعها بالأصابع نحو الجدران لتجنب التكتل، وركبي عيون الأمان ومشبك التثبيت من الداخل قبل إغلاق الرأس.</li>
+            <li>🧺 <b>الغسيل والعناية:</b> يُفضل الغسيل اليدوي بماء بارد بدون عصر، وتجفيف القطعة مسطحة على منشفة قطنية في الظل.</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
