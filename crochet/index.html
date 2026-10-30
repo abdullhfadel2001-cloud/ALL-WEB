@@ -1873,6 +1873,244 @@
       font-weight: 900;
     }
 
+  
+    /* ═══════════════════════════════════════════════════════
+       RESPONSIVE MOBILE & TABLET MASTER OVERHAUL (iOS & ANDROID)
+       ═══════════════════════════════════════════════════════ */
+    
+    /* iOS Safe Area Support */
+    :root {
+      --sat: env(safe-area-inset-top, 0px);
+      --sab: env(safe-area-inset-bottom, 0px);
+      --sal: env(safe-area-inset-left, 0px);
+      --sar: env(safe-area-inset-right, 0px);
+    }
+
+    /* Fixed Header with iPhone Notch & Dynamic Island Support */
+    .compact-header {
+      padding-top: calc(8px + var(--sat)) !important;
+      padding-left: calc(14px + var(--sal)) !important;
+      padding-right: calc(14px + var(--sar)) !important;
+      min-height: calc(52px + var(--sat)) !important;
+    }
+
+    /* Bottom Bar: Perfect 7-Item Proportional Grid with Zero Overflow on Any Phone */
+    .mobile-bottom-bar {
+      display: flex !important;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--surface-glass) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      border-top: 1px solid var(--border-purple);
+      padding: 4px 2px calc(6px + var(--sab)) !important;
+      z-index: 150;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12);
+      justify-content: space-between !important;
+      align-items: center;
+      overflow: hidden !important;
+    }
+    .mobile-nav-item {
+      flex: 1 1 0 !important;
+      min-width: 0 !important;
+      max-width: 14.28% !important;
+      padding: 4px 1px !important;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+    }
+    .m-icon {
+      font-size: 1.15rem !important;
+    }
+    .m-label {
+      font-size: 0.58rem !important;
+      font-weight: 700;
+      color: var(--text-muted);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      max-width: 100%;
+      text-align: center;
+    }
+
+    @media (max-width: 767px) {
+      body {
+        padding-bottom: calc(84px + var(--sab)) !important;
+      }
+    }
+
+    /* CALCULATOR SUBTABS: VERTICAL FULL-WIDTH OPTIONS ON MOBILE */
+    .calc-subtabs-nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+      width: 100%;
+      overflow: visible !important;
+    }
+    .calc-subtab-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border-purple);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.86rem;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: normal !important;
+      text-align: center;
+      transition: all 0.25s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .calc-subtab-btn:hover {
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+    .calc-subtab-btn.active {
+      background: var(--primary-gradient) !important;
+      color: #ffffff !important;
+      border-color: transparent !important;
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+
+    /* iPad / Tablet (681px - 1023px): Clean 2x2 Grid */
+    @media (max-width: 1023px) and (min-width: 681px) {
+      .calc-subtabs-nav {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+    }
+
+    /* Mobile Phones (iPhone & Android <= 680px): Clean Vertical Full-Width Stack (1 Column) */
+    @media (max-width: 680px) {
+      .calc-subtabs-nav {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        width: 100% !important;
+        margin-bottom: 18px;
+      }
+      .calc-subtab-btn {
+        width: 100% !important;
+        justify-content: flex-start !important;
+        padding: 14px 18px !important;
+        font-size: 0.9rem !important;
+        border-radius: var(--radius-md) !important;
+        text-align: right !important;
+      }
+      .calc-subtab-btn i {
+        font-size: 1.1rem;
+        width: 24px;
+        text-align: center;
+      }
+
+      /* Calculator Header on Mobile */
+      .calc-header-box {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+      }
+      .calc-currency-pill {
+        align-self: flex-start !important;
+      }
+
+      /* Studio Tabs Switcher on Mobile */
+      .studio-tabs-row {
+        flex-direction: column !important;
+        gap: 8px !important;
+      }
+      .studio-tab-btn {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 12px 14px !important;
+        font-size: 0.88rem !important;
+      }
+
+      /* Patterns Top Bar & Action Buttons on Mobile */
+      .patterns-top-bar {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+      }
+      .patterns-view-actions {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 8px !important;
+      }
+      .patterns-view-actions .visibility-toggle-btn {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 10px 14px !important;
+        font-size: 0.84rem !important;
+      }
+
+      /* Level Filter Bar on Mobile */
+      .level-filter-bar {
+        width: 100% !important;
+        justify-content: flex-start !important;
+      }
+
+      /* Stopwatch Card on Mobile */
+      .stopwatch-card {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+      }
+      .stopwatch-btns {
+        width: 100% !important;
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+      }
+      .stopwatch-btns .btn-sw {
+        flex: 1 1 auto !important;
+        justify-content: center !important;
+        padding: 10px 12px !important;
+      }
+
+      /* Voice Control Box on Mobile */
+      .voice-control-box {
+        padding: 14px !important;
+      }
+
+      /* Responsive Inputs in Calculator Panels */
+      .calc-inputs-2cols {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+      }
+
+      /* Notes Toolbar on Mobile */
+      .notes-toolbar {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+      }
+      .btn-create-note {
+        width: 100% !important;
+        justify-content: center !important;
+      }
+    }
+
+    /* Smooth touch table scroll container */
+    .table-scroll-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      margin: 12px 0 16px;
+    }
+
   </style>
 </head>
 <body>
@@ -2134,7 +2372,7 @@
          ═══════════════════════════════════════════════════════ -->
     <section class="app-tab-section" id="tab-calc">
       <div class="calculator-card">
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px;">
+        <div class="calc-header-box" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px;gap:8px;">
           <div>
             <h2 style="font-size:1.15rem;font-weight:900;color:var(--primary);margin-bottom:2px;">
               منصة الحاسبات الذكية والتسعير بالدينار العراقي (د.ع)
@@ -2143,7 +2381,7 @@
               أدوات رياضية وهندسية دقيقة لتقدير الخيوط، عينة القياس، وحساب الأرباح بدقة.
             </p>
           </div>
-          <span style="font-size:0.8rem;background:var(--primary-light);color:var(--primary);padding:4px 12px;border-radius:var(--radius-full);font-weight:800;">
+          <span class="calc-currency-pill" style="font-size:0.8rem;background:var(--primary-light);color:var(--primary);padding:5px 14px;border-radius:var(--radius-full);font-weight:800;display:inline-block;">
             العملة المعتمدة: د.ع (دينار عراقي)
           </span>
         </div>
@@ -2151,16 +2389,20 @@
         <!-- Subtabs Navigator -->
         <div class="calc-subtabs-nav">
           <button class="calc-subtab-btn active" onclick="switchCalcSubtab('yarn-est', this)">
-            <i class="fa-solid fa-calculator"></i> تقدير كمية الخيوط
+            <i class="fa-solid fa-calculator"></i>
+            <span>1. تقدير كمية الخيوط ومقاس السنارة</span>
           </button>
           <button class="calc-subtab-btn" onclick="switchCalcSubtab('gauge-calc', this)">
-            <i class="fa-solid fa-ruler-combined"></i> حاسبة عينة القياس (10×10)
+            <i class="fa-solid fa-ruler-combined"></i>
+            <span>2. حاسبة عينة القياس (Gauge 10×10 سم)</span>
           </button>
           <button class="calc-subtab-btn" onclick="switchCalcSubtab('leftover-calc', this)">
-            <i class="fa-solid fa-scale-balanced"></i> حاسبة بقايا الخيوط (غرام/متر)
+            <i class="fa-solid fa-scale-balanced"></i>
+            <span>3. حاسبة بقايا الخيوط (غرام إلى متر)</span>
           </button>
           <button class="calc-subtab-btn" onclick="switchCalcSubtab('pricing-calc', this)">
-            <i class="fa-solid fa-receipt"></i> حاسبة التسعير وبطاقة العناية (د.ع)
+            <i class="fa-solid fa-receipt"></i>
+            <span>4. حاسبة التسعير الذكي وبطاقة العناية (د.ع)</span>
           </button>
         </div>
 
@@ -2206,7 +2448,7 @@
           <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:14px;line-height:1.6;">
             قارني غرزك بعينة الباترون القياسية (10×10 سم) لمعرفة ما إذا كانت سنارتك تحتاج تكبيراً أو تصغيراً لتفادي المقاسات الخاطئة:
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+          <div class="calc-inputs-2cols" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
             <div style="background:var(--surface);padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border);">
               <h4 style="font-size:0.86rem;font-weight:900;color:var(--primary);margin-bottom:8px;">عينة الباترون الأصلية (10 سم)</h4>
               <label style="font-size:0.78rem;display:block;margin-bottom:4px;">عدد الغرز:</label>
@@ -2233,7 +2475,7 @@
           <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:14px;line-height:1.6;">
             زني بقايا الخيط على ميزان المطبخ المنزلي (بالغرام)، وستحسب لكِ الأداة الأمتار المتبقية بدقة:
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+          <div class="calc-inputs-2cols" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
             <div>
               <label style="font-size:0.82rem;font-weight:800;display:block;margin-bottom:4px;">وزن البقايا المتبقية (غرام):</label>
               <input type="number" id="leftoverGrams" class="styled-select" value="35" placeholder="مثال: 35" style="padding:8px 12px;">
@@ -2260,7 +2502,7 @@
           <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:14px;line-height:1.6;">
             معادلة تسعير هندسية تضمن لكِ أرباحاً عادلة بالدينار العراقي (د.ع) وتمنع بيع أعمالكِ بخسارة:
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+          <div class="calc-inputs-2cols" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
             <div>
               <label style="font-size:0.8rem;font-weight:800;display:block;margin-bottom:4px;">تكلفة الخيوط والخامات (د.ع):</label>
               <input type="number" id="priceYarnCost" class="styled-select" value="12000" placeholder="مثال: 12000 د.ع" style="padding:8px 12px;">
@@ -2278,7 +2520,7 @@
               <input type="number" id="pricePackagingCost" class="styled-select" value="2500" placeholder="مثال: 2500 د.ع" style="padding:8px 12px;">
             </div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+          <div class="calc-inputs-2cols" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
             <div>
               <label style="font-size:0.8rem;font-weight:800;display:block;margin-bottom:4px;">نسبة هامش الربح وطوارئ الهدر:</label>
               <select id="priceProfitMargin" class="styled-select" style="padding:8px 12px;">
@@ -5452,7 +5694,7 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
 
         <!-- Yarn & Hook Size Table -->
         <h4 style="font-weight:900;color:var(--primary);margin-top:8px;">1. مقاسات السنارات والخيوط القياسية</h4>
-        <table class="master-table">
+        <div class="table-scroll-wrap"><table class="master-table">
           <thead>
             <tr>
               <th>سمك الخيط (Weight)</th>
@@ -5513,7 +5755,7 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
               <td>سلال تنظيم، سجاد كروشيه، حقائب متينة</td>
             </tr>
           </tbody>
-        </table>
+        </table></div>
 
         <!-- Standard Symbols Table -->
         <h4 style="font-weight:900;color:var(--primary);margin-top:14px;">2. جدول الرموز والاختصارات المعتمدة في الباترونات</h4>
@@ -5592,7 +5834,7 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
               <td>حلقة قابلة للشد للبدء الدائري بدون أي ثقب في المركز</td>
             </tr>
           </tbody>
-        </table>
+        </table></div>
 
         <!-- Finishing & Blocking Tips -->
         <h4 style="font-weight:900;color:var(--primary);margin-top:14px;">3. نصائح احترافية للتشطيب والتنظيف (Finishing & Blocking)</h4>
