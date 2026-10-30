@@ -1288,7 +1288,6 @@
       cursor: pointer;
     }
     .swatch-btn.active { transform: scale(1.2); border-color: var(--primary); }
-    .pwa-install-pill { background: var(--primary-gradient) !important; color: #fff !important; font-weight: 800 !important; border: none !important; padding: 6px 14px !important; border-radius: var(--radius-sm) !important; display: inline-flex !important; align-items: center !important; gap: 6px !important; cursor: pointer; box-shadow: 0 4px 14px var(--primary-glow); }
     .editor-footer {
       padding: 12px 18px;
       background: var(--bg);
@@ -1313,10 +1312,6 @@
       </div>
     </div>
     <div class="header-controls">
-      <button class="h-btn pwa-install-pill" onclick="installCrochetApp()" id="pwaInstallBtn" title="تثبيت التطبيق على جهازك">
-        <i class="fa-solid fa-mobile-screen-button"></i>
-        <span style="font-size:0.75rem;font-weight:700;">تثبيت التطبيق</span>
-      </button>
       <!-- Dark Mode Switcher -->
       <button class="h-btn" onclick="toggleThemeMode()" id="themeBtn" title="الوضع الليلي">
         <i class="fa-solid fa-moon"></i>
@@ -3508,9 +3503,16 @@ function filterNotesList() {
 }
 
 // ═══════════════════════════════════════════════════════
-//  AUTO RELOAD / DEV SYNC
+//  PWA SERVICE WORKER & LOCAL DEV SYNC
 // ═══════════════════════════════════════════════════════
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+
 (function autoReloadListener() {
+  if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') return;
   let prevStamp = null;
   setInterval(async () => {
     try {
@@ -3523,36 +3525,6 @@ function filterNotesList() {
     } catch(e) {}
   }, 1000);
 })();
-
-// ═══════════════════════════════════════════════════════
-//  PWA INSTALL & SERVICE WORKER
-// ═══════════════════════════════════════════════════════
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
-  });
-}
-
-let deferredCrochetPrompt = null;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredCrochetPrompt = e;
-});
-
-function installCrochetApp() {
-  if (deferredCrochetPrompt) {
-    deferredCrochetPrompt.prompt();
-    deferredCrochetPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        const btn = document.getElementById('pwaInstallBtn');
-        if (btn) btn.style.display = 'none';
-      }
-      deferredCrochetPrompt = null;
-    });
-  } else {
-    alert('لتثبيت التطبيق على هاتفك أو كمبيوترك:\nاضغط على خيارات المتصفح (زر القائمة ⋮ أو المشاركة ⎋) ثم اختر:\n"إضافة إلى الشاشة الرئيسية" أو "تثبيت التطبيق" 📲');
-  }
-}
 </script>
 </body>
 </html>
