@@ -70,29 +70,29 @@
     }
 
     [data-theme="dark"] {
-      --primary: #9d68f7;
-      --primary-hover: #b388ff;
+      --primary: #a855f7;
+      --primary-hover: #c084fc;
       --primary-gradient: linear-gradient(135deg, #7c3aed 0%, #9333ea 50%, #c084fc 100%);
-      --primary-glow: rgba(168, 85, 247, 0.35);
-      --primary-light: #23153d;
-      --primary-mid: #3b2264;
-      --primary-dark: #c084fc;
-      --primary-darker: #f5f3ff;
+      --primary-glow: rgba(168, 85, 247, 0.40);
+      --primary-light: #261642;
+      --primary-mid: #41246d;
+      --primary-dark: #d8b4fe;
+      --primary-darker: #ffffff;
       
       --bg: #0b0714;
-      --surface: #140d24;
-      --surface-card: #1a1230;
-      --surface-glass: rgba(20, 13, 36, 0.92);
-      --border: #2a1b49;
-      --border-purple: rgba(168, 85, 247, 0.22);
+      --surface: #130d24;
+      --surface-card: #1c1433;
+      --surface-glass: rgba(20, 13, 36, 0.95);
+      --border: #322153;
+      --border-purple: rgba(192, 132, 252, 0.35);
       
-      --text: #f8fafc;
-      --text-muted: #a1a1aa;
-      --text-light: #71717a;
+      --text: #ffffff;
+      --text-muted: #e2e8f0;
+      --text-light: #cbd5e1;
       
-      --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
-      --shadow-md: 0 8px 24px rgba(0,0,0,0.55);
-      --shadow-lg: 0 16px 40px rgba(0,0,0,0.7);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.45);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.60);
+      --shadow-lg: 0 16px 40px rgba(0,0,0,0.75);
     }
 
     * {
@@ -1296,6 +1296,455 @@
       align-items: center;
       justify-content: space-between;
     }
+  
+    /* ═══════════════════════════════════════════════════════
+       NEW HIGH-CONTRAST & STUDIO / VOICE / CALCULATOR STYLES
+       ═══════════════════════════════════════════════════════ */
+    /* Ensure high contrast on all secondary texts across both modes */
+    .gtc-desc, .pattern-card-info p, .cri-sub, .calculator-card p, .mch-label {
+      color: var(--text-muted) !important;
+    }
+    .step-text-body {
+      color: var(--text) !important;
+      font-weight: 600;
+    }
+    [data-theme="dark"] .step-text-body {
+      color: #ffffff !important;
+    }
+    [data-theme="dark"] .styled-select,
+    [data-theme="dark"] .chat-input-field,
+    [data-theme="dark"] .checklist-row-input,
+    [data-theme="dark"] input[type="text"],
+    [data-theme="dark"] input[type="number"] {
+      background: #18102b !important;
+      color: #ffffff !important;
+      border-color: #432b70 !important;
+    }
+
+    /* Voice Recognition Card */
+    .voice-control-box {
+      background: var(--surface-card);
+      border: 1.5px solid var(--border-purple);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin: 16px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    .voice-mic-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--radius-full);
+      border: none;
+      background: var(--surface);
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      font-size: 1.4rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+    .voice-mic-btn.listening {
+      background: #ef4444 !important;
+      color: #ffffff !important;
+      border-color: #b91c1c !important;
+      animation: pulseMic 1.4s infinite;
+    }
+    @keyframes pulseMic {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+      70% { transform: scale(1.08); box-shadow: 0 0 0 14px rgba(239, 68, 68, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+    .voice-info {
+      flex: 1;
+    }
+    .voice-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .voice-transcript-badge {
+      display: inline-block;
+      font-size: 0.78rem;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    /* Work Session Stopwatch Card */
+    .stopwatch-card {
+      background: var(--surface-card);
+      border: 1.5px solid var(--border-purple);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin: 16px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    .stopwatch-digits {
+      font-family: 'Courier New', monospace;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--primary);
+      letter-spacing: 2px;
+      direction: ltr;
+    }
+    .stopwatch-btns {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-sw {
+      padding: 8px 14px;
+      border-radius: var(--radius-full);
+      border: none;
+      font-size: 0.8rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-sw-start { background: var(--success); color: #fff; }
+    .btn-sw-pause { background: var(--accent); color: #fff; }
+    .btn-sw-reset { background: var(--surface); color: var(--text-muted); border: 1px solid var(--border); }
+
+    /* Crafter Health Stretch Alert Modal */
+    .health-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      backdrop-filter: blur(4px);
+    }
+    .health-modal-card {
+      background: var(--surface-card);
+      border: 2px solid var(--primary);
+      border-radius: var(--radius-lg);
+      max-width: 440px;
+      width: 100%;
+      padding: 24px;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      animation: popIn 0.3s ease;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Sub-tabs in Calculator */
+    .calc-subtabs-nav {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+    .calc-subtab-btn {
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid var(--border-purple);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .calc-subtab-btn.active {
+      background: var(--primary-gradient);
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: 0 3px 10px var(--primary-glow);
+    }
+    .calc-panel { display: none; }
+    .calc-panel.active { display: block; animation: fadeIn 0.3s ease; }
+
+    /* Product Care Card */
+    .care-card-box {
+      background: #ffffff;
+      color: #1e293b;
+      border: 2px dashed #7c3aed;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-top: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      position: relative;
+    }
+    [data-theme="dark"] .care-card-box {
+      background: #1c1433;
+      color: #ffffff;
+      border-color: #a855f7;
+    }
+    .care-card-box h4 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #7c3aed;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    [data-theme="dark"] .care-card-box h4 { color: #d8b4fe; }
+
+    /* ═══════════════════════════════════════════════════════
+       TAB 7: BESPOKE PATTERN STUDIO & PIXEL GRID STYLES
+       ═══════════════════════════════════════════════════════ */
+    .studio-hero-card {
+      background: var(--surface-card);
+      border-radius: var(--radius-lg);
+      border: 1.5px solid var(--border-purple);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    .studio-tabs-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+    .studio-tab-btn {
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .studio-tab-btn.active {
+      background: var(--primary-gradient);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 12px var(--primary-glow);
+    }
+    .blueprint-grid-3cols {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin: 16px 0;
+    }
+    @media (min-width: 768px) {
+      .blueprint-grid-3cols { grid-template-columns: repeat(3, 1fr); }
+    }
+    .blueprint-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border-purple);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+    }
+    .blueprint-card h4 {
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+    .blueprint-dims {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--text);
+      background: var(--primary-light);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+    .blueprint-art-svg {
+      width: 100%;
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      margin-bottom: 10px;
+    }
+    .blueprint-notes {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Palette and Legend */
+    .palette-legend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .palette-card-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+    .palette-swatch-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: var(--radius-full);
+      border: 2px solid #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      flex-shrink: 0;
+    }
+    .palette-label-title {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .palette-label-sub {
+      font-size: 0.68rem;
+      color: var(--text-light);
+    }
+
+    /* Symbol Key Bar */
+    .symbol-key-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 12px;
+      border-radius: var(--radius-md);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      margin: 14px 0;
+    }
+    .symbol-key-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .symbol-char {
+      font-family: monospace;
+      font-weight: 900;
+      font-size: 0.95rem;
+      color: var(--primary);
+    }
+
+    /* Crochet Stitch Grid (Canvas & Pixel Map) */
+    .grid-container-card {
+      background: var(--surface-card);
+      border: 1.5px solid var(--border-purple);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin: 16px 0;
+    }
+    .grid-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .grid-scroll-box {
+      width: 100%;
+      max-height: 480px;
+      overflow: auto;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      background: #111827;
+      padding: 10px;
+      position: relative;
+    }
+    .crochet-pixel-table {
+      border-collapse: collapse;
+      margin: 0 auto;
+      user-select: none;
+    }
+    .crochet-pixel-table td {
+      width: 18px;
+      height: 18px;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 10px;
+      font-family: monospace;
+      font-weight: 900;
+      border: 0.5px solid rgba(255,255,255,0.18);
+      cursor: pointer;
+      color: #ffffff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+      transition: transform 0.1s;
+    }
+    .crochet-pixel-table td:hover {
+      outline: 2px solid #fbbf24;
+      z-index: 5;
+      transform: scale(1.3);
+    }
+    .crochet-pixel-table th {
+      font-size: 9px;
+      color: #94a3b8;
+      padding: 2px;
+      font-family: monospace;
+      text-align: center;
+    }
+    .highlighted-row td {
+      box-shadow: inset 0 0 0 2px #f59e0b;
+    }
+
+    /* Written Row Instructions Box */
+    .written-rows-box {
+      max-height: 260px;
+      overflow-y: auto;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      margin: 14px 0;
+    }
+    .written-row-line {
+      font-size: 0.82rem;
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text);
+    }
+    .written-row-line:last-child { border-bottom: none; }
+    .stitch-count-pill {
+      font-weight: 900;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+    }
+
   </style>
 </head>
 <body>
@@ -1362,6 +1811,12 @@
         <button class="nav-btn" data-tab="glossary" onclick="switchNavTab('glossary')">
           <i class="fa-solid fa-graduation-cap"></i>
           <span>المصطلحات المصورة</span>
+        </button>
+      </li>
+      <li>
+        <button class="nav-btn" data-tab="studio" onclick="switchNavTab('studio')">
+          <i class="fa-solid fa-palette"></i>
+          <span>استوديو الباترونات</span>
         </button>
       </li>
       <li>
@@ -1449,25 +1904,74 @@
     </section>
 
     <!-- ─── TAB 3: COUNTERS (BIG EASY-TAP BUTTONS) ─── -->
+        <!-- ═══════════════════════════════════════════════════════
+         TAB 3: THE MAGIC ROW COUNTER & HANDS-FREE VOICE + STOPWATCH
+         ═══════════════════════════════════════════════════════ -->
     <section class="app-tab-section" id="tab-counter">
+      <!-- Voice Hands-Free Control Card -->
+      <div class="voice-control-box">
+        <div class="voice-info">
+          <div class="voice-title">
+            <i class="fa-solid fa-microphone-lines" style="color:var(--primary);"></i>
+            <span>التحكم الصوتي بدون لمس (Hands-Free)</span>
+          </div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-top:3px;">
+            قولي بصوتك: <b>"زيد"</b> للزيادة، <b>"نقص"</b> للنقصان، أو <b>"تصفير"</b> لإعادة الضبط!
+          </div>
+          <div class="voice-transcript-badge" id="voiceStatusBadge">
+            <i class="fa-solid fa-circle" style="font-size:0.5rem;color:#10b981;"></i> الميكروفون جاهز للعمل
+          </div>
+        </div>
+        <button class="voice-mic-btn" id="voiceMicBtn" onclick="toggleVoiceCounter()" title="تشغيل / إيقاف الاستماع الصوتي">
+          <i class="fa-solid fa-microphone"></i>
+        </button>
+      </div>
+
+      <!-- Main Big Hero Counter -->
       <div class="magic-counter-hero">
         <div class="mch-tag">عداد الحياكة السحري المطور</div>
         <div class="mch-value" id="megaCounterVal">0</div>
-        <div class="mch-label">السطر / الدور الحالي (يُحفظ تلقائياً في جهازك 100%)</div>
+        <div class="mch-label">السطر / الدور الحالي (يحفظ تلقائياً في جهازك 100%)</div>
         <div class="mch-controls-row">
-          <button class="btn-mch-minus" onclick="stepMegaCounter(-1)">−</button>
-          <button class="btn-mch-plus" onclick="stepMegaCounter(1)">+</button>
+          <button class="btn-mch-minus" onclick="stepMegaCounter(-1)" title="نقص سطر">−</button>
+          <button class="btn-mch-plus" onclick="stepMegaCounter(1)" title="زد سطر">+</button>
           <button class="btn-mch-reset" onclick="resetMegaCounter()" title="تصفير">↺</button>
         </div>
       </div>
 
-      <h3 style="font-size:0.95rem;font-weight:800;color:var(--primary);margin-bottom:12px;">
-        🔢 عدادات فرعية للغرز والزيادات والنقصانات
+      <!-- Work Session Stopwatch Card -->
+      <div class="stopwatch-card">
+        <div>
+          <div style="font-size:0.86rem;font-weight:800;color:var(--text);">
+            <i class="fa-solid fa-stopwatch" style="color:var(--primary);margin-left:6px;"></i>
+            مؤقت جلسة العمل الحالية
+          </div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">
+            تتبع وقت الحياكة الفعلي لاستخدامه في حاسبة التسعير
+          </div>
+        </div>
+        <div class="stopwatch-digits" id="swDigits">00:00:00</div>
+        <div class="stopwatch-btns">
+          <button class="btn-sw btn-sw-start" id="swStartBtn" onclick="toggleSessionStopwatch()">
+            <i class="fa-solid fa-play"></i> <span id="swStartBtnText">بدء</span>
+          </button>
+          <button class="btn-sw btn-sw-reset" onclick="resetSessionStopwatch()">
+            <i class="fa-solid fa-rotate-left"></i> تصفير
+          </button>
+          <button class="btn-sw" style="background:var(--primary-light);color:var(--primary);" onclick="transferTimeToPricing()">
+            <i class="fa-solid fa-calculator"></i> لحاسبة التسعير
+          </button>
+        </div>
+      </div>
+
+      <!-- Section Tallies Grid -->
+      <h3 style="font-size:0.95rem;font-weight:800;color:var(--primary);margin:16px 0 10px;">
+        <i class="fa-solid fa-layer-group"></i> عدادات فرعية للأدوار والزيادات والنقصانات
       </h3>
 
       <div class="tally-grid">
         <div class="tally-card">
-          <div class="tally-title">غرز السطر</div>
+          <div class="tally-title">تكرار السطر</div>
           <div class="tally-num" id="tallyVal0">0</div>
           <div class="tally-btns">
             <button class="tally-btn" onclick="stepTally(0, -1)">−</button>
@@ -1497,49 +2001,174 @@
     </section>
 
     <!-- ─── TAB 4: CALCULATOR ─── -->
+        <!-- ═══════════════════════════════════════════════════════
+         TAB 4: SMART CALCULATORS SUITE (STRICT IRAQI DINAR د.ع)
+         ═══════════════════════════════════════════════════════ -->
     <section class="app-tab-section" id="tab-calc">
       <div class="calculator-card">
-        <h2 style="font-size:1.1rem;font-weight:900;color:var(--primary-darker);margin-bottom:4px;">
-          🧮 حاسبة الخيوط ومقاس السنارة الذكية
-        </h2>
-        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:16px;">
-          اختاري نوع مشروعك وسيقوم التطبيق بتقدير وزن الخيط، عدد الشلات، ومقاس السنارة الأنسب ليدك.
-        </p>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px;">
+          <div>
+            <h2 style="font-size:1.15rem;font-weight:900;color:var(--primary);margin-bottom:2px;">
+              منصة الحاسبات الذكية والتسعير بالدينار العراقي (د.ع)
+            </h2>
+            <p style="font-size:0.82rem;color:var(--text-muted);">
+              أدوات رياضية وهندسية دقيقة لتقدير الخيوط، عينة القياس، وحساب الأرباح بدقة.
+            </p>
+          </div>
+          <span style="font-size:0.8rem;background:var(--primary-light);color:var(--primary);padding:4px 12px;border-radius:var(--radius-full);font-weight:800;">
+            العملة المعتمدة: د.ع (دينار عراقي)
+          </span>
+        </div>
 
-        <label style="font-size:0.88rem;font-weight:800;color:var(--primary-dark);margin-bottom:8px;display:block;">حددي نوع المشروع:</label>
-        <select class="styled-select" id="calcSelectBox">
-          <option value="">— اضغطي هنا للاختيار —</option>
-          <optgroup label="🧸 ألعاب ودمى أميغورومي">
-            <option value="ami-small">دمية صغيرة (10-15 سم)</option>
-            <option value="ami-medium">دمية متوسطة (20-30 سم)</option>
-            <option value="ami-large">دمية كبيرة (35+ سم)</option>
-          </optgroup>
-          <optgroup label="🧣 شالات وملابس">
-            <option value="beanie">طاقية بيني شتوية للكبار</option>
-            <option value="socks">جوارب صوفية منزلية</option>
-            <option value="shawl-s">شال صغير / كوفية رقبة</option>
-            <option value="shawl-l">شال مثلثي كبير بوهو</option>
-            <option value="sweater-s">سويتر نسائي مقاس S/M</option>
-            <option value="sweater-xl">سويتر مقاس واسع L/XL</option>
-          </optgroup>
-          <optgroup label="👜 حقائب وسلال">
-            <option value="bag-small">شنطة يد صغيرة كروس</option>
-            <option value="bag-large">حقيبة تسوق أو شاطئ كبيرة</option>
-            <option value="basket">سلة كروشيه لتنظيم الأغراض</option>
-          </optgroup>
-          <optgroup label="🏡 بطانيات ومفارش">
-            <option value="blanket-baby">بطانية أطفال ناعمة (80×100 سم)</option>
-            <option value="blanket-adult">بطانية كبار شتوية (130×160 سم)</option>
-            <option value="mandala-small">مفرش مانديلا للطاولة (30 سم)</option>
-            <option value="mandala-large">مانديلا حائطية كبيرة (60+ سم)</option>
-          </optgroup>
-        </select>
+        <!-- Subtabs Navigator -->
+        <div class="calc-subtabs-nav">
+          <button class="calc-subtab-btn active" onclick="switchCalcSubtab('yarn-est', this)">
+            <i class="fa-solid fa-calculator"></i> تقدير كمية الخيوط
+          </button>
+          <button class="calc-subtab-btn" onclick="switchCalcSubtab('gauge-calc', this)">
+            <i class="fa-solid fa-ruler-combined"></i> حاسبة عينة القياس (10×10)
+          </button>
+          <button class="calc-subtab-btn" onclick="switchCalcSubtab('leftover-calc', this)">
+            <i class="fa-solid fa-scale-balanced"></i> حاسبة بقايا الخيوط (غرام/متر)
+          </button>
+          <button class="calc-subtab-btn" onclick="switchCalcSubtab('pricing-calc', this)">
+            <i class="fa-solid fa-receipt"></i> حاسبة التسعير وبطاقة العناية (د.ع)
+          </button>
+        </div>
 
-        <button class="calc-btn-action" onclick="performYarnCalculation()">
-          احسبي احتياج الخيوط والسنارة الآن ✨
-        </button>
+        <!-- 1. YARN ESTIMATION PANEL -->
+        <div class="calc-panel active" id="subtab-yarn-est">
+          <label style="font-size:0.88rem;font-weight:800;color:var(--primary);margin-bottom:8px;display:block;">حددي نوع مشروع الكروشيه:</label>
+          <select class="styled-select" id="calcSelectBox">
+            <option value="">👇 اضغطي هنا للاختيار 👇</option>
+            <optgroup label="🧸 ألعاب ودمى أميغورومي">
+              <option value="ami-small">دمية صغيرة (10-15 سم)</option>
+              <option value="ami-medium">دمية متوسطة (20-30 سم)</option>
+              <option value="ami-large">دمية كبيرة (35+ سم)</option>
+            </optgroup>
+            <optgroup label="🧣 شالات وملابس">
+              <option value="beanie">طاقية بيني شتوية للكبار</option>
+              <option value="socks">جوارب صوفية منزلية</option>
+              <option value="shawl-s">شال قصير / كوفية رقبة</option>
+              <option value="shawl-l">شال مثلثي كبير بونشو</option>
+              <option value="sweater-s">سويتر نسائي مقاس S/M</option>
+              <option value="sweater-xl">سويتر مقاس واسع L/XL</option>
+            </optgroup>
+            <optgroup label="👜 حقائب وسلال">
+              <option value="bag-small">شنطة يد صغيرة فلوس</option>
+              <option value="bag-large">حقيبة تسوق أو شاطئ كبيرة</option>
+              <option value="basket">سلة كروشيه لتنظيم الأغراض</option>
+            </optgroup>
+            <optgroup label="🛏️ بطانيات ومفارش">
+              <option value="blanket-baby">بطانية أطفال ناعمة (80×100 سم)</option>
+              <option value="blanket-adult">بطانية كبار شتوية (130×160 سم)</option>
+              <option value="mandala-small">مفرش مانديلا للطاولة (30 سم)</option>
+              <option value="mandala-large">مانديلا جدارية كبيرة (60+ سم)</option>
+            </optgroup>
+          </select>
 
-        <div class="calc-results-card" id="calcResultsCard"></div>
+          <button class="calc-btn-action" onclick="performYarnCalculation()">
+            احسبي احتياج الخيوط والسنارة بالدينار العراقي ✨
+          </button>
+          <div class="calc-results-card" id="calcResultsCard"></div>
+        </div>
+
+        <!-- 2. GAUGE CALCULATOR PANEL (10x10 cm) -->
+        <div class="calc-panel" id="subtab-gauge-calc">
+          <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:14px;line-height:1.6;">
+            قارني غرزك بعينة الباترون القياسية (10×10 سم) لمعرفة ما إذا كانت سنارتك تحتاج تكبيراً أو تصغيراً لتفادي المقاسات الخاطئة:
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+            <div style="background:var(--surface);padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border);">
+              <h4 style="font-size:0.86rem;font-weight:900;color:var(--primary);margin-bottom:8px;">عينة الباترون الأصلية (10 سم)</h4>
+              <label style="font-size:0.78rem;display:block;margin-bottom:4px;">عدد الغرز:</label>
+              <input type="number" id="gaugePatternStitches" class="styled-select" value="20" style="padding:6px 10px;margin-bottom:8px;">
+              <label style="font-size:0.78rem;display:block;margin-bottom:4px;">عدد الصفوف:</label>
+              <input type="number" id="gaugePatternRows" class="styled-select" value="24" style="padding:6px 10px;">
+            </div>
+            <div style="background:var(--surface);padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border);">
+              <h4 style="font-size:0.86rem;font-weight:900;color:var(--accent);margin-bottom:8px;">عينتكِ الفعلية (10 سم)</h4>
+              <label style="font-size:0.78rem;display:block;margin-bottom:4px;">عدد الغرز:</label>
+              <input type="number" id="gaugeUserStitches" class="styled-select" value="22" style="padding:6px 10px;margin-bottom:8px;">
+              <label style="font-size:0.78rem;display:block;margin-bottom:4px;">عدد الصفوف:</label>
+              <input type="number" id="gaugeUserRows" class="styled-select" value="26" style="padding:6px 10px;">
+            </div>
+          </div>
+          <button class="calc-btn-action" onclick="calculateGaugeResult()">
+            تحليل عينة القياس وتقديم التوصية الهندسية 📐
+          </button>
+          <div id="gaugeResultCard" style="margin-top:14px;"></div>
+        </div>
+
+        <!-- 3. LEFTOVER YARN CALCULATOR PANEL -->
+        <div class="calc-panel" id="subtab-leftover-calc">
+          <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:14px;line-height:1.6;">
+            زني بقايا الخيط على ميزان المطبخ المنزلي (بالغرام)، وستحسب لكِ الأداة الأمتار المتبقية بدقة:
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+            <div>
+              <label style="font-size:0.82rem;font-weight:800;display:block;margin-bottom:4px;">وزن البقايا المتبقية (غرام):</label>
+              <input type="number" id="leftoverGrams" class="styled-select" value="35" placeholder="مثال: 35" style="padding:8px 12px;">
+            </div>
+            <div>
+              <label style="font-size:0.82rem;font-weight:800;display:block;margin-bottom:4px;">نوع الخيط القياسي:</label>
+              <select id="leftoverYarnType" class="styled-select" style="padding:8px 12px;">
+                <option value="350_100">أليزا ديفا (100غ = 350م)</option>
+                <option value="160_50">يارن آرت جينز (50غ = 160م)</option>
+                <option value="330_100">أليزا كوتون جولد (100غ = 330م)</option>
+                <option value="120_100">هيمالايا دولفين مخمل (100غ = 120م)</option>
+                <option value="250_100">صوف أكريليك كلاسيك (100غ = 250م)</option>
+              </select>
+            </div>
+          </div>
+          <button class="calc-btn-action" onclick="calculateLeftoverYarnResult()">
+            حساب الأمتار المتبقية ⚖️
+          </button>
+          <div id="leftoverResultCard" style="margin-top:14px;"></div>
+        </div>
+
+        <!-- 4. SMART PRICING & PRODUCT CARE CARD (IN IRAQI DINAR د.ع) -->
+        <div class="calc-panel" id="subtab-pricing-calc">
+          <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:14px;line-height:1.6;">
+            معادلة تسعير هندسية تضمن لكِ أرباحاً عادلة بالدينار العراقي (د.ع) وتمنع بيع أعمالكِ بخسارة:
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+            <div>
+              <label style="font-size:0.8rem;font-weight:800;display:block;margin-bottom:4px;">تكلفة الخيوط والخامات (د.ع):</label>
+              <input type="number" id="priceYarnCost" class="styled-select" value="12000" placeholder="مثال: 12000 د.ع" style="padding:8px 12px;">
+            </div>
+            <div>
+              <label style="font-size:0.8rem;font-weight:800;display:block;margin-bottom:4px;">ساعات العمل الفعلية:</label>
+              <input type="number" id="priceHours" class="styled-select" value="6" placeholder="مثال: 6 ساعات" style="padding:8px 12px;">
+            </div>
+            <div>
+              <label style="font-size:0.8rem;font-weight:800;display:block;margin-bottom:4px;">أجر الساعة المقترح (د.ع):</label>
+              <input type="number" id="priceHourlyRate" class="styled-select" value="3500" placeholder="مثال: 3500 د.ع" style="padding:8px 12px;">
+            </div>
+            <div>
+              <label style="font-size:0.8rem;font-weight:800;display:block;margin-bottom:4px;">التغليف والبطاقات والنواقص (د.ع):</label>
+              <input type="number" id="pricePackagingCost" class="styled-select" value="2500" placeholder="مثال: 2500 د.ع" style="padding:8px 12px;">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+            <div>
+              <label style="font-size:0.8rem;font-weight:800;display:block;margin-bottom:4px;">نسبة هامش الربح وطوارئ الهدر:</label>
+              <select id="priceProfitMargin" class="styled-select" style="padding:8px 12px;">
+                <option value="1.20">20% (هامش ربح قياسي)</option>
+                <option value="1.25">25% (موصى به للقطع المتقنة)</option>
+                <option value="1.35">35% (تصاميم حصرية ومعقدة)</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:0.8rem;font-weight:800;display:block;margin-bottom:4px;">اسم المنتج المنسوج:</label>
+              <input type="text" id="priceItemTitle" class="styled-select" value="بلوزة ليلة النجوم الفنية" style="padding:8px 12px;">
+            </div>
+          </div>
+          <button class="calc-btn-action" onclick="calculateSmartPriceIQD()">
+            حساب السعر العادل وتوليد بطاقة العناية والغسيل (د.ع) 🏷️
+          </button>
+          <div id="pricingResultCard" style="margin-top:14px;"></div>
+        </div>
       </div>
     </section>
 
@@ -1568,6 +2197,278 @@
       <div class="notes-cards-masonry" id="notesMasonryGrid"></div>
     </section>
 
+      <!-- ═══════════════════════════════════════════════════════
+         TAB 7: BESPOKE PATTERN STUDIO & PIXEL GRID (STARRY NIGHT SWEATER)
+         ═══════════════════════════════════════════════════════ -->
+    <section class="app-tab-section" id="tab-studio">
+      <div class="studio-hero-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+          <div>
+            <h2 style="font-size:1.25rem;font-weight:900;color:var(--primary);margin-bottom:4px;">
+              <i class="fa-solid fa-palette"></i> استوديو ومولّد الباترونات الاحترافي
+            </h2>
+            <p style="font-size:0.84rem;color:var(--text-muted);">
+              مخططات هندسية متكاملة، شبكة بكسلات ورموز تفاعلية، وتحويل الصور إلى باترونات كروشيه بالخيوط الحقيقية.
+            </p>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-create-note" style="padding:8px 14px;" onclick="printStudioPatternPDF()">
+              <i class="fa-solid fa-file-pdf"></i> طباعة / تصدير PDF
+            </button>
+            <button class="btn-create-note" style="padding:8px 14px;background:var(--accent-gradient);" onclick="saveStudioToNotes()">
+              <i class="fa-solid fa-bookmark"></i> حفظ في ملاحظاتي
+            </button>
+          </div>
+        </div>
+
+        <!-- Studio Navigation Switcher -->
+        <div class="studio-tabs-row">
+          <button class="studio-tab-btn active" id="btnStudioStarry" onclick="switchStudioMode('starry')">
+            <i class="fa-solid fa-star"></i> باترون بلوزة "ليلة النجوم" (Starry Night)
+          </button>
+          <button class="studio-tab-btn" id="btnStudioCustom" onclick="switchStudioMode('custom')">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> مولّد الباترون من أي صورة خاصة بكِ
+          </button>
+        </div>
+
+        <!-- STARRY NIGHT SWEATER VIEW -->
+        <div id="studioStarryView">
+          <!-- Size & Specs Box -->
+          <div style="background:var(--surface);border:1.5px solid var(--border-purple);border-radius:var(--radius-md);padding:14px;margin-bottom:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+              <h3 style="font-size:1rem;font-weight:900;color:var(--text);">
+                🧶 مقاس البلوزة (L) والمواصفات الفنية
+              </h3>
+              <span class="spec-chip" style="font-weight:800;color:var(--primary);">
+                التكلفة المقدرة: ~28,000 د.ع خيوط قطن/أكريليك
+              </span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));gap:10px;font-size:0.8rem;">
+              <div style="background:var(--bg);padding:8px 12px;border-radius:var(--radius-sm);">
+                <b>محيط الصدر:</b> 104 - 112 سم
+              </div>
+              <div style="background:var(--bg);padding:8px 12px;border-radius:var(--radius-sm);">
+                <b>عرض البلوزة:</b> 52 - 56 سم (نصف المحيط)
+              </div>
+              <div style="background:var(--bg);padding:8px 12px;border-radius:var(--radius-sm);">
+                <b>الطول الكلي:</b> 60 سم (~120 صف)
+              </div>
+              <div style="background:var(--bg);padding:8px 12px;border-radius:var(--radius-sm);">
+                <b>طول الكم:</b> 48 سم (~96 صف)
+              </div>
+              <div style="background:var(--bg);padding:8px 12px;border-radius:var(--radius-sm);">
+                <b>السنارة الموصى بها:</b> 3.5 - 4.0 مم
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 Blueprints (Front, Back, Sleeves) -->
+          <h3 style="font-size:0.95rem;font-weight:900;color:var(--primary);margin-bottom:10px;">
+            📐 المخططات الهندسية لقطع البلوزة الثلاث
+          </h3>
+          <div class="blueprint-grid-3cols">
+            <!-- Front Blueprint -->
+            <div class="blueprint-card">
+              <h4>مخطط الأمام (Front)</h4>
+              <div class="blueprint-dims">52 سم (= 104 غرزة) × 60 سم</div>
+              <div class="blueprint-art-svg">
+                <svg viewBox="0 0 100 120" width="85" height="105">
+                  <rect width="100" height="120" rx="4" fill="#0d1b3e"/>
+                  <!-- Swirls and stars -->
+                  <circle cx="75" cy="25" r="14" fill="#fbbf24"/>
+                  <circle cx="75" cy="25" r="9" fill="#fef3c7"/>
+                  <path d="M 15 120 L 25 35 L 30 120 Z" fill="#1e293b"/>
+                  <path d="M 40 45 Q 60 20 80 40 T 95 60" fill="none" stroke="#60a5fa" stroke-width="4"/>
+                  <path d="M 35 55 Q 55 30 75 50" fill="none" stroke="#93c5fd" stroke-width="3"/>
+                </svg>
+              </div>
+              <div class="blueprint-notes">
+                يبدأ بـ 104 غرزة سلسلة (ch). العمل بصفوف حشو متبادلة الألوان مع رسمة شجرة السرو والنجوم في اليسار.
+              </div>
+            </div>
+
+            <!-- Back Blueprint -->
+            <div class="blueprint-card">
+              <h4>مخطط الخلف (Back)</h4>
+              <div class="blueprint-dims">52 سم (= 104 غرزة) × 60 سم</div>
+              <div class="blueprint-art-svg">
+                <svg viewBox="0 0 100 120" width="85" height="105">
+                  <rect width="100" height="120" rx="4" fill="#0d1b3e"/>
+                  <circle cx="30" cy="25" r="12" fill="#fbbf24"/>
+                  <circle cx="75" cy="28" r="14" fill="#fbbf24"/>
+                  <path d="M 10 50 Q 50 15 90 45" fill="none" stroke="#60a5fa" stroke-width="4"/>
+                  <path d="M 15 65 Q 55 30 95 60" fill="none" stroke="#93c5fd" stroke-width="3"/>
+                  <rect y="100" width="100" height="20" fill="#1953b5"/>
+                </svg>
+              </div>
+              <div class="blueprint-notes">
+                مطابق للأمام في الأبعاد (104 غرزة). تموجات زرقاء كاملة بدون شجرة السرو الأمامية مع 3 نجوم دائرية.
+              </div>
+            </div>
+
+            <!-- Sleeve Blueprint -->
+            <div class="blueprint-card">
+              <h4>مخطط الكم (يُعمل مرتين)</h4>
+              <div class="blueprint-dims">34 سم (= 68 غرزة) × 48 سم</div>
+              <div class="blueprint-art-svg">
+                <svg viewBox="0 0 100 120" width="75" height="105">
+                  <polygon points="20,120 80,120 95,20 5,20" fill="#0d1b3e"/>
+                  <circle cx="50" cy="45" r="10" fill="#fbbf24"/>
+                  <circle cx="35" cy="75" r="8" fill="#fbbf24"/>
+                  <circle cx="65" cy="85" r="8" fill="#fbbf24"/>
+                  <path d="M 15 35 Q 50 15 85 35" fill="none" stroke="#60a5fa" stroke-width="3"/>
+                </svg>
+              </div>
+              <div class="blueprint-notes">
+                يبدأ بـ 68 غرزة ويتدرج للأعلى، يُكرر مرتين للكم الأيمن والأيسر مع نجوم صفراء متناثرة.
+              </div>
+            </div>
+          </div>
+
+          <!-- Color Guide & Stitch Symbols -->
+          <h3 style="font-size:0.95rem;font-weight:900;color:var(--primary);margin:16px 0 8px;">
+            🎨 دليل ألوان الخيوط الثمانية ورموز الغرز
+          </h3>
+          <div class="palette-legend-grid">
+            <div class="palette-card-item">
+              <div class="palette-swatch-circle" style="background:#0d1b3e;"></div>
+              <div><div class="palette-label-title">1. كحلي غامق (A)</div><div class="palette-label-sub">سماء الليل العميق</div></div>
+            </div>
+            <div class="palette-card-item">
+              <div class="palette-swatch-circle" style="background:#1953b5;"></div>
+              <div><div class="palette-label-title">2. أزرق ملكي (B)</div><div class="palette-label-sub">تموجات السحب</div></div>
+            </div>
+            <div class="palette-card-item">
+              <div class="palette-swatch-circle" style="background:#3179d6;"></div>
+              <div><div class="palette-label-title">3. أزرق متوسط (C)</div><div class="palette-label-sub">ظلال الدوامات</div></div>
+            </div>
+            <div class="palette-card-item">
+              <div class="palette-swatch-circle" style="background:#60a5fa;"></div>
+              <div><div class="palette-label-title">4. أزرق فاتح (D)</div><div class="palette-label-sub">حواف الضوء</div></div>
+            </div>
+            <div class="palette-card-item">
+              <div class="palette-swatch-circle" style="background:#93c5fd;"></div>
+              <div><div class="palette-label-title">5. أزرق سماوي (E)</div><div class="palette-label-sub">هالة النجوم</div></div>
+            </div>
+            <div class="palette-card-item">
+              <div class="palette-swatch-circle" style="background:#fef3c7;"></div>
+              <div><div class="palette-label-title">6. كريمي (F)</div><div class="palette-label-sub">مركز القمر</div></div>
+            </div>
+            <div class="palette-card-item">
+              <div class="palette-swatch-circle" style="background:#fbbf24;"></div>
+              <div><div class="palette-label-title">7. أصفر (G)</div><div class="palette-label-sub">بريق النجوم</div></div>
+            </div>
+            <div class="palette-card-item">
+              <div class="palette-swatch-circle" style="background:#1e293b;"></div>
+              <div><div class="palette-label-title">8. رمادي غامق/أسود (H)</div><div class="palette-label-sub">شجرة السرو والبيوت</div></div>
+            </div>
+          </div>
+
+          <!-- Symbols Key -->
+          <div class="symbol-key-bar">
+            <span style="font-size:0.8rem;font-weight:900;color:var(--primary);margin-left:8px;">مفتاح الرموز:</span>
+            <div class="symbol-key-tag"><span class="symbol-char">X</span> غرزة حشو (sc)</div>
+            <div class="symbol-key-tag"><span class="symbol-char">T</span> عمود بلفة (dc)</div>
+            <div class="symbol-key-tag"><span class="symbol-char">O</span> سلسلة (ch)</div>
+            <div class="symbol-key-tag"><span class="symbol-char">•</span> منزلقة (sl st)</div>
+            <div class="symbol-key-tag"><span class="symbol-char">|</span> عمود بلفتين (tr)</div>
+            <div class="symbol-key-tag"><span class="symbol-char">---</span> نصف عمود (hdc)</div>
+          </div>
+
+          <!-- Interactive Pixel & Symbol Grid -->
+          <div class="grid-container-card">
+            <div class="grid-toolbar">
+              <div>
+                <h4 style="font-size:0.95rem;font-weight:900;color:var(--text);margin-bottom:2px;">
+                  🗺️ شبكة البكسلات والرموز التفاعلية (80 غرزة × 50 صف)
+                </h4>
+                <div style="font-size:0.75rem;color:var(--text-muted);">
+                  مرقمة بالرموز والألوان تماماً كصورة الباترون الأصلية. اضغطي على أي صف لتحديده وتتبعه أثناء الشغل!
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <button class="btn-sw" style="background:var(--surface);border:1px solid var(--border);" onclick="zoomGrid(1.2)" title="تكبير">+</button>
+                <button class="btn-sw" style="background:var(--surface);border:1px solid var(--border);" onclick="zoomGrid(0.8)" title="تصغير">−</button>
+                <button class="btn-sw" style="background:var(--surface);border:1px solid var(--border);" onclick="zoomGrid(1.0, true)" title="إعادة الضبط">100%</button>
+                <button class="btn-sw" style="background:var(--primary-light);color:var(--primary);" onclick="highlightNextRow()">
+                  <i class="fa-solid fa-arrow-down"></i> الصف التالي (<span id="activeRowIndicator">1</span>)
+                </button>
+              </div>
+            </div>
+
+            <div class="grid-scroll-box" id="gridScrollBox">
+              <div id="pixelGridWrapper" style="transform-origin:top center;transition:transform 0.2s;">
+                <!-- Generated by JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Row-by-Row Written Instructions -->
+          <h3 style="font-size:0.95rem;font-weight:900;color:var(--primary);margin:14px 0 8px;">
+            📝 التعليمات المكتوبة سطر بسطر (مع عدد الغرز الإلزامي)
+          </h3>
+          <div class="written-rows-box" id="writtenRowsBox">
+            <div class="written-row-line">
+              <span><b>الصف 1:</b> ابدئي بعمل سلسلة أساس (ch) بعدد 104 غرزة بلون كحلي (A). اشتغلي غرزة حشو (sc) في ثاني غرزة من السنارة وفي كل غرزة لنهاية السطر.</span>
+              <span class="stitch-count-pill">(104)</span>
+            </div>
+            <div class="written-row-line">
+              <span><b>الصف 2:</b> ارتفعي 1 ch للارتفاع، لفي القطعة، اشتغلي 24 sc كحلي (A)، 16 sc رمادي غامق (H) لقاعدة الشجرة، 64 sc كحلي (A).</span>
+              <span class="stitch-count-pill">(104)</span>
+            </div>
+            <div class="written-row-line">
+              <span><b>الصف 3 - 10:</b> استمري في تشكيل قاعدة القرية وشجرة السرو بالتبادل اللوني مع الحفاظ على شد الخيط غير المستعمل داخلياً.</span>
+              <span class="stitch-count-pill">(104)</span>
+            </div>
+            <div class="written-row-line">
+              <span><b>الصف 11 - 25:</b> إدخال درجات الأزرق الملكي (B) والأزرق المتوسط (C) لبناء دوامات السماء الليلية وشروق الضوء حول النجوم.</span>
+              <span class="stitch-count-pill">(104)</span>
+            </div>
+            <div class="written-row-line">
+              <span><b>الصف 26 - 40:</b> تكوين مراكز النجوم الصفراء (G) والكريمة (F) مع هالات الأزرق الفاتح (D) والأزرق السماوي (E).</span>
+              <span class="stitch-count-pill">(104)</span>
+            </div>
+            <div class="written-row-line">
+              <span><b>الصف 41 - 50:</b> استكمال قمة شجرة السرو وربط هالات النجوم باللون الكحلي العميق حتى السطر الأخير.</span>
+              <span class="stitch-count-pill">(104)</span>
+            </div>
+          </div>
+
+          <!-- Assembly & Ribbing Instructions -->
+          <div style="background:var(--surface);border:1.5px solid var(--border-purple);border-radius:var(--radius-md);padding:14px;margin-top:14px;">
+            <h4 style="font-size:0.95rem;font-weight:900;color:var(--primary);margin-bottom:6px;">
+              🪡 طريقة التجميع وحواف الرقبة والأكمام (Ribbing)
+            </h4>
+            <ol style="font-size:0.82rem;color:var(--text);line-height:1.7;padding-right:18px;">
+              <li>قومي بعمل كل جزء على حدة (القطعة الأمامية، القطعة الخلفية، والكمين).</li>
+              <li>اطبقي الأمام على الخلف مع توجيه الوجهين للداخل، واخيطي الأكتاف أولاً بإبرة التنظيف.</li>
+              <li>افردي القطعة وثبّتي الكمين في مكانهما حول حردة الإبط بواسطة علامات الغرز ثم خيطيهما.</li>
+              <li>اخيطي الجوانب من نهاية الكم وتحت الإبط وصولاً لأسفل البلوزة.</li>
+              <li><b>الحواف الضلعية (Ribbing):</b> استخدمي غرزة نصف عمود (HDC) أو عمود بلفة (DC) في الحلقة الخلفية (BLO) لحواف الرقبة، الأساور، والقاعدة السفلية (8 - 10 صفوف، بعرض 4 - 5 سم) لتعطي مرونة ومظهراً جاهزاً وفخماً.</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- CUSTOM IMAGE TO PATTERN VIEW -->
+        <div id="studioCustomView" style="display:none;">
+          <div style="background:var(--surface);border:1.5px dashed var(--primary);border-radius:var(--radius-md);padding:24px;text-align:center;margin-bottom:16px;">
+            <i class="fa-solid fa-cloud-arrow-up" style="font-size:2.5rem;color:var(--primary);margin-bottom:10px;"></i>
+            <h3 style="font-size:1.05rem;font-weight:900;margin-bottom:6px;">ارفعي أي صورة من جهازكِ لتحويلها فوراً لباترون كروشيه</h3>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:14px;">
+              يقوم النظام بتحليل درجات الألوان محلياً في جهازكِ وتوليد شبكة كروشيه بدقة الغرز المطلوبة مع الرموز وكميات الخيوط بالدينار العراقي!
+            </p>
+            <input type="file" id="customPatternFileInput" accept="image/*" style="display:none;" onchange="handleCustomImageUpload(event)">
+            <button class="btn-create-note" onclick="document.getElementById('customPatternFileInput').click()">
+              <i class="fa-solid fa-image"></i> اختاري صورة من جهازكِ
+            </button>
+          </div>
+
+          <div id="customResultContainer" style="display:none;">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- ════════════ 2. MOBILE BOTTOM BAR (< 768px ONLY) ════════════ -->
@@ -1591,6 +2492,10 @@
     <button class="mobile-nav-item" data-tab="glossary" onclick="switchNavTab('glossary')">
       <i class="fa-solid fa-graduation-cap m-icon"></i>
       <span class="m-label">المصطلحات</span>
+    </button>
+    <button class="mobile-nav-item" data-tab="studio" onclick="switchNavTab('studio')">
+      <i class="fa-solid fa-palette m-icon"></i>
+      <span class="m-label">الاستوديو</span>
     </button>
     <button class="mobile-nav-item" data-tab="notes" onclick="switchNavTab('notes')">
       <i class="fa-solid fa-note-sticky m-icon"></i>
@@ -2753,6 +3658,574 @@ const LOCAL_STORAGE = {
   PATTERN_ROW_PREFIX: 'crochet_pattern_row_'
 };
 
+
+// ═══════════════════════════════════════════════════════
+//  MECHANICAL CLICK AUDIO SYNTHESIZER (WEB AUDIO API)
+// ═══════════════════════════════════════════════════════
+let audioContextInstance = null;
+function playMechanicalClickSound() {
+  try {
+    if (!audioContextInstance) {
+      audioContextInstance = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioContextInstance.state === 'suspended') {
+      audioContextInstance.resume();
+    }
+    const osc = audioContextInstance.createOscillator();
+    const gain = audioContextInstance.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(650, audioContextInstance.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(120, audioContextInstance.currentTime + 0.035);
+    gain.gain.setValueAtTime(0.35, audioContextInstance.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioContextInstance.currentTime + 0.035);
+    osc.connect(gain);
+    gain.connect(audioContextInstance.destination);
+    osc.start();
+    osc.stop(audioContextInstance.currentTime + 0.035);
+  } catch(e) {}
+}
+
+function triggerHapticFeedback() {
+  if ('vibrate' in navigator) {
+    try { navigator.vibrate(35); } catch(e) {}
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  HANDS-FREE ARABIC VOICE COUNTER (WEB SPEECH API)
+// ═══════════════════════════════════════════════════════
+let voiceRecognitionInstance = null;
+let isVoiceListeningActive = false;
+
+function toggleVoiceCounter() {
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRec) {
+    alert('خاصية التعرف الصوتي غير مدعومة في هذا المتصفح. يمكنكِ استخدام متصفح Chrome أو Edge للاستمتاع بالميزة.');
+    return;
+  }
+
+  if (isVoiceListeningActive) {
+    stopVoiceCounter();
+  } else {
+    startVoiceCounter(SpeechRec);
+  }
+}
+
+function startVoiceCounter(SpeechRec) {
+  try {
+    voiceRecognitionInstance = new SpeechRec();
+    voiceRecognitionInstance.lang = 'ar-IQ'; // Arabic Iraqi / Gulf dialect
+    voiceRecognitionInstance.continuous = true;
+    voiceRecognitionInstance.interimResults = false;
+
+    voiceRecognitionInstance.onstart = () => {
+      isVoiceListeningActive = true;
+      const btn = document.getElementById('voiceMicBtn');
+      const badge = document.getElementById('voiceStatusBadge');
+      if (btn) btn.classList.add('listening');
+      if (badge) badge.innerHTML = '<i class="fa-solid fa-circle" style="font-size:0.5rem;color:#ef4444;animation:pulseMic 1s infinite;"></i> جاري الاستماع لأوامركِ... قولي: "زيد" أو "نقص"';
+    };
+
+    voiceRecognitionInstance.onresult = (event) => {
+      const lastIndex = event.results.length - 1;
+      const transcript = event.results[lastIndex][0].transcript.trim().toLowerCase();
+      console.log('Voice recognized:', transcript);
+      handleVoiceCommand(transcript);
+    };
+
+    voiceRecognitionInstance.onerror = (event) => {
+      console.warn('Voice recognition error:', event.error);
+      if (event.error === 'not-allowed') {
+        alert('يرجى السماح للتطبيق بالوصول إلى الميكروفون لاستخدام ميزة التحكم الصوتي.');
+        stopVoiceCounter();
+      }
+    };
+
+    voiceRecognitionInstance.onend = () => {
+      if (isVoiceListeningActive) {
+        // Auto-restart to keep hands-free working while crocheting
+        try { voiceRecognitionInstance.start(); } catch(e) {}
+      } else {
+        stopVoiceCounter();
+      }
+    };
+
+    voiceRecognitionInstance.start();
+  } catch(e) {
+    console.error('Failed to start voice recognition:', e);
+  }
+}
+
+function stopVoiceCounter() {
+  isVoiceListeningActive = false;
+  if (voiceRecognitionInstance) {
+    try { voiceRecognitionInstance.stop(); } catch(e) {}
+  }
+  const btn = document.getElementById('voiceMicBtn');
+  const badge = document.getElementById('voiceStatusBadge');
+  if (btn) btn.classList.remove('listening');
+  if (badge) badge.innerHTML = '<i class="fa-solid fa-circle" style="font-size:0.5rem;color:#10b981;"></i> الميكروفون متوقف (اضغطي للبدء)';
+}
+
+function handleVoiceCommand(cmd) {
+  const badge = document.getElementById('voiceStatusBadge');
+  if (cmd.includes('زيد') || cmd.includes('زود') || cmd.includes('التالي') || cmd.includes('فوق') || cmd.includes('واحد') || cmd.includes('plus') || cmd.includes('next')) {
+    stepMegaCounter(1);
+    if (badge) badge.innerHTML = '🗣️ سُمع: "<b>زيد</b>" (+1 سطر)';
+  } else if (cmd.includes('نقص') || cmd.includes('ارجع') || cmd.includes('السابق') || cmd.includes('تحت') || cmd.includes('minus') || cmd.includes('back')) {
+    stepMegaCounter(-1);
+    if (badge) badge.innerHTML = '🗣️ سُمع: "<b>نقص</b>" (−1 سطر)';
+  } else if (cmd.includes('صفر') || cmd.includes('تصفير') || cmd.includes('مسح') || cmd.includes('reset') || cmd.includes('clear')) {
+    resetMegaCounter();
+    if (badge) badge.innerHTML = '🗣️ سُمع: "<b>تصفير</b>" (تمت إعادة الضبط)';
+  } else {
+    if (badge) badge.innerHTML = '🗣️ سُمع: "' + cmd + '" (جربي قول: زيد / نقص)';
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  WORK SESSION STOPWATCH & CRAFTER HEALTH REMINDER
+// ═══════════════════════════════════════════════════════
+let stopwatchSeconds = parseInt(localStorage.getItem('crochet_sw_seconds') || '0', 10);
+let stopwatchInterval = null;
+let isStopwatchRunning = false;
+let healthAlertThreshold = 45 * 60; // 45 minutes
+
+function updateStopwatchDisplay() {
+  const hrs = Math.floor(stopwatchSeconds / 3600);
+  const mins = Math.floor((stopwatchSeconds % 3600) / 60);
+  const secs = stopwatchSeconds % 60;
+  const str = String(hrs).padStart(2, '0') + ':' + String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+  const el = document.getElementById('swDigits');
+  if (el) el.textContent = str;
+}
+
+function toggleSessionStopwatch() {
+  if (isStopwatchRunning) {
+    pauseSessionStopwatch();
+  } else {
+    startSessionStopwatch();
+  }
+}
+
+function startSessionStopwatch() {
+  isStopwatchRunning = true;
+  const btn = document.getElementById('swStartBtn');
+  const txt = document.getElementById('swStartBtnText');
+  if (btn) { btn.className = 'btn-sw btn-sw-pause'; }
+  if (txt) { txt.textContent = 'إيقاف'; }
+
+  stopwatchInterval = setInterval(() => {
+    stopwatchSeconds++;
+    localStorage.setItem('crochet_sw_seconds', stopwatchSeconds);
+    updateStopwatchDisplay();
+
+    // Health alert check every 45 mins
+    if (stopwatchSeconds > 0 && stopwatchSeconds % healthAlertThreshold === 0) {
+      showHealthModal();
+    }
+  }, 1000);
+}
+
+function pauseSessionStopwatch() {
+  isStopwatchRunning = false;
+  clearInterval(stopwatchInterval);
+  const btn = document.getElementById('swStartBtn');
+  const txt = document.getElementById('swStartBtnText');
+  if (btn) { btn.className = 'btn-sw btn-sw-start'; }
+  if (txt) { txt.textContent = 'استئناف'; }
+}
+
+function resetSessionStopwatch() {
+  pauseSessionStopwatch();
+  stopwatchSeconds = 0;
+  localStorage.setItem('crochet_sw_seconds', '0');
+  updateStopwatchDisplay();
+  const txt = document.getElementById('swStartBtnText');
+  if (txt) txt.textContent = 'بدء';
+}
+
+function transferTimeToPricing() {
+  const hrs = (stopwatchSeconds / 3600).toFixed(1);
+  switchNavTab('calc');
+  switchCalcSubtab('pricing-calc', document.querySelectorAll('.calc-subtab-btn')[3]);
+  const hoursInput = document.getElementById('priceHours');
+  if (hoursInput) {
+    hoursInput.value = Math.max(1, parseFloat(hrs) || 1);
+    hoursInput.focus();
+  }
+}
+
+function showHealthModal() {
+  const modal = document.getElementById('healthModalOverlay');
+  if (modal) modal.style.display = 'flex';
+}
+function dismissHealthModal() {
+  const modal = document.getElementById('healthModalOverlay');
+  if (modal) modal.style.display = 'none';
+}
+function snoozeHealthModal() {
+  dismissHealthModal();
+  healthAlertThreshold = stopwatchSeconds + (5 * 60); // 5 min snooze
+}
+
+// ═══════════════════════════════════════════════════════
+//  CALCULATOR SUBTABS & STRICT IRAQI DINAR (د.ع) LOGIC
+// ═══════════════════════════════════════════════════════
+function switchCalcSubtab(subtabId, btn) {
+  document.querySelectorAll('.calc-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.calc-subtab-btn').forEach(b => b.classList.remove('active'));
+  const target = document.getElementById('subtab-' + subtabId);
+  if (target) target.classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+function calculateGaugeResult() {
+  const patSt = parseFloat(document.getElementById('gaugePatternStitches').value) || 20;
+  const patRw = parseFloat(document.getElementById('gaugePatternRows').value) || 24;
+  const usrSt = parseFloat(document.getElementById('gaugeUserStitches').value) || 22;
+  const usrRw = parseFloat(document.getElementById('gaugeUserRows').value) || 26;
+
+  const stDiff = usrSt - patSt;
+  const rwDiff = usrRw - patRw;
+  let advice = '';
+
+  if (Math.abs(stDiff) <= 0.5) {
+    advice = '✨ مقاسكِ متطابق 100% مع الباترون! قطعتك ستخرج بالمقاس المثالي تماماً.';
+  } else if (stDiff > 0) {
+    advice = '⚠️ شغلكِ مشدود (عدد غرزك أكبر في الـ 10 سم): قطعتك ستخرج أصغر وأضيق. **التوصية:** كبّري مقاس السنارة بمقدار 0.5 مم أو أرخي يدك أثناء العمل.';
+  } else {
+    advice = '⚠️ شغلكِ مرتخٍ (عدد غرزك أقل في الـ 10 سم): قطعتك ستخرج أوسع وأكبر. **التوصية:** صغّري مقاس السنارة بمقدار 0.5 مم لتفادي المقاس الواسع.';
+  }
+
+  const resEl = document.getElementById('gaugeResultCard');
+  resEl.innerHTML = `
+    <div style="background:var(--surface);border:1.5px solid var(--border-purple);border-radius:var(--radius-md);padding:14px;">
+      <h4 style="font-weight:900;color:var(--primary);margin-bottom:6px;">نتائج فحص عينة القياس (Gauge)</h4>
+      <p style="font-size:0.84rem;color:var(--text);line-height:1.6;">${advice}</p>
+      <div style="font-size:0.75rem;color:var(--text-muted);margin-top:8px;">
+        معامل تعديل العرض: ${(usrSt / patSt).toFixed(2)}x | معامل تعديل الارتفاع: ${(usrRw / patRw).toFixed(2)}x
+      </div>
+    </div>
+  `;
+}
+
+function calculateLeftoverYarnResult() {
+  const grams = parseFloat(document.getElementById('leftoverGrams').value) || 0;
+  const typeVal = document.getElementById('leftoverYarnType').value.split('_');
+  const fullMeters = parseFloat(typeVal[0]);
+  const fullGrams = parseFloat(typeVal[1]);
+
+  const metersLeft = Math.round((grams / fullGrams) * fullMeters);
+  const pct = Math.min(100, Math.round((grams / fullGrams) * 100));
+
+  const resEl = document.getElementById('leftoverResultCard');
+  resEl.innerHTML = `
+    <div style="background:var(--surface);border:1.5px solid var(--border-purple);border-radius:var(--radius-md);padding:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:0.86rem;font-weight:900;color:var(--text);">الأمتار المتبقية المحسوبة:</span>
+        <span style="font-size:1.2rem;font-weight:900;color:var(--primary);">${metersLeft} متر</span>
+      </div>
+      <div class="pattern-progress-bar" style="margin-bottom:8px;">
+        <div class="prog-fill" style="width:${pct}%;"></div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--text-muted);">
+        ما يعادل ${pct}% من وزن الشلة الكاملة. تكفي لعمل إكسسوار صغير، ورود تزيين، أو أطراف حواف مرنة.
+      </div>
+    </div>
+  `;
+}
+
+function calculateSmartPriceIQD() {
+  const yarnCost = parseFloat(document.getElementById('priceYarnCost').value) || 0;
+  const hours = parseFloat(document.getElementById('priceHours').value) || 0;
+  const hourlyRate = parseFloat(document.getElementById('priceHourlyRate').value) || 0;
+  const packCost = parseFloat(document.getElementById('pricePackagingCost').value) || 0;
+  const margin = parseFloat(document.getElementById('priceProfitMargin').value) || 1.20;
+  const itemTitle = document.getElementById('priceItemTitle').value || 'قطعة كروشيه فاخرة';
+
+  const laborCost = hours * hourlyRate;
+  const baseCost = yarnCost + laborCost + packCost;
+  const retailPrice = Math.ceil((baseCost * margin) / 250) * 250; // Rounded to nearest 250 IQD
+  const wholesalePrice = Math.ceil((baseCost * 1.10) / 250) * 250;
+
+  const resEl = document.getElementById('pricingResultCard');
+  resEl.innerHTML = `
+    <div style="background:var(--surface);border:1.5px solid var(--border-purple);border-radius:var(--radius-md);padding:16px;">
+      <h4 style="font-weight:900;color:var(--primary);margin-bottom:12px;">📊 تفصيل التسعير العادل بالدينار العراقي (د.ع)</h4>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.82rem;margin-bottom:14px;">
+        <div style="background:var(--bg);padding:8px 10px;border-radius:var(--radius-sm);">
+          تكلفة المواد والتغليف: <b>${(yarnCost + packCost).toLocaleString()} د.ع</b>
+        </div>
+        <div style="background:var(--bg);padding:8px 10px;border-radius:var(--radius-sm);">
+          أجر الجهد اليدوي (${hours} س): <b>${laborCost.toLocaleString()} د.ع</b>
+        </div>
+        <div style="background:var(--bg);padding:8px 10px;border-radius:var(--radius-sm);">
+          تكلفة الإنتاج الإجمالية: <b>${baseCost.toLocaleString()} د.ع</b>
+        </div>
+        <div style="background:var(--primary-light);padding:8px 10px;border-radius:var(--radius-sm);color:var(--primary);font-weight:800;">
+          السعر المقترح للزبون: <b>${retailPrice.toLocaleString()} د.ع</b>
+        </div>
+      </div>
+
+      <!-- Printable Care Card Box -->
+      <div class="care-card-box" id="careCardContainer">
+        <h4>🌸 بطاقة العناية والغسيل | Care Card 🌸</h4>
+        <div style="text-align:center;font-weight:800;margin-bottom:10px;font-size:0.95rem;">
+          ${itemTitle}
+        </div>
+        <ul style="font-size:0.8rem;line-height:1.7;padding-right:16px;text-align:right;">
+          <li>🧺 <b>طريقة الغسيل:</b> غسيل يدوي برفق بالماء الفاتر أو البارد (30° مئوية) باستخدام شامبو خاص بالصوف.</li>
+          <li>🚫 <b>تجنب العصر الشديد:</b> لا تعصري القطعة بل لفيها في منشفة قطنية لامتصاص فائض الماء.</li>
+          <li>💨 <b>التجفيف:</b> تُفرد مسطحة على سطح أفقي بعيداً عن أشعة الشمس المباشرة لمنع ترهل الغرز.</li>
+          <li>✨ صُنعت بكل حب وإتقان يدوياً لتزين يومكِ 💖</li>
+        </ul>
+        <div style="text-align:center;margin-top:12px;">
+          <button class="btn-create-note" style="padding:6px 14px;font-size:0.78rem;" onclick="window.print()">
+            <i class="fa-solid fa-print"></i> طباعة بطاقة العناية للعميل
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════
+//  STARRY NIGHT PATTERN STUDIO & PIXEL GRID GENERATOR
+// ═══════════════════════════════════════════════════════
+let currentGridZoom = 1.0;
+let currentHighlightedRow = 1;
+
+const STARRY_COLORS = [
+  { code: 'A', name: 'كحلي غامق', hex: '#0d1b3e', symbol: 'X' },
+  { code: 'B', name: 'أزرق ملكي', hex: '#1953b5', symbol: 'T' },
+  { code: 'C', name: 'أزرق متوسط', hex: '#3179d6', symbol: 'T' },
+  { code: 'D', name: 'أزرق فاتح', hex: '#60a5fa', symbol: 'X' },
+  { code: 'E', name: 'أزرق سماوي', hex: '#93c5fd', symbol: 'O' },
+  { code: 'F', name: 'كريمي', hex: '#fef3c7', symbol: '•' },
+  { code: 'G', name: 'أصفر', hex: '#fbbf24', symbol: '•' },
+  { code: 'H', name: 'أسود/رمادي', hex: '#1e293b', symbol: 'X' }
+];
+
+function switchStudioMode(mode) {
+  const starryView = document.getElementById('studioStarryView');
+  const customView = document.getElementById('studioCustomView');
+  const btnStarry = document.getElementById('btnStudioStarry');
+  const btnCustom = document.getElementById('btnStudioCustom');
+
+  if (mode === 'starry') {
+    if (starryView) starryView.style.display = 'block';
+    if (customView) customView.style.display = 'none';
+    if (btnStarry) btnStarry.classList.add('active');
+    if (btnCustom) btnCustom.classList.remove('active');
+  } else {
+    if (starryView) starryView.style.display = 'none';
+    if (customView) customView.style.display = 'block';
+    if (btnStarry) btnStarry.classList.remove('active');
+    if (btnCustom) btnCustom.classList.add('active');
+  }
+}
+
+function initStarryNightGrid() {
+  const wrapper = document.getElementById('pixelGridWrapper');
+  if (!wrapper) return;
+
+  const rows = 50;
+  const cols = 80;
+  let html = '<table class="crochet-pixel-table" id="starryTable">';
+
+  // Header row with column indices
+  html += '<thead><tr><th></th>';
+  for (let c = 1; c <= cols; c++) {
+    html += `<th>${c % 5 === 0 || c === 1 ? c : ''}</th>`;
+  }
+  html += '</tr></thead><tbody>';
+
+  // Generate pattern rows with Starry Night swirly math
+  for (let r = rows; r >= 1; r--) {
+    html += `<tr id="pgrid_row_${r}"><th>${r}</th>`;
+    for (let c = 1; c <= cols; c++) {
+      // Procedural Starry Night approximation: Cypress tree, stars, swirls
+      let colorObj = STARRY_COLORS[0]; // Navy default
+
+      // Cypress Tree (Left side rising from bottom)
+      const cypressHeight = 45;
+      const cypressWidth = Math.max(2, Math.round((rows - r) * 0.45));
+      if (c >= 10 && c <= (10 + cypressWidth) && r <= cypressHeight) {
+        colorObj = STARRY_COLORS[7]; // Charcoal/Black
+      }
+      // Village houses at bottom
+      else if (r <= 6 && c >= 30 && c <= 75) {
+        colorObj = (c % 7 === 0 || c % 11 === 0) ? STARRY_COLORS[6] : STARRY_COLORS[7];
+      }
+      // Moon at top right (cols 60-72, rows 40-48)
+      else if (Math.hypot(c - 68, r - 43) <= 7) {
+        const d = Math.hypot(c - 68, r - 43);
+        colorObj = d <= 3 ? STARRY_COLORS[5] : STARRY_COLORS[6]; // Cream / Yellow
+      }
+      // Big Star 1 (cols 20-28, rows 38-44)
+      else if (Math.hypot(c - 24, r - 40) <= 4) {
+        colorObj = Math.hypot(c - 24, r - 40) <= 2 ? STARRY_COLORS[5] : STARRY_COLORS[6];
+      }
+      // Big Star 2 (cols 42-48, rows 34-40)
+      else if (Math.hypot(c - 45, r - 36) <= 3) {
+        colorObj = STARRY_COLORS[6];
+      }
+      // Sky Swirls (sinusoidal bands across sky)
+      else {
+        const wave = Math.sin((c / 10) + (r / 6)) * 4;
+        const wave2 = Math.cos(c / 14) * 6;
+        if (Math.abs(r - (26 + wave)) < 2.5) {
+          colorObj = STARRY_COLORS[4]; // Sky blue
+        } else if (Math.abs(r - (24 + wave)) < 4) {
+          colorObj = STARRY_COLORS[3]; // Light blue
+        } else if (Math.abs(r - (32 + wave2)) < 3) {
+          colorObj = STARRY_COLORS[2]; // Mid blue
+        } else if (r > 20 && (c + r) % 6 === 0) {
+          colorObj = STARRY_COLORS[1]; // Royal blue
+        }
+      }
+
+      html += `<td style="background:${colorObj.hex};" title="صف: ${r}، غرزة: ${c} (${colorObj.name})">${colorObj.symbol}</td>`;
+    }
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+
+  wrapper.innerHTML = html;
+  highlightGridRow(1);
+}
+
+function zoomGrid(factor, reset = false) {
+  if (reset) {
+    currentGridZoom = 1.0;
+  } else {
+    currentGridZoom = Math.min(2.5, Math.max(0.6, currentGridZoom * factor));
+  }
+  const wrapper = document.getElementById('pixelGridWrapper');
+  if (wrapper) {
+    wrapper.style.transform = `scale(${currentGridZoom})`;
+  }
+}
+
+function highlightGridRow(rowIdx) {
+  currentHighlightedRow = rowIdx;
+  document.querySelectorAll('.crochet-pixel-table tr').forEach(tr => tr.classList.remove('highlighted-row'));
+  const targetRow = document.getElementById('pgrid_row_' + rowIdx);
+  if (targetRow) {
+    targetRow.classList.add('highlighted-row');
+    targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  const ind = document.getElementById('activeRowIndicator');
+  if (ind) ind.textContent = rowIdx;
+}
+
+function highlightNextRow() {
+  currentHighlightedRow = (currentHighlightedRow >= 50) ? 1 : currentHighlightedRow + 1;
+  highlightGridRow(currentHighlightedRow);
+  playMechanicalClickSound();
+  triggerHapticFeedback();
+}
+
+function printStudioPatternPDF() {
+  window.print();
+}
+
+function saveStudioToNotes() {
+  const noteTitle = 'باترون بلوزة ليلة النجوم (Starry Night)';
+  const noteBody = 'مخطط بلوزة ليلة النجوم مقاس L:\n- الصدر: 104-112 سم\n- الطول: 60 سم (104 غرزة × 120 صف)\n- خيط قطن/أكريليك 8 درجات ألوان وسنارة 3.5 مم\n- التكلفة المقدرة: ~28,000 د.ع خامات';
+
+  const newNote = {
+    id: 'note_' + Date.now(),
+    title: noteTitle,
+    body: noteBody,
+    date: new Date().toLocaleDateString('ar-EG'),
+    color: '#ddd6fe',
+    pinned: true,
+    checklist: [
+      { text: 'شراء الخيوط (8 درجات أزرق وأصفر وكحلي)', done: false },
+      { text: 'حياكة عينة القياس 10x10 سم', done: false },
+      { text: 'إنهاء القطعة الأمامية (104 غرزة)', done: false },
+      { text: 'إنهاء القطعة الخلفية (104 غرزة)', done: false },
+      { text: 'حياكة الكم الأيمن والأيسر', done: false },
+      { text: 'التجميع وعمل الحواف الضلعية (Ribbing)', done: false }
+    ]
+  };
+
+  const notes = JSON.parse(localStorage.getItem(LOCAL_STORAGE.NOTES) || '[]');
+  notes.unshift(newNote);
+  localStorage.setItem(LOCAL_STORAGE.NOTES, JSON.stringify(notes));
+  renderNotesMasonry();
+  switchNavTab('notes');
+  alert('تم حفظ باترون بلوزة ليلة النجوم بنجاح في تبويب "ملاحظاتي الذكية"! 🌸');
+}
+
+// ═══════════════════════════════════════════════════════
+//  CUSTOM IMAGE TO CROCHET QUANTIZER
+// ═══════════════════════════════════════════════════════
+function handleCustomImageUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    processCustomCrochetImage(event.target.result);
+  };
+  reader.readAsDataURL(file);
+}
+
+function processCustomCrochetImage(dataUrl) {
+  const img = new Image();
+  img.onload = () => {
+    const targetCols = 60;
+    const targetRows = Math.round((img.height / img.width) * targetCols);
+
+    const canvas = document.createElement('canvas');
+    canvas.width = targetCols;
+    canvas.height = targetRows;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, targetCols, targetRows);
+
+    const imgData = ctx.getImageData(0, 0, targetCols, targetRows).data;
+    const container = document.getElementById('customResultContainer');
+    if (!container) return;
+    container.style.display = 'block';
+
+    let tableHtml = '<div style="margin-top:16px;"><h4 style="font-weight:900;color:var(--primary);margin-bottom:8px;">✨ شبكة الباترون المولد من صورتكِ (' + targetCols + ' × ' + targetRows + ' غرزة):</h4>';
+    tableHtml += '<div class="grid-scroll-box"><table class="crochet-pixel-table">';
+
+    for (let r = 0; r < targetRows; r++) {
+      tableHtml += '<tr>';
+      for (let c = 0; c < targetCols; c++) {
+        const idx = (r * targetCols + c) * 4;
+        const red = imgData[idx];
+        const green = imgData[idx + 1];
+        const blue = imgData[idx + 2];
+
+        // Match to closest crochet yarn swatch
+        let closest = STARRY_COLORS[0];
+        let minDist = Infinity;
+        for (const pal of STARRY_COLORS) {
+          const pr = parseInt(pal.hex.slice(1,3), 16);
+          const pg = parseInt(pal.hex.slice(3,5), 16);
+          const pb = parseInt(pal.hex.slice(5,7), 16);
+          const dist = Math.hypot(red - pr, green - pg, blue - pb);
+          if (dist < minDist) {
+            minDist = dist;
+            closest = pal;
+          }
+        }
+        tableHtml += `<td style="background:${closest.hex};">${closest.symbol}</td>`;
+      }
+      tableHtml += '</tr>';
+    }
+    tableHtml += '</table></div></div>';
+
+    container.innerHTML = tableHtml;
+  };
+  img.src = dataUrl;
+}
+
 // ═══════════════════════════════════════════════════════
 //  INITIALIZATION
 // ═══════════════════════════════════════════════════════
@@ -2765,6 +4238,8 @@ document.addEventListener('DOMContentLoaded', () => {
   renderNotesMasonry();
   syncCountersUI();
   initColorSwatches();
+  initStarryNightGrid();
+  updateStopwatchDisplay();
 });
 
 // ═══════════════════════════════════════════════════════
@@ -3526,5 +5001,27 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   }, 1000);
 })();
 </script>
+
+  <!-- Crafter Health Periodic Stretch Alert Modal -->
+  <div class="health-modal-overlay" id="healthModalOverlay" style="display:none;">
+    <div class="health-modal-card">
+      <div style="font-size:2.4rem;margin-bottom:10px;">🌸🧘‍♀️</div>
+      <h3 style="font-size:1.15rem;font-weight:900;color:var(--primary);margin-bottom:6px;">
+        استراحة كروشيه لصحتكِ وجمال يديكِ!
+      </h3>
+      <p style="font-size:0.84rem;color:var(--text);line-height:1.6;margin-bottom:14px;">
+        مضت <b>45 دقيقة</b> من الحياكة المستمرة والإبداع! خذي دقيقة واحدة لتمارين إطالة معصم اليد، وفرد الأصابع، وتحريك الرقبة والكتفين لتجنب التشنج وإرهاق المفاصل.
+      </p>
+      <div style="display:flex;gap:10px;justify-content:center;">
+        <button class="btn-create-note" onclick="dismissHealthModal()">
+          <i class="fa-solid fa-heart"></i> تمت الاستراحة وبكامل نشاطي!
+        </button>
+        <button class="btn-sw btn-sw-reset" onclick="snoozeHealthModal()">
+          تذكير بعد 5 دقائق ⏳
+        </button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
