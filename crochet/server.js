@@ -20,6 +20,7 @@ function getSamarInstruction(lang) {
     const langMap = {
         ar: 'Arabic (العربية) with warm, sisterly tone and standard crochet terms',
         en: 'English with standard US and UK crochet terminology and encouraging tone',
+        de: 'German (Deutsch) with warm, patient, and expert artisan tone and standard Häkeln & Stricken terminology',
         ja: 'Japanese (日本語) with polite, warm tone and standard かぎ針編み / あみぐるみ terminology',
         tr: 'Turkish (Türkçe) with warm tone and standard tığ işi terminology',
         ru: 'Russian (Русский) with friendly, precise tone and standard вязание крючком terminology',

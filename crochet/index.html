@@ -2286,6 +2286,13 @@
               <span class="lang-country">العراق والعالم العربي</span>
             </div>
           </div>
+                    <div class="lang-opt" data-lang="de" onclick="setAppLanguage('de')">
+            <span class="lang-flag">🇩🇪</span>
+            <div class="lang-text">
+              <span class="lang-name">Deutsch</span>
+              <span class="lang-country">Deutschland / DACH</span>
+            </div>
+          </div>
           <div class="lang-opt" data-lang="en" onclick="setAppLanguage('en')">
             <span class="lang-flag">🇬🇧</span>
             <div class="lang-text">
@@ -4386,662 +4393,546 @@ const YARN_CALC = {
 <script>
 
 // ═══════════════════════════════════════════════════════
-//  MULTI-LANGUAGE INTERNATIONALIZATION (i18n) ENGINE
-// ═══════════════════════════════════════════════════════
-let currentAppLang = localStorage.getItem('crochet_app_lang') || 'ar';
 
+// ═══════════════════════════════════════════════════════
+//  MASTER 7-LANGUAGE DICTIONARY & COMPONENT TRANSLATIONS
+// ═══════════════════════════════════════════════════════
 const I18N_DICT = {
   ar: {
-    langCode: 'ar-IQ',
-    dir: 'rtl',
-    label: 'العربية',
-    brandTitle: 'خيوط وغرز',
-    brandSubtitle: 'الرفيق الذكي للكروشيه',
-    screenWl: 'الشاشة',
-    wlBanner: 'خاصية عدم إطفاء الشاشة قيد التشغيل (لن تنطفئ شاشتك أثناء قراءة الباترون)',
+    langCode: 'ar-IQ', dir: 'rtl', label: 'العربية',
+    brandTitle: 'خيوط وغرز', brandSubtitle: 'الرفيق الذكي للكروشيه',
+    screenWl: 'الشاشة', wlBanner: 'خاصية عدم إطفاء الشاشة قيد التشغيل (لن تنطفئ شاشتك أثناء قراءة الباترون)',
     nav: {
-      search: 'سؤال ذكي',
-      patterns: 'الباترونات المصورة',
-      patternsShort: 'الباترونات',
-      counter: 'العداد السحري',
-      counterShort: 'العداد',
-      calc: 'حاسبة الخيوط',
-      calcShort: 'الحاسبة',
-      glossary: 'المصطلحات المصورة',
-      glossaryShort: 'المصطلحات',
-      studio: 'استوديو الباترونات',
-      studioShort: 'الاستوديو',
-      notes: 'ملاحظاتي الذكية',
-      notesShort: 'ملاحظاتي'
+      search: 'سؤال ذكي', patterns: 'الباترونات المصورة', patternsShort: 'الباترونات',
+      counter: 'العداد السحري', counterShort: 'العداد', calc: 'حاسبة الخيوط', calcShort: 'الحاسبة',
+      glossary: 'المصطلحات المصورة', glossaryShort: 'المصطلحات', studio: 'استوديو الباترونات', studioShort: 'الاستوديو',
+      notes: 'ملاحظاتي الذكية', notesShort: 'ملاحظاتي'
     },
     chat: {
-      title: 'SAMAR — خبيرتكِ الذكية للكروشيه ✨🧶',
-      status: 'متصلة ومستعدة للإجابة فوراً 🟢',
+      title: 'SAMAR — خبيرتكِ الذكية للكروشيه', status: 'متصلة ومستعدة للإجابة فوراً 🟢',
       welcome: 'أهلاً بكِ يا غالية! أنا **SAMAR**، خبيرتكِ ومساعدتكِ الشخصية في فنون الكروشيه والحياكة وشغل الصوف والأبر 🧶✨. اسأليني عن أي غرزة، باترونة، أو مشكلة تواجهكِ في شغلكِ وسأجيبكِ في نفس اللحظة!',
-      placeholder: 'اكتبي سؤالكِ لـ SAMAR هنا...',
-      clear: 'مسح المحادثة',
-      chips: {
-        ring: 'سر الدائرة السحرية 🪄',
-        curling: 'حل التواء القطعة ⚠️',
-        compare: 'الحشو vs العمود 📐',
-        blanket: 'حساب خيط البطانية 🧶',
-        easy: 'مشروع سهل وسريع 💡'
-      }
+      placeholder: 'اكتبي سؤالكِ لـ SAMAR هنا...', clear: 'مسح المحادثة', thinking: 'SAMAR تفكر وتكتب لكِ الآن... 🧶',
+      chips: { ring: '🪄 سر الدائرة السحرية', curling: '⚠️ حل التواء القطعة', compare: '📐 الحشو vs العمود', blanket: '🍼 حساب خيط البطانية' }
     },
     patterns: {
-      title: 'مكتبة الباترونات المصورة خطوة بخطوة',
-      subtitle: 'مجموعة مختارة ومجانية من أرقى تصاميم الكروشيه مع خطوات العمل والرسوم التوضيحية',
+      title: 'مكتبة الباترونات المصورة خطوة بخطوة', subtitle: 'مجموعة مختارة ومجانية من أرقى تصاميم الكروشيه مع خطوات العمل والرسوم التوضيحية',
       searchPh: 'ابحثي في الباترونات (مثال: شال، لعبة، سلة، حقيبة)...',
       levels: { all: 'الكل (المستويات)', beg: '🟢 مبتدئ', int: '🟡 متوسط', adv: '🟣 محترف' },
       cats: { all: 'الكل', ami: 'دمى وألعاب', shawls: 'شالات وملابس', home: 'ديكور ومنزل', bags: 'حقائب وإكسسوار' },
-      startBtn: 'ابدئي التطبيق الآن',
-      balls: 'شلة',
-      hook: 'سنارة',
-      time: 'الوقت',
-      modalBack: 'رجوع للباترونات',
-      secMaterials: 'الأدوات والمقاسات',
-      secSymbols: 'مفتاح الرموز والمصطلحات المعتمدة',
-      secTips: 'نصائح التشطيب والتنظيف الاحترافي',
-      secSteps: 'خطوات العمل المفصلة غرزة بغرزة',
-      stepPrefix: 'الخطوة'
+      balls: 'شلة', hook: 'سنارة', time: 'الوقت', steps: 'خطوة', progress: 'الإنجاز',
+      modalBack: 'رجوع للباترونات', secMaterials: 'الأدوات والمقاسات', secSymbols: 'جدول الرموز والاختصارات المعتمدة في هذا الباترون',
+      secTips: 'نصائح احترافية للتشطيب والتنظيف', secSteps: 'خطوات العمل المفصلة غرزة بغرزة', stepPrefix: 'الخطوة',
+      symColSym: 'الرمز', symColName: 'اسم الغرزة', symColEn: 'المصطلح الإنجليزي'
     },
     counter: {
-      title: 'العداد الصوتي واليدوي للأسطر والغرز',
-      desc: 'عدّاد ذكي مصمم لراحتكِ أثناء إمساك السنارة، مع تحكم صوتي بدون لمس ومؤقت جلسة وتنبيهات صحية',
-      btnVoiceStart: 'تشغيل التحكم الصوتي 🎙️',
-      btnVoiceStop: 'إيقاف الاستماع 🛑',
-      rowLabel: 'السطر الحالي',
-      stitchLabel: 'غرزة',
-      targetLabel: 'الهدف:',
-      btnRowAdd: '+ سطر',
-      btnRowSub: '− سطر',
-      btnReset: 'تصفير العداد',
-      sessionTimer: 'مدة الجلسة:',
-      healthAlertTitle: 'استراحة صحية لصحة يديكِ 🧘‍♀️'
+      title: 'العداد الصوتي واليدوي للأسطر والغرز', desc: 'عدّاد ذكي مصمم لراحتكِ أثناء إمساك السنارة، مع تحكم صوتي بدون لمس ومؤقت جلسة وتنبيهات صحية',
+      voiceTitle: 'التحكم الصوتي بدون لمس (Hands-Free)', voicePrompt: 'قولي بصوتك: <b>"زيد"</b> للزيادة، <b>"نقص"</b> للنقصان، أو <b>"تصفير"</b> لإعادة الضبط!',
+      voiceReady: 'الميكروفون جاهز للعمل', btnVoiceStart: 'تشغيل التحكم الصوتي 🎙️', btnVoiceStop: 'إيقاف الاستماع 🛑',
+      mchTag: 'عداد الحياكة السحري المطور', mchLabel: 'السطر / الدور الحالي (يحفظ تلقائياً في جهازك 100%)',
+      btnReset: 'تصفير العداد', stopwatchTitle: 'مؤقت جلسة العمل وحساب الساعات', btnStartSession: 'بدء الجلسة', btnPauseSession: 'إيقاف مؤقت'
     },
     calc: {
-      title: 'منصة الحاسبات الذكية والتسعير بالدينار العراقي',
-      tabs: {
-        est: 'تقدير كمية الخيط 🧶',
-        rem: 'حاسبة بقايا الخيوط (غرام/متر) ⚖️',
-        gauge: 'حاسبة العينة والقياس (Gauge) 📏',
-        pricing: 'حاسبة التسعير والربح 🧾'
-      },
+      title: 'منصة الحاسبات الذكية والتسعير بالدينار العراقي (د.ع)', subtitle: 'أدوات رياضية وهندسية دقيقة لتقدير الخيوط، عينة القياس، وحساب الأرباح بدقة.',
       currency: 'العملة المعتمدة: د.ع (دينار عراقي)',
-      calcBtn: 'احسبي الآن ✨',
-      cardBtn: 'توليد بطاقة العناية والسعر 🏷️'
+      tabs: {
+        est: '1. تقدير كمية الخيوط ومقاس السنارة', gauge: '2. حاسبة عينة القياس (Gauge 10×10 سم)',
+        rem: '3. حاسبة بقايا الخيوط (غرام إلى متر)', pricing: '4. حاسبة التسعير والربح بالدينار العراقي'
+      },
+      calcBtn: 'احسبي الآن ✨', cardBtn: 'توليد بطاقة العناية والسعر 🏷️'
     },
     studio: {
-      title: 'استوديو ومولّد الباترونات الاحترافي',
-      subtitle: 'تصميم وتحويل الباترونات الملونة وحساب شبكات الغرز بدقة هندسية متناهية',
-      starryTitle: 'باترون لوحة ليلة مرصعة بالنجوم (Starry Night Sweater)',
-      uploadTitle: 'تحويل صورتكِ الخاصة إلى باترون وشبكة غرز بكسل',
-      exportBtn: 'تصدير وحفظ شبكة الغرز 📥'
+      title: 'استوديو ومولّد الباترونات الاحترافي', subtitle: 'مخططات هندسية متكاملة، شبكة بكسلات ورموز تفاعلية، وتحويل الصور إلى باترونات كروشيه بالخيوط الحقيقية.',
+      btnPdf: 'طباعة / تصدير PDF', btnNotes: 'حفظ في ملاحظاتي',
+      tabStarry: 'باترون بلوزة "ليلة النجوم" (Starry Night)', tabCustom: 'مولّد الباترون من أي صورة خاصة بكِ',
+      specsHeader: '🧶 مقاس البلوزة (L) والمواصفات الفنية', specsCost: 'التكلفة المقدرة: ~28,000 د.ع خيوط قطن/أكريليك',
+      chest: 'محيط الصدر: 104 - 112 سم', width: 'عرض البلوزة: 52 - 56 سم', length: 'الطول الكلي: 60 سم (120 صف)',
+      sleeve: 'طول الكم: 48 سم (96 صف)', hook: 'السنارة الموصى بها: 3.5 - 4.0 مم',
+      blueprints: 'المخططات الهندسية لقطع البلوزة الثلاث',
+      partFront: 'مخطط الأمام', partBack: 'مخطط الخلف', partSleeves: 'مخطط الكم (يُعمل مرتين)',
+      exportGrid: 'تصدير وحفظ شبكة الغرز 📥'
     },
     glossary: {
-      title: 'قاموس غرز وسنارات الكروشيه المصور',
-      masterGuideBtn: 'دليل مقاسات السنارات والخيوط الشامل 📐',
-      searchPh: 'ابحثي عن أي غرزة أو رمز (مثال: sc, عمود, سلسلة, T)...'
+      title: 'قاموس غرز وسنارات الكروشيه المصور', masterGuideBtn: 'دليل مقاسات السنارات والخيوط الشامل 📐',
+      searchPh: 'ابحثي عن أي غرزة أو رمز (مثال: sc, عمود, سلسلة, T)...', emptySearch: 'لا توجد مصطلحات مطابقة للبحث',
+      tagDiagram: '📐 حركة السنارة (رسم)', tagTexture: '🧶 نسيج الخيط الحقيقي'
     },
     notes: {
-      title: 'ملاحظاتي ومشاريعي الذكية',
-      addBtn: 'إضافة مشروع جديد +'
+      title: 'ملاحظاتي ومشاريعي الذكية', btnAdd: 'ملاحظة جديدة', searchPh: 'ابحثي في الملاحظات...',
+      emptyTitle: 'لا توجد ملاحظات مسجلة بعد', emptyDesc: 'اضغطي على "+ ملاحظة جديدة" لتدوين خيوطك ومشاريعك وقوائم مهامك'
     }
   },
 
   en: {
-    langCode: 'en-US',
-    dir: 'ltr',
-    label: 'English',
-    brandTitle: 'Yarn & Stitches',
-    brandSubtitle: 'Smart Crochet Companion',
-    screenWl: 'Screen',
-    wlBanner: 'Screen keep-awake is active (screen will not sleep while crocheting)',
+    langCode: 'en-US', dir: 'ltr', label: 'English',
+    brandTitle: 'Yarn & Stitches', brandSubtitle: 'Smart Crochet Companion',
+    screenWl: 'Screen', wlBanner: 'Screen keep-awake is active (screen will not sleep while crocheting)',
     nav: {
-      search: 'AI Expert',
-      patterns: 'Illustrated Patterns',
-      patternsShort: 'Patterns',
-      counter: 'Smart Counter',
-      counterShort: 'Counter',
-      calc: 'Yarn Calculators',
-      calcShort: 'Calculators',
-      glossary: 'Stitch Glossary',
-      glossaryShort: 'Glossary',
-      studio: 'Pattern Studio',
-      studioShort: 'Studio',
-      notes: 'Smart Notes',
-      notesShort: 'Notes'
+      search: 'AI Expert', patterns: 'Illustrated Patterns', patternsShort: 'Patterns',
+      counter: 'Smart Counter', counterShort: 'Counter', calc: 'Yarn Calculators', calcShort: 'Calculators',
+      glossary: 'Stitch Glossary', glossaryShort: 'Glossary', studio: 'Pattern Studio', studioShort: 'Studio',
+      notes: 'Smart Notes', notesShort: 'Notes'
     },
     chat: {
-      title: 'SAMAR — Smart Crochet Expert ✨🧶',
-      status: 'Online & ready to guide you instantly 🟢',
+      title: 'SAMAR — Smart Crochet Expert', status: 'Online & ready to answer instantly 🟢',
       welcome: 'Welcome! I am **SAMAR**, your personal expert crochet & knitting companion 🧶✨. Ask me about any stitch, pattern, gauge calculation, or yarn tension issue, and I will assist you right away!',
-      placeholder: 'Ask SAMAR anything about crochet...',
-      clear: 'Clear Chat',
-      chips: {
-        ring: 'Magic Ring Secret 🪄',
-        curling: 'Fixing Yarn Curling ⚠️',
-        compare: 'Single vs Double Crochet 📐',
-        blanket: 'Blanket Yarn Estimation 🧶',
-        easy: 'Quick Beginner Project 💡'
-      }
+      placeholder: 'Ask SAMAR anything about crochet...', clear: 'Clear Chat', thinking: 'SAMAR is thinking and typing... 🧶',
+      chips: { ring: '🪄 Magic Ring Secret', curling: '⚠️ Fixing Yarn Curling', compare: '📐 Single vs Double Crochet', blanket: '🍼 Blanket Yarn Calc' }
     },
     patterns: {
-      title: 'Step-by-Step Illustrated Patterns Library',
-      subtitle: 'Curated free crochet patterns with clear step-by-step instructions and vector diagrams',
+      title: 'Step-by-Step Illustrated Patterns Library', subtitle: 'Curated free crochet patterns with clear step-by-step instructions and vector diagrams',
       searchPh: 'Search patterns (e.g. shawl, kitten, basket, bag)...',
       levels: { all: 'All Levels', beg: '🟢 Beginner', int: '🟡 Intermediate', adv: '🟣 Advanced' },
       cats: { all: 'All', ami: 'Amigurumi', shawls: 'Shawls & Wearables', home: 'Home & Decor', bags: 'Bags & Accessories' },
-      startBtn: 'Start Pattern Now',
-      balls: 'Balls',
-      hook: 'Hook',
-      time: 'Time',
-      modalBack: 'Back to Patterns',
-      secMaterials: 'Tools & Materials',
-      secSymbols: 'Symbol & Abbreviation Key',
-      secTips: 'Finishing & Blocking Tips',
-      secSteps: 'Detailed Step-by-Step Instructions',
-      stepPrefix: 'Step'
+      balls: 'balls', hook: 'Hook', time: 'Time', steps: 'steps', progress: 'Progress',
+      modalBack: 'Back to Patterns', secMaterials: 'Tools & Materials', secSymbols: 'Pattern Symbols & Abbreviations Key',
+      secTips: 'Finishing & Blocking Professional Tips', secSteps: 'Step-by-Step Stitch Instructions', stepPrefix: 'Step',
+      symColSym: 'Symbol', symColName: 'Stitch Name', symColEn: 'Standard US/UK Term'
     },
     counter: {
-      title: 'Hands-Free Voice & Touch Counter',
-      desc: 'Craft hands-free while holding your hook with voice control, session timer, and wrist stretch alerts',
-      btnVoiceStart: 'Start Voice Control 🎙️',
-      btnVoiceStop: 'Stop Listening 🛑',
-      rowLabel: 'Current Row',
-      stitchLabel: 'Stitch',
-      targetLabel: 'Target:',
-      btnRowAdd: '+ Row',
-      btnRowSub: '− Row',
-      btnReset: 'Reset Counter',
-      sessionTimer: 'Session Time:',
-      healthAlertTitle: 'Healthy Crafting Break 🧘‍♀️'
+      title: 'Hands-Free Voice & Touch Counter', desc: 'Craft hands-free while holding your hook with voice control, session timer, and wrist stretch alerts',
+      voiceTitle: 'Hands-Free Voice Control', voicePrompt: 'Say: <b>"Next"</b> or <b>"Plus"</b> to increase, <b>"Back"</b> or <b>"Minus"</b> to decrease, <b>"Reset"</b> to zero!',
+      voiceReady: 'Microphone is active and ready', btnVoiceStart: 'Start Voice Control 🎙️', btnVoiceStop: 'Stop Listening 🛑',
+      mchTag: 'Smart Advanced Crochet Counter', mchLabel: 'Current Row / Round (auto-saved 100% locally)',
+      btnReset: 'Reset Counter', stopwatchTitle: 'Work Session Timer & Hour Tracker', btnStartSession: 'Start Session', btnPauseSession: 'Pause'
     },
     calc: {
-      title: 'Smart Yarn & Accurate Pricing Calculators',
+      title: 'Smart Calculators & Accurate Pricing Suite', subtitle: 'Accurate mathematical tools for estimating yarn, swatch gauge, and profit margins.',
+      currency: 'Currency: IQD / Universal Units',
       tabs: {
-        est: 'Yarn Estimator 🧶',
-        rem: 'Remaining Yarn by Weight ⚖️',
-        gauge: 'Gauge & Swatch Calculator 📏',
-        pricing: 'Pricing & Profit Calculator 🧾'
+        est: '1. Yarn Quantity & Hook Estimator', gauge: '2. Gauge Swatch Calculator (10×10 cm)',
+        rem: '3. Remaining Yarn by Weight (g to m)', pricing: '4. Project Pricing & Profit Calculator'
       },
-      currency: 'Currency: IQD (Iraqi Dinar) / Universal Units',
-      calcBtn: 'Calculate Now ✨',
-      cardBtn: 'Generate Care & Price Tag 🏷️'
+      calcBtn: 'Calculate Now ✨', cardBtn: 'Generate Care & Price Tag 🏷️'
     },
     studio: {
-      title: 'Bespoke Pattern Studio & Grid Generator',
-      subtitle: 'Convert images to accurate crochet pixel grids and read bespoke master patterns',
-      starryTitle: 'Starry Night Bespoke Sweater Pattern',
-      uploadTitle: 'Convert Your Image to Crochet Pixel Grid',
-      exportBtn: 'Export Pattern Grid 📥'
+      title: 'Bespoke Pattern Studio & Grid Generator', subtitle: 'Complete vector blueprints, interactive pixel grids, and photo-to-crochet converter with real yarns.',
+      btnPdf: 'Print / Export PDF', btnNotes: 'Save to My Notes',
+      tabStarry: 'Starry Night Bespoke Sweater Pattern', tabCustom: 'Convert Any Photo to Crochet Grid',
+      specsHeader: '🧶 Sweater Size (L) & Technical Specs', specsCost: 'Estimated Cost: ~28,000 IQD Cotton/Acrylic Yarn',
+      chest: 'Chest Circumference: 104 - 112 cm', width: 'Sweater Width: 52 - 56 cm', length: 'Total Length: 60 cm (120 rows)',
+      sleeve: 'Sleeve Length: 48 cm (96 rows)', hook: 'Recommended Hook: 3.5 - 4.0 mm',
+      blueprints: 'Technical Schematics for All 3 Pieces',
+      partFront: 'Front Panel Chart', partBack: 'Back Panel Chart', partSleeves: 'Sleeve Chart (Make 2)',
+      exportGrid: 'Export Pattern Grid 📥'
     },
     glossary: {
-      title: 'Illustrated Crochet Stitches & Hooks Glossary',
-      masterGuideBtn: 'Master Hook & Yarn Size Guide 📐',
-      searchPh: 'Search stitches or symbols (e.g. sc, dc, ch, slip stitch)...'
+      title: 'Illustrated Crochet Stitches & Hooks Glossary', masterGuideBtn: 'Master Hook & Yarn Size Guide 📐',
+      searchPh: 'Search stitches or symbols (e.g. sc, dc, ch, slip stitch)...', emptySearch: 'No matching stitches found',
+      tagDiagram: '📐 Stitch Motion Diagram (Vector)', tagTexture: '🧶 Real Yarn Texture Swatch'
     },
     notes: {
-      title: 'My Smart Crochet Notes & Projects',
-      addBtn: 'Add New Project +'
+      title: 'My Smart Crochet Notes & Projects', btnAdd: 'New Note', searchPh: 'Search in notes...',
+      emptyTitle: 'No notes logged yet', emptyDesc: 'Tap "+ New Note" to record your yarn stash, current WIPs, and checklists'
+    }
+  },
+
+  de: {
+    langCode: 'de-DE', dir: 'ltr', label: 'Deutsch',
+    brandTitle: 'Garn & Maschen', brandSubtitle: 'Smarter Häkel-Assistent',
+    screenWl: 'Bildschirm', wlBanner: 'Bildschirm bleibt eingeschaltet (kein Ruhezustand beim Häkeln)',
+    nav: {
+      search: 'KI-Berater', patterns: 'Häkelanleitungen', patternsShort: 'Anleitungen',
+      counter: 'Smarter Zähler', counterShort: 'Zähler', calc: 'Garnrechner', calcShort: 'Rechner',
+      glossary: 'Maschen-Glossar', glossaryShort: 'Glossar', studio: 'Muster-Studio', studioShort: 'Studio',
+      notes: 'Meine Notizen', notesShort: 'Notizen'
+    },
+    chat: {
+      title: 'SAMAR — Deine smarte Häkel-Expertin', status: 'Online & sofort hilfsbereit 🟢',
+      welcome: 'Herzlich willkommen! Ich bin **SAMAR**, deine persönliche Expertin für Häkeln, Stricken und Garne 🧶✨. Frage mich nach Maschen, Anleitungen, Maschenproben oder Spannungs-Problemen!',
+      placeholder: 'Frage SAMAR alles ums Häkeln...', clear: 'Chat löschen', thinking: 'SAMAR denkt nach und tippt... 🧶',
+      chips: { ring: '🪄 Geheimnis Fadenring', curling: '⚠️ Einrollen verhindern', compare: '📐 Feste Masche vs Stäbchen', blanket: '🍼 Decken-Garn berechnen' }
+    },
+    patterns: {
+      title: 'Schritt-für-Schritt Illustrierte Anleitungen', subtitle: 'Kuratierte kostenlose Häkelanleitungen mit präzisen Rundenanweisungen und Vektordiagrammen',
+      searchPh: 'Anleitungen durchsuchen (z. B. Tuch, Kätzchen, Korb, Tasche)...',
+      levels: { all: 'Alle Level', beg: '🟢 Anfänger', int: '🟡 Mittel', adv: '🟣 Fortgeschritten' },
+      cats: { all: 'Alle', ami: 'Amigurumi', shawls: 'Tücher & Kleidung', home: 'Wohnen & Deko', bags: 'Taschen & Zubehör' },
+      balls: 'Knäuel', hook: 'Häkelnadel', time: 'Dauer', steps: 'Schritte', progress: 'Fortschritt',
+      modalBack: 'Zurück zu Anleitungen', secMaterials: 'Werkzeug & Materialien', secSymbols: 'Verwendete Maschensymbole & Abkürzungen',
+      secTips: 'Tipps zum Vernähen und Spannen', secSteps: 'Detaillierte Maschen-für-Maschen Anleitung', stepPrefix: 'Schritt',
+      symColSym: 'Symbol', symColName: 'Maschenart', symColEn: 'Internationale Bezeichnung'
+    },
+    counter: {
+      title: 'Freihändiger Sprach- & Touch-Reihenzähler', desc: 'Häkle freihändig mit Sprachsteuerung, Session-Timer und gesunden Handgelenk-Erinnerungen',
+      voiceTitle: 'Freihändige Sprachsteuerung', voicePrompt: 'Sage: <b>"Weiter"</b> zum Vorzählen, <b>"Zurück"</b> zum Abziehen, oder <b>"Zurücksetzen"</b>!',
+      voiceReady: 'Mikrofon ist aufnahmebereit', btnVoiceStart: 'Sprachzählung starten 🎙️', btnVoiceStop: 'Zuhören beenden 🛑',
+      mchTag: 'Erweiterter Häkelzähler', mchLabel: 'Aktuelle Reihe / Runde (wird zu 100% lokal gespeichert)',
+      btnReset: 'Zähler auf Null', stopwatchTitle: 'Häkel-Session-Timer & Stundenerfassung', btnStartSession: 'Starten', btnPauseSession: 'Pause'
+    },
+    calc: {
+      title: 'Smarte Garnrechner & Exakte Preiskalkulation', subtitle: 'Präzise mathematische Werkzeuge für Garnverbrauch, Maschenprobe und Gewinnspannen.',
+      currency: 'Währung: IQD / Universelle Einheiten',
+      tabs: {
+        est: '1. Garnbedarf & Nadelstärken-Schätzer', gauge: '2. Maschenproben-Rechner (10×10 cm)',
+        rem: '3. Restgarn-Rechner (Gramm zu Meter)', pricing: '4. Preis- & Gewinnkalkulation'
+      },
+      calcBtn: 'Jetzt berechnen ✨', cardBtn: 'Pflege- & Preisschild erstellen 🏷️'
+    },
+    studio: {
+      title: 'Professionelles Muster-Studio & Zählmuster', subtitle: 'Vollständige technische Baupläne, interaktives Pixelgitter und Foto-in-Häkelmuster-Generator.',
+      btnPdf: 'PDF drucken / exportieren', btnNotes: 'In Notizen speichern',
+      tabStarry: 'Pullover "Sternennacht" (Starry Night)', tabCustom: 'Eigenes Foto in Häkelraster umwandeln',
+      specsHeader: '🧶 Pullover-Größe (L) & Technische Daten', specsCost: 'Geschätzte Kosten: ~28.000 IQD Baumwoll-/Acrylgarn',
+      chest: 'Brustumfang: 104 - 112 cm', width: 'Pullover-Breite: 52 - 56 cm', length: 'Gesamtlänge: 60 cm (120 Reihen)',
+      sleeve: 'Ärmellänge: 48 cm (96 Reihen)', hook: 'Empfohlene Nadel: 3.5 - 4.0 mm',
+      blueprints: 'Schnittmuster für alle 3 Teile',
+      partFront: 'Vorderteil-Schema', partBack: 'Rückenteil-Schema', partSleeves: 'Ärmel-Schema (2x arbeiten)',
+      exportGrid: 'Zählraster exportieren 📥'
+    },
+    glossary: {
+      title: 'Illustriertes Häkelmaschen- & Nadelglossar', masterGuideBtn: 'Große Nadel- & Garntabelle 📐',
+      searchPh: 'Maschen oder Symbole suchen (z. B. feste Masche, Stäbchen, LM)...', emptySearch: 'Keine passenden Maschen gefunden',
+      tagDiagram: '📐 Maschendiagramm (Vektor)', tagTexture: '🧶 Echtes Maschenbild'
+    },
+    notes: {
+      title: 'Meine smarten Häkelnotizen & Projekte', btnAdd: 'Neue Notiz', searchPh: 'Notizen durchsuchen...',
+      emptyTitle: 'Noch keine Notizen vorhanden', emptyDesc: 'Klicke auf "+ Neue Notiz", um Garnvorräte, aktuelle Projekte und Checklisten festzuhalten'
     }
   },
 
   ja: {
-    langCode: 'ja-JP',
-    dir: 'ltr',
-    label: '日本語',
-    brandTitle: '糸と編み目',
-    brandSubtitle: 'スマート・かぎ針編みアシスタント',
-    screenWl: '画面常時',
-    wlBanner: '画面常時点灯が有効です（編み作業中も画面がスリープしません）',
+    langCode: 'ja-JP', dir: 'ltr', label: '日本語',
+    brandTitle: '糸と編み目', brandSubtitle: 'スマート・かぎ針編みアシスタント',
+    screenWl: '画面常時', wlBanner: '画面常時点灯が有効です（編み作業中も画面がスリープしません）',
     nav: {
-      search: 'AI相談',
-      patterns: '編み図・パターン',
-      patternsShort: '編み図',
-      counter: '編み目カウンター',
-      counterShort: 'カウンター',
-      calc: '糸量計算機',
-      calcShort: '計算機',
-      glossary: '編み目記号・用語',
-      glossaryShort: '用語集',
-      studio: 'パターンスタジオ',
-      studioShort: 'スタジオ',
-      notes: 'マイノート',
-      notesShort: 'ノート'
+      search: 'AI相談', patterns: '編み図・パターン', patternsShort: '編み図',
+      counter: '編み目カウンター', counterShort: 'カウンター', calc: '糸量計算機', calcShort: '計算機',
+      glossary: '編み目記号・用語', glossaryShort: '用語集', studio: 'パターンスタジオ', studioShort: 'スタジオ',
+      notes: 'マイノート', notesShort: 'ノート'
     },
     chat: {
-      title: 'SAMAR — かぎ針編み専属AIエキスパート ✨🧶',
-      status: 'オンライン・いつでも質問にお答えします 🟢',
+      title: 'SAMAR — かぎ針編み専属AIエキスパート', status: 'オンライン・いつでも質問にお答えします 🟢',
       welcome: 'ようこそ！私は **SAMAR**、あなたのかぎ針編み＆あみぐるみ専属AIパートナーです 🧶✨。編み目記号、糸の選び方、編み図の悩みなど何でも気軽にお尋ねください！',
-      placeholder: 'SAMARにかぎ針編みの質問をする...',
-      clear: 'チャット消去',
-      chips: {
-        ring: 'マジックリングのコツ 🪄',
-        curling: '編み地の丸まり解消 ⚠️',
-        compare: '細編み vs 長編み 📐',
-        blanket: 'ブランケットの糸量計算 🧶',
-        easy: '簡単おすすめ作品 💡'
-      }
+      placeholder: 'SAMARにかぎ針編みの質問をする...', clear: 'チャット消去', thinking: 'SAMARが考えながら入力中... 🧶',
+      chips: { ring: '🪄 わの作り目のコツ', curling: '⚠️ 編み地の丸まり解消', compare: '📐 細編み vs 長編み', blanket: '🍼 ブランケット糸量計算' }
     },
     patterns: {
-      title: 'ステップバイステップ図解パターン集',
-      subtitle: '丁寧な手順と鮮明な図解が付いた、厳選かぎ針編みパターン',
+      title: 'ステップバイステップ図解パターン集', subtitle: '丁寧な手順と鮮明な図解が付いた、厳選かぎ針編みパターン',
       searchPh: 'パターンを検索 (例: ショール、あみぐるみ、かご、バッグ)...',
       levels: { all: 'すべてのレベル', beg: '🟢 初級', int: '🟡 中級', adv: '🟣 上級' },
       cats: { all: 'すべて', ami: 'あみぐるみ', shawls: 'ショール・ウェア', home: 'インテリア・雑貨', bags: 'バッグ・小物' },
-      startBtn: '編み始める',
-      balls: '玉',
-      hook: 'かぎ針',
-      time: '所要時間',
-      modalBack: '一覧に戻る',
-      secMaterials: '使用針と材料',
-      secSymbols: '使用記号と略語一覧',
-      secTips: '仕上げとお手入れのコツ',
-      secSteps: 'ステップ別・編み順詳細',
-      stepPrefix: 'ステップ'
+      balls: '玉', hook: 'かぎ針', time: '所要時間', steps: 'ステップ', progress: '進捗',
+      modalBack: '一覧に戻る', secMaterials: '使用針と材料', secSymbols: '使用記号と略語一覧',
+      secTips: '仕上げとお手入れのコツ', secSteps: 'ステップ別・編み順詳細', stepPrefix: 'ステップ',
+      symColSym: '記号', symColName: '編み目名称', symColEn: '英語表記'
     },
     counter: {
-      title: '音声＆タッチ式 編み目カウンター',
-      desc: '針を持ったまま手ぶらでカウント。音声認識・タイマー・健康ストレッチ機能付き',
-      btnVoiceStart: '音声認識を開始 🎙️',
-      btnVoiceStop: '音声認識を停止 🛑',
-      rowLabel: '現在の段',
-      stitchLabel: '目',
-      targetLabel: '目標:',
-      btnRowAdd: '+1段',
-      btnRowSub: '−1段',
-      btnReset: 'カウンター初期化',
-      sessionTimer: 'セッション時間:',
-      healthAlertTitle: '手首と指のリフレッシュ休憩 🧘‍♀️'
+      title: '音声＆タッチ式 編み目カウンター', desc: '針を持ったまま手ぶらでカウント。音声認識・タイマー・健康ストレッチ機能付き',
+      voiceTitle: '手ぶら音声操作カウンター', voicePrompt: '「<b>次</b>」でプラス、「<b>戻る</b>」でマイナス、「<b>リセット</b>」で初期化！',
+      voiceReady: 'マイク準備完了', btnVoiceStart: '音声認識を開始 🎙️', btnVoiceStop: '音声認識を停止 🛑',
+      mchTag: '多機能スマートカウンター', mchLabel: '現在の段 / 目数（端末に100%自動保存）',
+      btnReset: 'カウンター初期化', stopwatchTitle: '作業セッションタイマー＆時間記録', btnStartSession: 'セッション開始', btnPauseSession: '一時停止'
     },
     calc: {
-      title: 'スマート糸量計算＆価格設定プラットフォーム',
+      title: 'スマート糸量計算＆価格設定プラットフォーム', subtitle: '糸の必要量、ゲージ換算、販売適正価格を割り出す計算ツール。',
+      currency: '通貨単位: IQD / 各国通貨対応',
       tabs: {
-        est: '糸量見積もり 🧶',
-        rem: '残り糸の長さ計算 ⚖️',
-        gauge: 'ゲージ（目数・段数）計算 📏',
-        pricing: '販売価格＆利益計算 🧾'
+        est: '1. 糸量見積もり＆適正針サイズ', gauge: '2. ゲージ計算機 (10×10 cm)',
+        rem: '3. 残り糸の長さ計算 (gからmへ)', pricing: '4. 販売価格＆利益計算'
       },
-      currency: '通貨単位: IQD（イラクディナール）/ 各国通貨対応',
-      calcBtn: '計算する ✨',
-      cardBtn: '品質表示＆値札タグを生成 🏷️'
+      calcBtn: '計算する ✨', cardBtn: '品質表示＆値札タグを生成 🏷️'
     },
     studio: {
-      title: '本格パターンスタジオ＆方眼チャート生成',
-      subtitle: '画像をかぎ針編みの目数チャートに変換し、本格的な編み図を生成します',
-      starryTitle: '「星月夜」セーター本格編み図',
-      uploadTitle: 'お好みの画像をかぎ針編みチャートに変換',
-      exportBtn: 'チャートを保存 📥'
+      title: '本格パターンスタジオ＆方眼チャート生成', subtitle: '設計図、インタラクティブ目数チャート、お好みの画像をかぎ針編みチャートに変換。',
+      btnPdf: 'PDF印刷 / 出力', btnNotes: 'マイノートに保存',
+      tabStarry: '「星月夜」セーター本格編み図', tabCustom: '画像をかぎ針編みチャートに変換',
+      specsHeader: '🧶 セーターサイズ (L) ＆ 仕様', specsCost: '概算材料費: 約28,000 IQD（コットン/アクリル糸）',
+      chest: '胸囲: 104 - 112 cm', width: '身幅: 52 - 56 cm', length: '着丈: 60 cm (120段)',
+      sleeve: '袖丈: 48 cm (96段)', hook: '推奨かぎ針: 3.5 - 4.0 mm',
+      blueprints: 'パーツ別 構造製図（全3面）',
+      partFront: '前身頃チャート', partBack: '後身頃チャート', partSleeves: '袖チャート（2枚作成）',
+      exportGrid: 'チャート画像を保存 📥'
     },
     glossary: {
-      title: 'かぎ針編み 記号と針の図解辞典',
-      masterGuideBtn: 'かぎ針と糸の規格対応表 📐',
-      searchPh: '編み目記号や用語を検索 (例: 細編み, 長編み, 鎖編み, sc)...'
+      title: 'かぎ針編み 記号と針の図解辞典', masterGuideBtn: 'かぎ針と糸の規格対応表 📐',
+      searchPh: '編み目記号や用語を検索 (例: 細編み, 長編み, 鎖編み, sc)...', emptySearch: '該当する編み目が見つかりません',
+      tagDiagram: '📐 編み目記号図（ベクター）', tagTexture: '🧶 実際の編み地テクスチャ'
     },
     notes: {
-      title: 'マイ編み物ノート＆作品記録',
-      addBtn: '新規プロジェクト追加 +'
+      title: 'マイ編み物ノート＆作品記録', btnAdd: '新規ノート', searchPh: 'ノートを検索...',
+      emptyTitle: 'ノートはまだありません', emptyDesc: '「+ 新規ノート」を押して、糸の在庫や制作記録を書き留めましょう'
     }
   },
 
   tr: {
-    langCode: 'tr-TR',
-    dir: 'ltr',
-    label: 'Türkçe',
-    brandTitle: 'İplik ve İlmekler',
-    brandSubtitle: 'Akıllı Tığ İşi Asistanı',
-    screenWl: 'Ekran',
-    wlBanner: 'Ekran açık kalma modu aktif (örgü sırasında ekranınız kapanmaz)',
+    langCode: 'tr-TR', dir: 'ltr', label: 'Türkçe',
+    brandTitle: 'İplik ve İlmekler', brandSubtitle: 'Akıllı Tığ İşi Asistanı',
+    screenWl: 'Ekran', wlBanner: 'Ekran açık kalma modu aktif (örgü sırasında ekranınız kapanmaz)',
     nav: {
-      search: 'Akıllı Soru',
-      patterns: 'Resimli Örnekler',
-      patternsShort: 'Örnekler',
-      counter: 'Akıllı Sayaç',
-      counterShort: 'Sayaç',
-      calc: 'İplik Hesaplama',
-      calcShort: 'Hesaplayıcı',
-      glossary: 'Terimler & Kancalar',
-      glossaryShort: 'Terimler',
-      studio: 'Şablon Stüdyosu',
-      studioShort: 'Stüdyo',
-      notes: 'Notlarım',
-      notesShort: 'Notlar'
+      search: 'Akıllı Soru', patterns: 'Resimli Örnekler', patternsShort: 'Örnekler',
+      counter: 'Akıllı Sayaç', counterShort: 'Sayaç', calc: 'İplik Hesaplama', calcShort: 'Hesaplayıcı',
+      glossary: 'Terimler & Kancalar', glossaryShort: 'Terimler', studio: 'Şablon Stüdyosu', studioShort: 'Stüdyo',
+      notes: 'Notlarım', notesShort: 'Notlar'
     },
     chat: {
-      title: 'SAMAR — Akıllı Tığ İşi Uzmanınız ✨🧶',
-      status: 'Çevrimiçi & anında cevaplamaya hazır 🟢',
-      welcome: 'Hoş geldiniz! Ben **SAMAR**, tığ işi ve örgü sanatındaki kişisel uzman asistanınızım 🧶✨. Herhangi bir ilmek, motif, ip hesabı veya takıldığınız yer hakkında hemen sorabilirsiniz!',
-      placeholder: 'SAMAR\'a tığ işi hakkında bir soru sorun...',
-      clear: 'Sohbeti Temizle',
-      chips: {
-        ring: 'Sihirli Halka Sırrı 🪄',
-        curling: 'Kıvrılma Sorununu Çöz ⚠️',
-        compare: 'Sık İğne vs Trabzan 📐',
-        blanket: 'Battaniye İp Hesabı 🧶',
-        easy: 'Kolay & Hızlı Proje 💡'
-      }
+      title: 'SAMAR — Akıllı Tığ İşi Uzmanınız', status: 'Çevrimiçi & anında cevaplamaya hazır 🟢',
+      welcome: 'Hoş geldiniz! Ben **SAMAR**, tığ işi ve örgü sanatındaki kişisel uzman asistanınızım 🧶✨. İlmekler, motifler, ip hesabı veya takıldığınız yerler hakkında her şeyi sorabilirsiniz!',
+      placeholder: 'SAMAR\'a tığ işi hakkında bir soru sorun...', clear: 'Sohbeti Temizle', thinking: 'SAMAR düşünüyor ve yazıyor... 🧶',
+      chips: { ring: '🪄 Sihirli Halka Sırrı', curling: '⚠️ Kıvrılmayı Düzelt', compare: '📐 Sık İğne vs Trabzan', blanket: '🍼 Battaniye İp Hesabı' }
     },
     patterns: {
-      title: 'Adım Adım Resimli Örnek Kütüphanesi',
-      subtitle: 'Detaylı çalışma adımları ve vektör çizimleriyle özenle seçilmiş ücretsiz şablonlar',
+      title: 'Adım Adım Resimli Örnek Kütüphanesi', subtitle: 'Detaylı çalışma adımları ve vektör çizimleriyle özenle seçilmiş ücretsiz şablonlar',
       searchPh: 'Şablonlarda ara (ör: şal, kedi, sepet, çanta)...',
       levels: { all: 'Tüm Seviyeler', beg: '🟢 Başlangıç', int: '🟡 Orta', adv: '🟣 İleri Düzey' },
       cats: { all: 'Tümü', ami: 'Amigurumi', shawls: 'Şallar & Giysiler', home: 'Ev & Dekor', bags: 'Çantalar & Aksesuar' },
-      startBtn: 'Şimdi Başla',
-      balls: 'Yumak',
-      hook: 'Tığ',
-      time: 'Süre',
-      modalBack: 'Geri Dön',
-      secMaterials: 'Malzemeler & Ölçüler',
-      secSymbols: 'Semboller ve Kısaltmalar',
-      secTips: 'Bitiş & Temizleme İpuçları',
-      secSteps: 'Adım Adım İlmek Talimatları',
-      stepPrefix: 'Adım'
+      balls: 'yumak', hook: 'Tığ', time: 'Süre', steps: 'adım', progress: 'İlerleme',
+      modalBack: 'Şablonlara Dön', secMaterials: 'Malzemeler & Ölçüler', secSymbols: 'Şablonda Kullanılan Semboller ve Kısaltmalar',
+      secTips: 'Bitiş & Temizleme İpuçları', secSteps: 'Adım Adım İlmek Talimatları', stepPrefix: 'Adım',
+      symColSym: 'Sembol', symColName: 'İlmek Adı', symColEn: 'İngilizce Karşılığı'
     },
     counter: {
-      title: 'Sesli ve Dokunmatik İlmek Sayacı',
-      desc: 'Tığ elinizdeyken sesli komutla temassız sayın, seans sürenizi takip edin ve mola verin',
-      btnVoiceStart: 'Sesli Komutu Başlat 🎙️',
-      btnVoiceStop: 'Dinlemeyi Durdur 🛑',
-      rowLabel: 'Geçerli Sıra',
-      stitchLabel: 'İlmek',
-      targetLabel: 'Hedef:',
-      btnRowAdd: '+ Sıra',
-      btnRowSub: '− Sıra',
-      btnReset: 'Sayacı Sıfırla',
-      sessionTimer: 'Seans Süresi:',
-      healthAlertTitle: 'Elleriniz İçin Sağlık Molası 🧘‍♀️'
+      title: 'Sesli ve Dokunmatik İlmek Sayacı', desc: 'Tığ elinizdeyken sesli komutla temassız sayın, seans sürenizi takip edin ve mola verin',
+      voiceTitle: 'Temassız Sesli Kontrol', voicePrompt: 'Sesle söyleyin: <b>"İleri"</b> (+1), <b>"Geri"</b> (-1) veya <b>"Sıfırla"</b>!',
+      voiceReady: 'Mikrofon hazır', btnVoiceStart: 'Sesli Komutu Başlat 🎙️', btnVoiceStop: 'Dinlemeyi Durdur 🛑',
+      mchTag: 'Gelişmiş Sihirli Sayaç', mchLabel: 'Geçerli Sıra / Tur (cihazınıza %100 otomatik kaydedilir)',
+      btnReset: 'Sayacı Sıfırla', stopwatchTitle: 'Örgü Seans Zamanlayıcısı', btnStartSession: 'Başlat', btnPauseSession: 'Duraklat'
     },
     calc: {
-      title: 'Akıllı İplik & Doğru Fiyatlandırma Hesaplayıcıları',
+      title: 'Akıllı İplik & Doğru Fiyatlandırma Hesaplayıcıları', subtitle: 'İplik tüketimi, örgü numunesi ve kâr marjlarını hesaplayan matematiksel araçlar.',
+      currency: 'Para Birimi: IQD / Evrensel',
       tabs: {
-        est: 'İplik Tahmini 🧶',
-        rem: 'Kalan İp Hesabı ⚖️',
-        gauge: 'Ölçü & İlmek Hesabı 📏',
-        pricing: 'Fiyatlandırma & Kâr Hesabı 🧾'
+        est: '1. İplik İhtiyacı & Tığ Numarası', gauge: '2. Örgü Numunesi Hesabı (10×10 cm)',
+        rem: '3. Kalan İp Hesabı (Gramdan Metreye)', pricing: '4. Fiyatlandırma & Kâr Hesaplayıcı'
       },
-      currency: 'Para Birimi: IQD (Irak Dinarı) / Evrensel',
-      calcBtn: 'Şimdi Hesapla ✨',
-      cardBtn: 'Bakım ve Fiyat Kartı Oluştur 🏷️'
+      calcBtn: 'Şimdi Hesapla ✨', cardBtn: 'Bakım ve Fiyat Kartı Oluştur 🏷️'
     },
     studio: {
-      title: 'Profesyonel Şablon Stüdyosu & Izgara Oluşturucu',
-      subtitle: 'Resimleri hassas tığ işi piksel ızgaralarına dönüştürün ve özel şablonları inceleyin',
-      starryTitle: 'Yıldızlı Gece Özel Kazak Şablonu',
-      uploadTitle: 'Kendi Resminizi Tığ İşi Izgarasına Dönüştürün',
-      exportBtn: 'Izgarayı Dışa Aktar 📥'
+      title: 'Profesyonel Şablon Stüdyosu & Izgara Oluşturucu', subtitle: 'Teknik şemalar, interaktif piksel ızgarası ve resimleri tığ işine dönüştürme aracı.',
+      btnPdf: 'Yazdır / PDF İndir', btnNotes: 'Notlarıma Kaydet',
+      tabStarry: 'Yıldızlı Gece Özel Kazak Şablonu', tabCustom: 'Kendi Resminizi Tığ İşi Izgarasına Dönüştürün',
+      specsHeader: '🧶 Kazak Ölçüsü (L) & Teknik Özellikler', specsCost: 'Tahmini Maliyet: ~28.000 IQD Pamuk/Akrilik İplik',
+      chest: 'Göğüs Çevresi: 104 - 112 cm', width: 'Gövde Genişliği: 52 - 56 cm', length: 'Toplam Boy: 60 cm (120 sıra)',
+      sleeve: 'Kol Boyu: 48 cm (96 sıra)', hook: 'Önerilen Tığ: 3.5 - 4.0 mm',
+      blueprints: 'Kazak Parçalarının Teknik Çizimleri',
+      partFront: 'Ön Panel Şeması', partBack: 'Arka Panel Şeması', partSleeves: 'Kol Şeması (2 adet örülür)',
+      exportGrid: 'Izgarayı Dışa Aktar 📥'
     },
     glossary: {
-      title: 'Resimli Tığ İşi İlmek & Kanca Sözlüğü',
-      masterGuideBtn: 'Kapsamlı Tığ ve İplik Ölçü Rehberi 📐',
-      searchPh: 'İlmek veya sembol ara (ör: sık iğne, trabzan, zincir, sc)...'
+      title: 'Resimli Tığ İşi İlmek & Kanca Sözlüğü', masterGuideBtn: 'Kapsamlı Tığ ve İplik Ölçü Rehberi 📐',
+      searchPh: 'İlmek veya sembol ara (ör: sık iğne, trabzan, zincir, sc)...', emptySearch: 'Eşleşen terim bulunamadı',
+      tagDiagram: '📐 Tığ Hareketi Çizimi (Vektör)', tagTexture: '🧶 Gerçek İplik Dokusu'
     },
     notes: {
-      title: 'Akıllı Notlarım & Projelerim',
-      addBtn: 'Yeni Proje Ekle +'
+      title: 'Akıllı Notlarım & Projelerim', btnAdd: 'Yeni Not', searchPh: 'Notlarda ara...',
+      emptyTitle: 'Henüz kayıtlı not yok', emptyDesc: 'İplerinizi, devam eden işlerinizi kaydetmek için "+ Yeni Not" butonuna basın'
     }
   },
 
   ru: {
-    langCode: 'ru-RU',
-    dir: 'ltr',
-    label: 'Русский',
-    brandTitle: 'Нити и Петли',
-    brandSubtitle: 'Умный помощник по вязанию',
-    screenWl: 'Экран',
-    wlBanner: 'Режим постоянной подсветки активен (экран не погаснет во время вязания)',
+    langCode: 'ru-RU', dir: 'ltr', label: 'Русский',
+    brandTitle: 'Нити и Петли', brandSubtitle: 'Умный помощник по вязанию',
+    screenWl: 'Экран', wlBanner: 'Режим постоянной подсветки активен (экран не погаснет во время вязания)',
     nav: {
-      search: 'Умный вопрос',
-      patterns: 'Схемы вязания',
-      patternsShort: 'Схемы',
-      counter: 'Умный счетчик',
-      counterShort: 'Счетчик',
-      calc: 'Калькулятор пряжи',
-      calcShort: 'Калькулятор',
-      glossary: 'Словарь петель',
-      glossaryShort: 'Словарь',
-      studio: 'Студия схем',
-      studioShort: 'Студия',
-      notes: 'Мои заметки',
-      notesShort: 'Заметки'
+      search: 'Умный вопрос', patterns: 'Схемы вязания', patternsShort: 'Схемы',
+      counter: 'Умный счетчик', counterShort: 'Счетчик', calc: 'Калькулятор пряжи', calcShort: 'Калькулятор',
+      glossary: 'Словарь петель', glossaryShort: 'Словарь', studio: 'Студия схем', studioShort: 'Студия',
+      notes: 'Мои заметки', notesShort: 'Заметки'
     },
     chat: {
-      title: 'SAMAR — Ваш умный эксперт по вязанию ✨🧶',
-      status: 'В сети & готова ответить мгновенно 🟢',
-      welcome: 'Добро пожаловать! Я **SAMAR**, ваш личный эксперт по вязанию крючком и пряже 🧶✨. Спросите меня о любой петле, схеме, расчете нити или натяжении, и я с радостью отвечу!',
-      placeholder: 'Напишите ваш вопрос для SAMAR...',
-      clear: 'Очистить чат',
-      chips: {
-        ring: 'Секрет волшебного кольца 🪄',
-        curling: 'Устранение скручивания ⚠️',
-        compare: 'Столбик б/н vs с накидом 📐',
-        blanket: 'Расчет пряжи на плед 🧶',
-        easy: 'Легкий и быстрый проект 💡'
-      }
+      title: 'SAMAR — Ваш умный эксперт по вязанию', status: 'В сети & готова ответить мгновенно 🟢',
+      welcome: 'Добро пожаловать! Я **SAMAR**, ваш личный эксперт по вязанию крючком и пряже 🧶✨. Спросите меня о любой петле, схеме, расчете нити или натяжении!',
+      placeholder: 'Напишите ваш вопрос для SAMAR...', clear: 'Очистить чат', thinking: 'SAMAR думает и печатает... 🧶',
+      chips: { ring: '🪄 Секрет волшебного кольца', curling: '⚠️ Устранить закручивание', compare: '📐 Столбик б/н vs с накидом', blanket: '🍼 Расчет пряжи на плед' }
     },
     patterns: {
-      title: 'Библиотека пошаговых иллюстрированных схем',
-      subtitle: 'Тщательно отобранные бесплатные схемы с пошаговыми инструкциями и векторными схемами',
+      title: 'Библиотека пошаговых иллюстрированных схем', subtitle: 'Тщательно отобранные бесплатные схемы с пошаговыми инструкциями и векторными схемами',
       searchPh: 'Поиск по схемам (напр: шаль, котенок, корзина, сумка)...',
       levels: { all: 'Все уровни', beg: '🟢 Начинающий', int: '🟡 Средний', adv: '🟣 Продвинутый' },
       cats: { all: 'Все', ami: 'Амигуруми', shawls: 'Шали и одежда', home: 'Дом и декор', bags: 'Сумки и аксессуары' },
-      startBtn: 'Начать вязание',
-      balls: 'Мотков',
-      hook: 'Крючок',
-      time: 'Время',
-      modalBack: 'Назад к схемам',
-      secMaterials: 'Материалы и размеры',
-      secSymbols: 'Условные обозначения',
-      secTips: 'Советы по отделке и ВТО',
-      secSteps: 'Пошаговые инструкции',
-      stepPrefix: 'Шаг'
+      balls: 'мотка', hook: 'Крючок', time: 'Время', steps: 'шагов', progress: 'Прогресс',
+      modalBack: 'Назад к схемам', secMaterials: 'Материалы и размеры', secSymbols: 'Таблица условных обозначений схемы',
+      secTips: 'Советы по отделке и влажно-тепловой обработке', secSteps: 'Пошаговые инструкции петля за петлей', stepPrefix: 'Шаг',
+      symColSym: 'Символ', symColName: 'Название петли', symColEn: 'Международное обозначение'
     },
     counter: {
-      title: 'Голосовой и ручной счетчик рядов',
-      desc: 'Вяжите без помощи рук благодаря голосовому управлению, таймеру и разминке для запястий',
-      btnVoiceStart: 'Включить голосовой счет 🎙️',
-      btnVoiceStop: 'Остановить микрофон 🛑',
-      rowLabel: 'Текущий ряд',
-      stitchLabel: 'Петля',
-      targetLabel: 'Цель:',
-      btnRowAdd: '+ Ряд',
-      btnRowSub: '− Ряд',
-      btnReset: 'Сбросить счетчик',
-      sessionTimer: 'Время сессии:',
-      healthAlertTitle: 'Перерыв для здоровья рук 🧘‍♀️'
+      title: 'Голосовой и ручной счетчик рядов', desc: 'Вяжите без помощи рук благодаря голосовому управлению, таймеру и разминке для запястий',
+      voiceTitle: 'Бесконтактное голосовое управление', voicePrompt: 'Скажите: <b>"Дальше"</b> (+1), <b>"Назад"</b> (-1) или <b>"Сброс"</b>!',
+      voiceReady: 'Микрофон готов к работе', btnVoiceStart: 'Включить голосовой счет 🎙️', btnVoiceStop: 'Остановить микрофон 🛑',
+      mchTag: 'Продвинутый счетчик вязания', mchLabel: 'Текущий ряд / круговой ряд (сохраняется автоматически)',
+      btnReset: 'Сбросить счетчик', stopwatchTitle: 'Таймер сессии вязания', btnStartSession: 'Старт', btnPauseSession: 'Пауза'
     },
     calc: {
-      title: 'Умные калькуляторы пряжи и точного расчета цены',
+      title: 'Умные калькуляторы пряжи и расчета цены', subtitle: 'Точные инструменты для расчета расхода пряжи, плотности вязания и себестоимости.',
+      currency: 'Валюта: IQD / Универсальный расчет',
       tabs: {
-        est: 'Расход пряжи 🧶',
-        rem: 'Остаток пряжи по весу ⚖️',
-        gauge: 'Калькулятор плотности (образец) 📏',
-        pricing: 'Расчет стоимости и прибыли 🧾'
+        est: '1. Расчет расхода пряжи и крючка', gauge: '2. Калькулятор плотности (образец 10×10 см)',
+        rem: '3. Расчет остатка нити (из граммов в метры)', pricing: '4. Расчет цены и прибыли изделия'
       },
-      currency: 'Валюта: IQD (Иракский динар) / Универсальный расчет',
-      calcBtn: 'Рассчитать ✨',
-      cardBtn: 'Создать бирку с ценой и уходом 🏷️'
+      calcBtn: 'Рассчитать ✨', cardBtn: 'Создать бирку с ценой и уходом 🏷️'
     },
     studio: {
-      title: 'Студия схем и генератор пиксельной сетки',
-      subtitle: 'Преобразуйте изображения в точные схемы для вязания крючком',
-      starryTitle: 'Схема свитера "Звездная ночь"',
-      uploadTitle: 'Преобразовать свое изображение в схему',
-      exportBtn: 'Экспортировать схему 📥'
+      title: 'Студия схем и генератор пиксельной сетки', subtitle: 'Технические выкройки, интерактивная пиксельная сетка и преобразование картинок в схемы.',
+      btnPdf: 'Печать / Экспорт PDF', btnNotes: 'Сохранить в заметки',
+      tabStarry: 'Схема свитера "Звездная ночь"', tabCustom: 'Преобразовать свое фото в схему вязания',
+      specsHeader: '🧶 Размер свитера (L) и технические характеристики', specsCost: 'Примерная стоимость: ~28.000 IQD (хлопок/акрил)',
+      chest: 'Обхват груди: 104 - 112 см', width: 'Ширина изделия: 52 - 56 см', length: 'Общая длина: 60 см (120 рядов)',
+      sleeve: 'Длина рукава: 48 см (96 рядов)', hook: 'Рекомендуемый крючок: 3.5 - 4.0 мм',
+      blueprints: 'Технические выкройки всех 3 деталей',
+      partFront: 'Схема переда', partBack: 'Схема спинки', partSleeves: 'Схема рукава (вязать 2 шт.)',
+      exportGrid: 'Экспортировать схему 📥'
     },
     glossary: {
-      title: 'Иллюстрированный словарь петель и крючков',
-      masterGuideBtn: 'Полная таблица соответствия крючков и пряжи 📐',
-      searchPh: 'Поиск петли или символа (напр: сбн, ссн, возд. петля)...'
+      title: 'Иллюстрированный словарь петель и крючков', masterGuideBtn: 'Таблица соответствия крючков и пряжи 📐',
+      searchPh: 'Поиск петли или символа (напр: сбн, ссн, возд. петля)...', emptySearch: 'Ничего не найдено',
+      tagDiagram: '📐 Схема движения крючка (Вектор)', tagTexture: '🧶 Реальная текстура полотна'
     },
     notes: {
-      title: 'Мои умные заметки и проекты',
-      addBtn: 'Добавить проект +'
+      title: 'Мои умные заметки и проекты', btnAdd: 'Новая заметка', searchPh: 'Поиск по заметкам...',
+      emptyTitle: 'Заметок пока нет', emptyDesc: 'Нажмите "+ Новая заметка", чтобы записать остатки пряжи и текущие проекты'
     }
   },
 
   es: {
-    langCode: 'es-ES',
-    dir: 'ltr',
-    label: 'Español',
-    brandTitle: 'Hilos y Puntos',
-    brandSubtitle: 'Compañero Inteligente de Crochet',
-    screenWl: 'Pantalla',
-    wlBanner: 'Pantalla siempre encendida activa (la pantalla no se apagará mientras tejes)',
+    langCode: 'es-ES', dir: 'ltr', label: 'Español',
+    brandTitle: 'Hilos y Puntos', brandSubtitle: 'Compañero Inteligente de Crochet',
+    screenWl: 'Pantalla', wlBanner: 'Pantalla siempre encendida activa (la pantalla no se apagará mientras tejes)',
     nav: {
-      search: 'Consulta IA',
-      patterns: 'Patrones Ilustrados',
-      patternsShort: 'Patrones',
-      counter: 'Contador Mágico',
-      counterShort: 'Contador',
-      calc: 'Calculadoras de Hilo',
-      calcShort: 'Calculadora',
-      glossary: 'Glosario de Puntos',
-      glossaryShort: 'Glosario',
-      studio: 'Estudio de Patrones',
-      studioShort: 'Estudio',
-      notes: 'Mis Notas',
-      notesShort: 'Notas'
+      search: 'Consulta IA', patterns: 'Patrones Ilustrados', patternsShort: 'Patrones',
+      counter: 'Contador Mágico', counterShort: 'Contador', calc: 'Calculadoras de Hilo', calcShort: 'Calculadora',
+      glossary: 'Glosario de Puntos', glossaryShort: 'Glosario', studio: 'Estudio de Patrones', studioShort: 'Estudio',
+      notes: 'Mis Notas', notesShort: 'Notas'
     },
     chat: {
-      title: 'SAMAR — Tu Experta Inteligente en Crochet ✨🧶',
-      status: 'En línea y lista para ayudarte al instante 🟢',
+      title: 'SAMAR — Tu Experta Inteligente en Crochet', status: 'En línea y lista para ayudarte al instante 🟢',
       welcome: '¡Bienvenida! Soy **SAMAR**, tu experta y compañera personal en el arte del crochet y tejido 🧶✨. ¡Pregúntame sobre cualquier punto, patrón, cálculo de hilo o duda y te responderé al instante!',
-      placeholder: 'Escribe tu pregunta para SAMAR aquí...',
-      clear: 'Borrar Chat',
-      chips: {
-        ring: 'Secreto del Anillo Mágico 🪄',
-        curling: 'Solución al Enrollamiento ⚠️',
-        compare: 'Punto Bajo vs Punto Alto 📐',
-        blanket: 'Cálculo de Hilo para Manta 🧶',
-        easy: 'Proyecto Fácil y Rápido 💡'
-      }
+      placeholder: 'Escribe tu pregunta para SAMAR aquí...', clear: 'Borrar Chat', thinking: 'SAMAR está pensando y escribiendo... 🧶',
+      chips: { ring: '🪄 Secreto del Anillo Mágico', curling: '⚠️ Solución al Enrollamiento', compare: '📐 Punto Bajo vs Punto Alto', blanket: '🍼 Cálculo de Manta' }
     },
     patterns: {
-      title: 'Biblioteca de Patrones Ilustrados Paso a Paso',
-      subtitle: 'Colección seleccionada de patrones gratuitos con instrucciones paso a paso y diagramas',
+      title: 'Biblioteca de Patrones Ilustrados Paso a Paso', subtitle: 'Colección seleccionada de patrones gratuitos con instrucciones paso a paso y diagramas vectoriales',
       searchPh: 'Buscar patrones (ej: chal, gatito, cesta, bolso)...',
       levels: { all: 'Todos los Niveles', beg: '🟢 Principiante', int: '🟡 Intermedio', adv: '🟣 Avanzado' },
       cats: { all: 'Todos', ami: 'Amigurumi', shawls: 'Chales y Ropa', home: 'Hogar y Decoración', bags: 'Bolsos y Accesorios' },
-      startBtn: 'Comenzar Patrón',
-      balls: 'Ovillos',
-      hook: 'Ganchillo',
-      time: 'Tiempo',
-      modalBack: 'Volver a Patrones',
-      secMaterials: 'Herramientas y Materiales',
-      secSymbols: 'Tabla de Símbolos y Abreviaturas',
-      secTips: 'Consejos de Acabado y Bloqueo',
-      secSteps: 'Instrucciones Detalladas Paso a Paso',
-      stepPrefix: 'Paso'
+      balls: 'ovillos', hook: 'Ganchillo', time: 'Tiempo', steps: 'pasos', progress: 'Progreso',
+      modalBack: 'Volver a Patrones', secMaterials: 'Herramientas y Materiales', secSymbols: 'Tabla de Símbolos y Abreviaturas del Patrón',
+      secTips: 'Consejos de Acabado y Bloqueo', secSteps: 'Instrucciones Detalladas Punto por Punto', stepPrefix: 'Paso',
+      symColSym: 'Símbolo', symColName: 'Nombre del Punto', symColEn: 'Término Internacional'
     },
     counter: {
-      title: 'Contador de Filas por Voz y Táctil',
-      desc: 'Teje con manos libres usando control por voz, cronómetro de sesión y alertas de estiramiento',
-      btnVoiceStart: 'Activar Control por Voz 🎙️',
-      btnVoiceStop: 'Detener Voz 🛑',
-      rowLabel: 'Fila Actual',
-      stitchLabel: 'Punto',
-      targetLabel: 'Objetivo:',
-      btnRowAdd: '+ Fila',
-      btnRowSub: '− Fila',
-      btnReset: 'Reiniciar Contador',
-      sessionTimer: 'Tiempo de Sesión:',
-      healthAlertTitle: 'Pausa Saludable para tus Manos 🧘‍♀️'
+      title: 'Contador de Filas por Voz y Táctil', desc: 'Teje con manos libres usando control por voz, cronómetro de sesión y alertas de estiramiento',
+      voiceTitle: 'Control por Voz Manos Libres', voicePrompt: 'Di con tu voz: <b>"Siguiente"</b> (+1), <b>"Atrás"</b> (-1) o <b>"Reiniciar"</b>!',
+      voiceReady: 'Micrófono listo para escuchar', btnVoiceStart: 'Activar Control por Voz 🎙️', btnVoiceStop: 'Detener Voz 🛑',
+      mchTag: 'Contador Inteligente de Tejido', mchLabel: 'Fila / Vuelta Actual (guardado automático en tu dispositivo)',
+      btnReset: 'Reiniciar Contador', stopwatchTitle: 'Cronómetro de Sesión de Tejido', btnStartSession: 'Iniciar', btnPauseSession: 'Pausar'
     },
     calc: {
-      title: 'Plataforma Inteligente de Cálculo y Precios',
+      title: 'Plataforma Inteligente de Cálculo y Precios', subtitle: 'Herramientas matemáticas precisas para calcular consumo de hilo, muestra de tensión y márgenes de ganancia.',
+      currency: 'Moneda: IQD / Unidades Universales',
       tabs: {
-        est: 'Estimar Hilo 🧶',
-        rem: 'Hilo Restante por Peso ⚖️',
-        gauge: 'Calculadora de Muestra (Gauge) 📏',
-        pricing: 'Calculadora de Precios y Ganancia 🧾'
+        est: '1. Estimador de Hilo y Ganchillo', gauge: '2. Calculadora de Muestra (Gauge 10×10 cm)',
+        rem: '3. Hilo Restante por Peso (g a m)', pricing: '4. Calculadora de Precios y Ganancia'
       },
-      currency: 'Moneda: IQD (Dinar Iraquí) / Unidades Universales',
-      calcBtn: 'Calcular Ahora ✨',
-      cardBtn: 'Generar Tarjeta de Cuidado y Precio 🏷️'
+      calcBtn: 'Calcular Ahora ✨', cardBtn: 'Generar Tarjeta de Cuidado y Precio 🏷️'
     },
     studio: {
-      title: 'Estudio Profesional de Patrones y Cuadrícula',
-      subtitle: 'Convierte imágenes en cuadrículas de puntos precisas y explora patrones maestros',
-      starryTitle: 'Patrón Maestro Suéter Noche Estrellada',
-      uploadTitle: 'Convierte tu Imagen en Patrón de Crochet',
-      exportBtn: 'Exportar Cuadrícula 📥'
+      title: 'Estudio Profesional de Patrones y Cuadrícula', subtitle: 'Planos técnicos, cuadrícula interactiva de píxeles y conversor de fotos a patrones de crochet.',
+      btnPdf: 'Imprimir / Exportar PDF', btnNotes: 'Guardar en Mis Notas',
+      tabStarry: 'Patrón Suéter "Noche Estrellada" (Starry Night)', tabCustom: 'Convertir Cualquier Foto a Cuadrícula',
+      specsHeader: '🧶 Talla del Suéter (L) y Ficha Técnica', specsCost: 'Coste Estimado: ~28.000 IQD Hilo Algodón/Acrílico',
+      chest: 'Contorno de Pecho: 104 - 112 cm', width: 'Ancho del Suéter: 52 - 56 cm', length: 'Largo Total: 60 cm (120 filas)',
+      sleeve: 'Largo de Manga: 48 cm (96 filas)', hook: 'Ganchillo Recomendado: 3.5 - 4.0 mm',
+      blueprints: 'Esquemas Técnicos de las 3 Piezas',
+      partFront: 'Gráfico Delantero', partBack: 'Gráfico Espalda', partSleeves: 'Gráfico Mangas (tejer 2)',
+      exportGrid: 'Exportar Cuadrícula 📥'
     },
     glossary: {
-      title: 'Glosario Ilustrado de Puntos y Ganchillos',
-      masterGuideBtn: 'Guía Completa de Medidas de Ganchillos e Hilos 📐',
-      searchPh: 'Buscar punto o símbolo (ej: punto bajo, punto alto, cadeneta)...'
+      title: 'Glosario Ilustrado de Puntos y Ganchillos', masterGuideBtn: 'Guía Completa de Medidas de Ganchillos e Hilos 📐',
+      searchPh: 'Buscar punto o símbolo (ej: punto bajo, punto alto, cadeneta)...', emptySearch: 'No se encontraron puntos coincidentes',
+      tagDiagram: '📐 Diagrama de Movimiento del Ganchillo (Vector)', tagTexture: '🧶 Muestra de Textura Real de Hilo'
     },
     notes: {
-      title: 'Mis Notas y Proyectos Inteligentes',
-      addBtn: 'Agregar Nuevo Proyecto +'
+      title: 'Mis Notas y Proyectos Inteligentes', btnAdd: 'Nueva Nota', searchPh: 'Buscar en notas...',
+      emptyTitle: 'No hay notas registradas', emptyDesc: 'Toca "+ Nueva Nota" para anotar tus lanas, proyectos en curso y listas de tareas'
     }
   }
 };
 
-const VOICE_COMMANDS_CONFIG = {
-  ar: {
-    langCode: 'ar-IQ',
-    plus: ['زيد', 'زود', 'فوق', 'التالي', 'واحد', 'سجل', 'اضافة', 'plus', 'next'],
-    minus: ['نقص', 'ارجع', 'السابق', 'تحت', 'طرح', 'minus', 'back'],
-    reset: ['صفر', 'تصفير', 'مسح', 'من البداية', 'reset'],
-    prompt: 'جاري الاستماع... قولي: "زيد" أو "نقص"',
-    heardAdd: '🗣️ سُمع: "<b>زيد</b>" (+1 سطر)',
-    heardSub: '🗣️ سُمع: "<b>نقص</b>" (−1 سطر)',
-    heardReset: '🗣️ سُمع: "<b>تصفير</b>" (تمت إعادة الضبط)'
+
+const GLOSSARY_I18N = {
+  ch: {
+    ar: { name: 'غرزة السلسلة', desc: 'الأساس في كل مشروع كروشيه — حبل من العقد المتناسقة لتأسيس أول سطر.' },
+    en: { name: 'Chain Stitch', desc: 'The foundation of all crochet — a neat interlocking loop chain to start row 1.' },
+    de: { name: 'Luftmasche', desc: 'Die Basis jedes Häkelprojekts — eine Kette gleichmäßiger Maschen für die Anschlagreihe.' },
+    ja: { name: '鎖編み', desc: 'すべてのかぎ針編みの土台 — 1段目を編み始めるための均一な輪の鎖。' },
+    tr: { name: 'Zincir İlmeği', desc: 'Tüm tığ işlerinin temeli — ilk sırayı başlatmak için örülen düzenli ilmek zinciri.' },
+    ru: { name: 'Воздушная петля', desc: 'Основа любого вязания крючком — цепочка аккуратных петель для наборного ряда.' },
+    es: { name: 'Punto Cadeneta', desc: 'La base de todo proyecto de crochet — una cadena de bucles uniformes para iniciar la labor.' }
   },
-  en: {
-    langCode: 'en-US',
-    plus: ['next', 'plus', 'add', 'increase', 'up', 'one', 'more', 'row'],
-    minus: ['back', 'minus', 'decrease', 'down', 'previous', 'reduce'],
-    reset: ['reset', 'clear', 'zero', 'restart'],
-    prompt: 'Listening... say: "Next" or "Back"',
-    heardAdd: '🗣️ Heard: "<b>Next</b>" (+1 Row)',
-    heardSub: '🗣️ Heard: "<b>Back</b>" (−1 Row)',
-    heardReset: '🗣️ Heard: "<b>Reset</b>" (Counter reset)'
+  sc: {
+    ar: { name: 'غرزة الحشو', desc: 'الغرزة الأساسية لصنع الدمى والألعاب — نسيج متماسك ومحكم يمنع خروج الحشو.' },
+    en: { name: 'Single Crochet', desc: 'The essential dense stitch for Amigurumi and sturdy bags — tight fabric that keeps stuffing inside.' },
+    de: { name: 'Feste Masche', desc: 'Die Grundmasche für Amigurumis und Taschen — ein dichtes Maschenbild, das die Füllung festhält.' },
+    ja: { name: '細編み（こまあみ）', desc: 'あみぐるみやバッグの基本 — 隙間なくしっかり編み上がり、綿の飛び出しを防ぎます。' },
+    tr: { name: 'Sık İğne', desc: 'Amigurumi ve çantaların temel ilmeği — elyafın çıkmasını önleyen sıkı ve sağlam doku.' },
+    ru: { name: 'Столбик без накида', desc: 'Главная петля для амигуруми и сумок — плотное полотно, надежно удерживающее наполнитель.' },
+    es: { name: 'Punto Bajo', desc: 'El punto imprescindible para Amigurumis y cestas — tejido denso y firme que retiene el relleno.' }
   },
-  ja: {
-    langCode: 'ja-JP',
-    plus: ['次', 'プラス', '増やす', '進む', '足す', 'いち', 'アップ'],
-    minus: ['戻る', 'マイナス', '減らす', 'バック', '引く'],
-    reset: ['リセット', 'ゼロ', '最初から', 'クリア'],
-    prompt: '音声認識中... 「次」または「戻る」とお話しください',
-    heardAdd: '🗣️ 認識: 「<b>次</b>」 (+1段)',
-    heardSub: '🗣️ 認識: 「<b>戻る</b>」 (−1段)',
-    heardReset: '🗣️ 認識: 「<b>リセット</b>」 (初期化完了)'
+  dc: {
+    ar: { name: 'غرزة العمود بلفة', desc: 'أطول من الحشو بضعفين وسريعة الإنجاز — تعطي نسيجاً انسيابياً للشالات والملابس.' },
+    en: { name: 'Double Crochet', desc: 'Twice the height of single crochet and fast to work — creates supple drape for shawls and cardigans.' },
+    de: { name: 'Stäbchen', desc: 'Doppelt so hoch wie feste Maschen und zügig gehäkelt — weicher, fließender Fall für Tücher und Kleidung.' },
+    ja: { name: '長編み（ながあみ）', desc: '細編みの約2倍の高さでサクサク進む — ショールやウェアにしなやかなドレープを生み出します。' },
+    tr: { name: 'İkili Trabzan', desc: 'Sık iğnenin iki katı uzunluğunda ve hızlı ilerleyen ilmek — şal ve kıyafetlere dökümlü yumuşaklık verir.' },
+    ru: { name: 'Столбик с накидом', desc: 'Вдвое выше столбика б/н и вяжется быстро — создает мягкое пластичное полотно для шалей и свитеров.' },
+    es: { name: 'Punto Alto', desc: 'El doble de alto que el punto bajo y de avance rápido — crea una caída suave para chales y prendas.' }
   },
-  tr: {
-    langCode: 'tr-TR',
-    plus: ['ileri', 'arttır', 'ekle', 'artı', 'sonraki', 'bir', 'yukarı'],
-    minus: ['geri', 'azalt', 'eksi', 'önceki', 'düşür', 'aşağı'],
-    reset: ['sıfırla', 'temizle', 'baştan', 'sıfır'],
-    prompt: 'Dinleniyor... "İleri" veya "Geri" deyin',
-    heardAdd: '🗣️ Algılandı: "<b>İleri</b>" (+1 Sıra)',
-    heardSub: '🗣️ Algılandı: "<b>Geri</b>" (−1 Sıra)',
-    heardReset: '🗣️ Algılandı: "<b>Sıfırla</b>" (Sayaç sıfırlandı)'
+  'sl st': {
+    ar: { name: 'غرزة المنزلقة (الانزلاق)', desc: 'لإغلاق الأدوار الدائرية برقة أو الانتقال بين الغرز بدون إضافة أي ارتفاع للسطر.' },
+    en: { name: 'Slip Stitch', desc: 'Used to join rounds seamlessly or travel across stitches with zero added height.' },
+    de: { name: 'Kettmasche', desc: 'Dient zum unsichtbaren Schließen von Runden oder zum Weiterwandern ohne zusätzliche Höhe.' },
+    ja: { name: '引き抜き編み', desc: '段のつなぎ目を平らに閉じたり、高さを出さずに糸を渡す際に使用します。' },
+    tr: { name: 'İlmek Kaydırma', desc: 'Yuvarlak sıraları pürüzsüzce kapatmak veya ilmekler arasında yükseklik eklemeden geçmek için kullanılır.' },
+    ru: { name: 'Соединительный столбик', desc: 'Служит для незаметного замыкания круговых рядов или перемещения без добавления высоты.' },
+    es: { name: 'Punto Deslizado / Raso', desc: 'Se usa para cerrar vueltas de forma invisible o avanzar entre puntos sin añadir altura.' }
   },
-  ru: {
-    langCode: 'ru-RU',
-    plus: ['дальше', 'плюс', 'прибавить', 'следующий', 'вперед', 'один'],
-    minus: ['назад', 'минус', 'убавить', 'предыдущий'],
-    reset: ['сброс', 'сбросить', 'ноль', 'заново', 'очистить'],
-    prompt: 'Слушаю команды... скажите: "Дальше" или "Назад"',
-    heardAdd: '🗣️ Распознано: "<b>Дальше</b>" (+1 Ряд)',
-    heardSub: '🗣️ Распознано: "<b>Назад</b>" (−1 Ряд)',
-    heardReset: '🗣️ Распознано: "<b>Сброс</b>" (Счетчик сброшен)'
+  inc: {
+    ar: { name: 'الزيادة (التوسيع)', desc: 'حياكة غرزتين كاملتين داخل نفس العين الواحدة لتوسيع محيط القطعة وتكبيرها.' },
+    en: { name: 'Increase (2 in 1)', desc: 'Working two stitches into the exact same loop to expand circumference and shape pieces.' },
+    de: { name: 'Zunahme (Verdoppeln)', desc: 'Zwei Maschen in dieselbe Einstichstelle häkeln, um das Werkstück zu erweitern.' },
+    ja: { name: '増やし目', desc: '同じ目に2目編み入れ、円周を広げたりパーツを大きく立体成型します。' },
+    tr: { name: 'Artırma (2 ilmek)', desc: 'Parçayı genişletmek için aynı ilmeğin içine iki kez batarak ilmek sayısını çoğaltma.' },
+    ru: { name: 'Прибавка (2 в 1)', desc: 'Провязывание двух петель в одно основание для расширения полотна и формирования объема.' },
+    es: { name: 'Aumento (2 en 1)', desc: 'Tejer dos puntos en el mismo punto base para ensanchar el contorno y moldear la pieza.' }
   },
-  es: {
-    langCode: 'es-ES',
-    plus: ['siguiente', 'más', 'aumentar', 'adelante', 'sumar', 'uno', 'fila'],
-    minus: ['atrás', 'menos', 'disminuir', 'anterior', 'restar'],
-    reset: ['reiniciar', 'cero', 'borrar', 'limpiar'],
-    prompt: 'Escuchando... di: "Siguiente" o "Atrás"',
-    heardAdd: '🗣️ Reconocido: "<b>Siguiente</b>" (+1 Fila)',
-    heardSub: '🗣️ Reconocido: "<b>Atrás</b>" (−1 Fila)',
-    heardReset: '🗣️ Reconocido: "<b>Reiniciar</b>" (Contador a cero)'
+  dec: {
+    ar: { name: 'النقصان (التضييق)', desc: 'دمج غرزتين متجاورتين لتصبحا غرزة واحدة، مما يقلص حجم القطعة لتشكيل الرأس أو الأطراف.' },
+    en: { name: 'Invisible Decrease', desc: 'Merging two adjacent stitches into one to narrow piece shaping for amigurumi heads and limbs.' },
+    de: { name: 'Unsichtbare Abnahme', desc: 'Zwei Maschen zusammenhäkeln, um die Maschenanzahl für Köpfe und Gliedmaßen zu reduzieren.' },
+    ja: { name: '減らし目（インビジブル）', desc: '隣り合う2目を1目にまとめ、頭や手足などの立体パーツをきれいにすぼめます。' },
+    tr: { name: 'Görünmez Azaltma', desc: 'Kafa ve kol kısımlarını daraltmak için yan yana iki ilmeği birlikte alarak teke düşürme.' },
+    ru: { name: 'Убавка (Невидимая)', desc: 'Объединение двух соседних петель в одну для аккуратного сужения деталей игрушек.' },
+    es: { name: 'Disminución Invisible', desc: 'Unir dos puntos contiguos en uno solo para estrechar cabezas y extremidades en amigurumi.' }
+  },
+  MR: {
+    ar: { name: 'الدائرة السحرية', desc: 'بداية الحياكة الدائرية للأميغورومي — تضمن إغلاق مركز الدائرة 100% بدون أي ثقب.' },
+    en: { name: 'Magic Ring / Loop', desc: 'The starting technique for circular amigurumi — pulls tightly shut leaving zero center hole.' },
+    de: { name: 'Fadenring (Magic Ring)', desc: 'Der ideale Rundenstart für Amigurumis — zieht sich lückenlos zu, ohne Mittelloch.' },
+    ja: { name: 'わの作り目（マジックリング）', desc: 'あみぐるみ円編みの基本スタート — 糸端を引くだけで中心の穴が完全に閉まります。' },
+    tr: { name: 'Sihirli Halka', desc: 'Dairesel amigurumilerin başlangıç tekniği — ortadaki deliği tamamen kapatır ve sıfır boşluk bırakır.' },
+    ru: { name: 'Волшебное кольцо (Амигуруми)', desc: 'Начало кругового вязания игрушек — стягивается намертво, не оставляя центрального отверстия.' },
+    es: { name: 'Anillo Mágico', desc: 'La técnica de inicio para amigurumi en redondo — se cierra herméticamente sin dejar hueco central.' }
+  },
+  BLO: {
+    ar: { name: 'الحلقة الخلفية فقط', desc: 'إدخال السنارة في الخيط الخلفي فقط من السلسلة لتوليد خط بارز وتأثير مضلع مرن.' },
+    en: { name: 'Back Loop Only (BLO)', desc: 'Inserting hook under the back bar only to produce neat ridges and stretchy ribbed texture.' },
+    de: { name: 'Nur ins hintere Maschenglied', desc: 'Einstechen nur in das hintere Glied für schöne Querrippen und elastische Bündchen.' },
+    ja: { name: 'すじ編み（奥の半目のみ）', desc: '鎖の奥側の糸だけを拾って編み、リブ編みのような伸縮性のある筋模様を作ります。' },
+    tr: { name: 'Yalnızca Arka İlmek (BLO)', desc: 'Yalnızca arka ilmeğe batarak kabartmalı çizgiler ve esnek lastik dokusu oluşturma tekniği.' },
+    ru: { name: 'За заднюю полупетлю (ЗСП)', desc: 'Введение крючка только за заднюю дужку петли для создания рельефных полос и резинки.' },
+    es: { name: 'Solo Bucle Trasero (BLO)', desc: 'Tomar únicamente la hebra trasera para lograr un relieve acanalado y elástico.' }
+  },
+  FLO: {
+    ar: { name: 'الحلقة الأمامية فقط', desc: 'إدخال السنارة في الخيط الأمامي فقط لعمل طبقات وكشاكش ناعمة.' },
+    en: { name: 'Front Loop Only (FLO)', desc: 'Working into front bar only leaving the back loop accessible for layered ruffles or clothing.' },
+    de: { name: 'Nur ins vordere Maschenglied', desc: 'Einstechen nur in das vordere Glied für zarte Rüschen oder mehrlagige Kleidungsstücke.' },
+    ja: { name: '手前の半目のみ（FLO）', desc: '手前の糸だけを拾って編み、フリルや重ね着パーツを作る際に活用します。' },
+    tr: { name: 'Yalnızca Ön İlmek (FLO)', desc: 'Ön ilmeğe batarak katmanlı fırfırlar veya giysi detayları örme tekniği.' },
+    ru: { name: 'За переднюю полупетлю (ПСП)', desc: 'Вязание за переднюю стенку петли для рюшей, оборок и многослойных деталей.' },
+    es: { name: 'Solo Bucle Delantero (FLO)', desc: 'Tejer solo en la hebra delantera para crear volantes, capas dobles o vestidos.' }
   }
 };
+
+
 
 function toggleLangMenu(e) {
   if (e) e.stopPropagation();
@@ -5075,17 +4966,17 @@ function setAppLanguage(lang) {
 
   // Active state in dropdown
   document.querySelectorAll('.lang-opt').forEach(opt => {
-    opt.classList.toggle('active', opt.dataset.lang === lang);
+    opt.classList.toggle('active', (opt.dataset?.lang || opt.getAttribute?.('data-lang')) === lang);
   });
 
   // Close dropdown menu
   const menu = document.getElementById('langMenu');
   if (menu) menu.classList.remove('show');
 
-  // Apply all UI translations
+  // Apply all UI translations across entire page
   applyTranslations(lang);
 
-  // Restart voice recognition with new language if currently running
+  // Restart voice recognition with new language if active
   if (isVoiceListeningActive) {
     stopVoiceCounter();
     setTimeout(() => { toggleVoiceCounter(); }, 300);
@@ -5106,118 +4997,353 @@ function applyTranslations(lang) {
   if (wlAlert) wlAlert.textContent = t.wlBanner;
 
   // Desktop Navigation
-  const dNav = document.querySelectorAll('.desktop-nav .nav-btn');
-  dNav.forEach(btn => {
-    const tab = btn.dataset.tab;
+  document.querySelectorAll('.desktop-nav .nav-btn').forEach(btn => {
+    const tab = btn.dataset?.tab || btn.getAttribute?.('data-tab');
     const span = btn.querySelector('span');
     if (span && t.nav[tab]) span.textContent = t.nav[tab];
   });
 
   // Mobile Bottom Bar Navigation
-  const mNav = document.querySelectorAll('.mobile-bottom-bar .mobile-nav-item');
-  mNav.forEach(btn => {
-    const tab = btn.dataset.tab;
+  document.querySelectorAll('.mobile-bottom-bar .mobile-nav-item').forEach(btn => {
+    const tab = btn.dataset?.tab || btn.getAttribute?.('data-tab');
     const label = btn.querySelector('.m-label');
     const shortKey = tab + 'Short';
     if (label && t.nav[shortKey]) label.textContent = t.nav[shortKey];
     else if (label && t.nav[tab]) label.textContent = t.nav[tab];
   });
 
-  // AI Chat Section
-  const chatSub = document.querySelector('.chat-hero-box p');
-  const chatStatus = document.querySelector('.chat-hero-box span');
+  // AI Chat Section (SAMAR)
+  const chatMetaH3 = document.querySelector('.ai-meta h3');
+  const chatStatus = document.querySelector('.ai-status-indicator');
   const chatInput = document.getElementById('aiChatInput');
-  const chatClearBtn = document.querySelector('.chat-clear-btn');
-  if (chatSub && t.chat.title) chatSub.textContent = t.chat.title;
-  if (chatInput && t.chat.placeholder) chatInput.placeholder = t.chat.placeholder;
-  if (chatClearBtn && t.chat.clear) chatClearBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i> ' + t.chat.clear;
+  const chatClearSpan = document.querySelector('.btn-clear-chat span');
+  const chatThinking = document.querySelector('.ai-thinking-box span');
+
+  if (chatMetaH3) chatMetaH3.textContent = t.chat.title;
+  if (chatStatus) chatStatus.textContent = t.chat.status;
+  if (chatInput) chatInput.placeholder = t.chat.placeholder;
+  if (chatClearSpan) chatClearSpan.textContent = t.chat.clear;
+  if (chatThinking) chatThinking.textContent = t.chat.thinking;
 
   // Update quick suggestion chips
-  const chips = document.querySelectorAll('.chat-chip');
-  if (chips && chips.length >= 5) {
-    if (chips[0]) chips[0].textContent = t.chat.chips.ring;
-    if (chips[1]) chips[1].textContent = t.chat.chips.curling;
-    if (chips[2]) chips[2].textContent = t.chat.chips.compare;
-    if (chips[3]) chips[3].textContent = t.chat.chips.blanket;
-    if (chips[4]) chips[4].textContent = t.chat.chips.easy;
+  const chips = document.querySelectorAll('.suggestion-chip');
+  if (chips && chips.length >= 4) {
+    if (chips[0]) chips[0].textContent = t.chat.chips.curling;
+    if (chips[1]) chips[1].textContent = t.chat.chips.ring;
+    if (chips[2]) chips[2].textContent = t.chat.chips.blanket;
+    if (chips[3]) chips[3].textContent = t.chat.chips.compare;
   }
 
-  // Update initial welcome bubble if only 1 message exists
+  // Update initial bot welcome bubble
   const stream = document.getElementById('aiChatStream');
   if (stream) {
     const firstBotBubble = stream.querySelector('.chat-bubble.bot');
-    if (firstBotBubble && (!stream.children || stream.children.length <= 2)) {
-      firstBotBubble.innerHTML = (window.marked && marked.parse) ? marked.parse(t.chat.welcome) : t.chat.welcome;
+    if (firstBotBubble && stream.querySelectorAll('.chat-bubble').length <= 1) {
+      firstBotBubble.innerHTML = (window.marked && marked.parse) ? marked.parse(t.chat.welcome) : t.chat.welcome.replace(/\n/g, '<br>');
     }
   }
 
-  // Patterns Section
-  const patTitle = document.querySelector('#tab-patterns .section-header h2');
-  const patSub = document.querySelector('#tab-patterns .section-header p');
+  // Patterns Section Header & Filters
   const patSearch = document.getElementById('patternSearchInput');
-  if (patTitle) patTitle.textContent = t.patterns.title;
-  if (patSub) patSub.textContent = t.patterns.subtitle;
   if (patSearch) patSearch.placeholder = t.patterns.searchPh;
 
-  // Patterns Level Filter Chips
-  const lvlBtns = document.querySelectorAll('.level-filter-btn');
-  lvlBtns.forEach(btn => {
-    const lvl = btn.dataset.level;
-    if (lvl === 'all' && t.patterns.levels.all) btn.textContent = t.patterns.levels.all;
-    if (lvl === 'beginner' && t.patterns.levels.beg) btn.textContent = t.patterns.levels.beg;
-    if (lvl === 'intermediate' && t.patterns.levels.int) btn.textContent = t.patterns.levels.int;
-    if (lvl === 'advanced' && t.patterns.levels.adv) btn.textContent = t.patterns.levels.adv;
+  document.querySelectorAll('.level-chip').forEach(btn => {
+    const txt = btn.textContent;
+    if (txt.includes('مبتدئ') || txt.includes('Beginner') || txt.includes('Anfänger') || txt.includes('初級') || txt.includes('Başlangıç') || txt.includes('Начинающий') || txt.includes('Principiante')) {
+      btn.textContent = t.patterns.levels.beg;
+    } else if (txt.includes('متوسط') || txt.includes('Intermediate') || txt.includes('Mittel') || txt.includes('中級') || txt.includes('Orta') || txt.includes('Средний') || txt.includes('Intermedio')) {
+      btn.textContent = t.patterns.levels.int;
+    } else if (txt.includes('محترف') || txt.includes('Advanced') || txt.includes('Fortgeschritten') || txt.includes('上級') || txt.includes('İleri') || txt.includes('Продвинутый') || txt.includes('Avanzado')) {
+      btn.textContent = t.patterns.levels.adv;
+    } else {
+      btn.textContent = t.patterns.levels.all;
+    }
   });
 
-  // Re-render patterns category chips with current language
+  // Re-render Pattern Categories & Patterns Cards
   renderPatternCategoryChips();
+  renderPatternsCatalogFiltered();
 
   // Counter Section
-  const cTitle = document.querySelector('#tab-counter .section-header h2');
-  const cDesc = document.querySelector('#tab-counter .section-header p');
-  const cVoiceBtn = document.getElementById('voiceMicBtn');
-  const cResetBtn = document.querySelector('.counter-reset-btn');
-  const cRowLbl = document.querySelector('.mega-counter-label');
-  if (cTitle) cTitle.textContent = t.counter.title;
-  if (cDesc) cDesc.textContent = t.counter.desc;
-  if (cResetBtn) cResetBtn.innerHTML = '<i class="fa-solid fa-rotate-left"></i> ' + t.counter.btnReset;
-  if (cRowLbl) cRowLbl.textContent = t.counter.rowLabel;
-  if (cVoiceBtn && !isVoiceListeningActive) {
-    cVoiceBtn.innerHTML = '<i class="fa-solid fa-microphone"></i> <span>' + t.counter.btnVoiceStart + '</span>';
-  }
+  const vTitle = document.querySelector('.voice-title span');
+  const vPrompt = document.querySelector('.voice-info div:nth-child(2)');
+  const vBadge = document.getElementById('voiceStatusBadge');
+  const mchTag = document.querySelector('.mch-tag');
+  const mchLabel = document.querySelector('.mch-label');
+  const swTitle = document.querySelector('.stopwatch-card div:first-child div:first-child');
+  const swStartBtn = document.getElementById('swStartBtn');
+
+  if (vTitle) vTitle.textContent = t.counter.voiceTitle;
+  if (vPrompt) vPrompt.innerHTML = t.counter.voicePrompt;
+  if (vBadge && !isVoiceListeningActive) vBadge.innerHTML = '<i class="fa-solid fa-circle" style="font-size:0.5rem;color:#10b981;"></i> ' + t.counter.voiceReady;
+  if (mchTag) mchTag.textContent = t.counter.mchTag;
+  if (mchLabel) mchLabel.textContent = t.counter.mchLabel;
+  if (swTitle) swTitle.innerHTML = '<i class="fa-solid fa-stopwatch" style="color:var(--primary);"></i> ' + t.counter.stopwatchTitle;
+  if (swStartBtn) swStartBtn.textContent = isStopwatchRunning ? t.counter.btnPauseSession : t.counter.btnStartSession;
 
   // Calculators Section
-  const calcTitle = document.querySelector('#tab-calc .section-header h2');
-  if (calcTitle) calcTitle.textContent = t.calc.title;
+  const calcH2 = document.querySelector('.calc-header-box h2');
+  const calcP = document.querySelector('.calc-header-box p');
+  const calcCurr = document.querySelector('.calc-currency-pill');
+  if (calcH2) calcH2.textContent = t.calc.title;
+  if (calcP) calcP.textContent = t.calc.subtitle;
+  if (calcCurr) calcCurr.textContent = t.calc.currency;
 
-  const calcSubBtns = document.querySelectorAll('.calc-subtab-btn');
-  if (calcSubBtns.length >= 4) {
-    calcSubBtns[0].textContent = t.calc.tabs.est;
-    calcSubBtns[1].textContent = t.calc.tabs.rem;
-    calcSubBtns[2].textContent = t.calc.tabs.gauge;
-    calcSubBtns[3].textContent = t.calc.tabs.pricing;
+  const subBtns = document.querySelectorAll('.calc-subtab-btn span');
+  if (subBtns.length >= 4) {
+    subBtns[0].textContent = t.calc.tabs.est;
+    subBtns[1].textContent = t.calc.tabs.gauge;
+    subBtns[2].textContent = t.calc.tabs.rem;
+    subBtns[3].textContent = t.calc.tabs.pricing;
   }
 
   // Studio Section
-  const studioTitle = document.querySelector('#tab-studio .section-header h2');
-  const studioSub = document.querySelector('#tab-studio .section-header p');
-  if (studioTitle) studioTitle.textContent = t.studio.title;
-  if (studioSub) studioSub.textContent = t.studio.subtitle;
+  const stH2 = document.querySelector('.studio-hero-card h2');
+  const stP = document.querySelector('.studio-hero-card p');
+  if (stH2) stH2.innerHTML = '<i class="fa-solid fa-palette"></i> ' + t.studio.title;
+  if (stP) stP.textContent = t.studio.subtitle;
+
+  const btnStarry = document.getElementById('btnStudioStarry');
+  const btnCustom = document.getElementById('btnStudioCustom');
+  if (btnStarry) btnStarry.innerHTML = '<i class="fa-solid fa-star"></i> ' + t.studio.tabStarry;
+  if (btnCustom) btnCustom.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> ' + t.studio.tabCustom;
+
+  const studioPdfBtn = document.querySelector('button[onclick="printStudioPatternPDF()"]');
+  const studioNotesBtn = document.querySelector('button[onclick="saveStudioToNotes()"]');
+  if (studioPdfBtn) studioPdfBtn.innerHTML = '<i class="fa-solid fa-file-pdf"></i> ' + t.studio.btnPdf;
+  if (studioNotesBtn) studioNotesBtn.innerHTML = '<i class="fa-solid fa-bookmark"></i> ' + t.studio.btnNotes;
+
+  // Studio Specs Box Labels
+  const specsH3 = document.querySelector('#studioStarryView h3');
+  const specsChip = document.querySelector('#studioStarryView .spec-chip');
+  if (specsH3) specsH3.textContent = t.studio.specsHeader;
+  if (specsChip) specsChip.textContent = t.studio.specsCost;
 
   // Glossary Section
-  const glossTitle = document.querySelector('#tab-glossary .section-header h2');
-  const masterBtn = document.querySelector('.master-size-btn');
-  const glossSearch = document.getElementById('glossarySearchInput');
-  if (glossTitle) glossTitle.textContent = t.glossary.title;
-  if (masterBtn) masterBtn.innerHTML = '<i class="fa-solid fa-ruler-combined"></i> ' + t.glossary.masterGuideBtn;
-  if (glossSearch) glossSearch.placeholder = t.glossary.searchPh;
+  const glSearch = document.getElementById('glossarySearchInput');
+  const glMasterBtn = document.querySelector('.master-size-btn');
+  if (glSearch) glSearch.placeholder = t.glossary.searchPh;
+  if (glMasterBtn) glMasterBtn.innerHTML = '<i class="fa-solid fa-ruler-combined"></i> ' + t.glossary.masterGuideBtn;
+  renderGlossaryCatalog();
 
   // Notes Section
-  const notesTitle = document.querySelector('#tab-notes .section-header h2');
-  const noteAddBtn = document.querySelector('.add-note-btn');
-  if (notesTitle) notesTitle.textContent = t.notes.title;
-  if (noteAddBtn) noteAddBtn.textContent = t.notes.addBtn;
+  const noteBtnSpan = document.querySelector('.btn-create-note span');
+  const noteSearchField = document.getElementById('notesSearchField');
+  if (noteBtnSpan) noteBtnSpan.textContent = t.notes.btnAdd;
+  if (noteSearchField) noteSearchField.placeholder = t.notes.searchPh;
+  renderNotesMasonry();
 }
+
+
+const PATTERN_I18N = {
+  'ami-kitten': {
+    ar: { title: 'دمية قطة مشمشية كيو أميغورومي', desc: 'دمية قطة لطيفة ومكتنزة بأذنين مثلثتين وخدود وردية، مصممة بخطوات سطرية دقيقة مع أعداد الغرز الإلزامية.', level: 'مبتدئ', time: '3-4 ساعات' },
+    en: { title: 'Apricot Kitten Cute Amigurumi', desc: 'Adorable plush kitten with pointed ears and rosy cheeks, crafted with round-by-round stitch counts.', level: 'Beginner', time: '3-4 hrs' },
+    de: { title: 'Süßes Aprikosen-Kätzchen Amigurumi', desc: 'Kompaktes Plüschkätzchen mit Dreiecksohren und rosa Bäckchen, mit präzisen Rundenangaben.', level: 'Anfänger', time: '3-4 Std.' },
+    ja: { title: 'アプリコット子猫のあみぐるみ', desc: '三角お耳とピンクのほっぺが愛らしい、段ごとの目数指示が付いた初心者向け子猫ちゃん。', level: '初級', time: '3-4時間' },
+    tr: { title: 'Kayısı Yavru Kedi Amigurumi', desc: 'Üçgen kulakları ve pembe yanaklarıyla sevimli, adım adım ilmek sayıları belirtilmiş yavru kedi.', level: 'Başlangıç', time: '3-4 saat' },
+    ru: { title: 'Абрикосовый котенок амигуруми', desc: 'Очаровательный плюшевый котенок с треугольными ушками и розовыми щечками, с точным расчетом петель.', level: 'Начинающий', time: '3-4 часа' },
+    es: { title: 'Gatito Albaricoque Tierno Amigurumi', desc: 'Adorable gatito con orejas triangulares y mejillas sonrosadas, con instrucciones paso a paso.', level: 'Principiante', time: '3-4 horas' }
+  },
+  'royal-lotus-shawl': {
+    ar: { title: 'شال زهرة اللوتس الملكي الدانتيل', desc: 'شال مثلثي فاخر مستوحى من بتلات زهرة اللوتس وأمواج البحر، بتدرج لوني انسيابي وغرز دانتيل مفتوحة خفيفة الوزن.', level: 'متوسط', time: '8-10 ساعات' },
+    en: { title: 'Royal Lotus Lace Triangle Shawl', desc: 'Breathtaking openwork lace shawl inspired by blooming lotus petals with elegant color ombre gradient.', level: 'Intermediate', time: '8-10 hrs' },
+    de: { title: 'Königliches Lotus-Spitzentuch', desc: 'Elegantes Dreieckstuch mit kunstvollem Ajourmuster, inspiriert von Lotusblüten mit sanftem Farbverlauf.', level: 'Mittel', time: '8-10 Std.' },
+    ja: { title: 'ロイヤル・ロータス レースショール', desc: '蓮の花びらと波をモチーフにした透かし編み三角ショール。グラデーションが優雅に広がります。', level: '中級', time: '8-10時間' },
+    tr: { title: 'Kraliyet Lotus Dantel Şalı', desc: 'Lotus çiçeklerinden ilham alan, dökümlü ve zarif renk geçişli lüks dantel üçgen şal.', level: 'Orta', time: '8-10 saat' },
+    ru: { title: 'Царская шаль "Цветок Лотоса"', desc: 'Роскошная ажурная треугольная шаль с мотивами лепестков лотоса и плавным градиентом.', level: 'Средний', time: '8-10 часов' },
+    es: { title: 'Chal Triangular Encaje Loto Real', desc: 'Majestuoso chal calado inspirado en pétalos de loto con degradado de color ligero y elegante.', level: 'Intermedio', time: '8-10 horas' }
+  },
+  'boho-basket': {
+    ar: { title: 'سلة الخيوط البوهيمية المعقودة بخيط الكليم', desc: 'سلة تنظيم دائرية عصرية ومتماسكة جداً لجلسات الكروشيه وترتيب الخيوط، مصنوعة بقاعدة صلبة بدون ثقوب ومقبضين.', level: 'مبتدئ', time: '2-3 ساعات' },
+    en: { title: 'Boho T-Shirt Yarn Storage Basket', desc: 'Sturdy circular organizing basket for crochet sessions and yarn skeins, featuring thick handles and seamless base.', level: 'Beginner', time: '2-3 hrs' },
+    de: { title: 'Boho Textilgarn-Aufbewahrungskorb', desc: 'Formstabiler runder Utensilienkorb aus Textilgarn mit integrierten Tragegriffen für Wollknäuel.', level: 'Anfänger', time: '2-3 Std.' },
+    ja: { title: 'ズパゲッティ・ボヘミアン収納バスケット', desc: 'Tシャツヤーンで編むしっかりとした自立型バスケット。毛糸の整理や小物入れに最適です。', level: '初級', time: '2-3時間' },
+    tr: { title: 'Bohem Penye İp Düzenleyici Sepet', desc: 'Tığ işi iplerini düzenlemek için kulplu, sağlam tabanlı ve dik duran modern penye ip sepeti.', level: 'Başlangıç', time: '2-3 saat' },
+    ru: { title: 'Бохо-корзина из трикотажной пряжи', desc: 'Устойчивая круглая корзинка с ручками для хранения клубков и рукоделия с плотным дном.', level: 'Начинающий', time: '2-3 часа' },
+    es: { title: 'Cesta Organizadora Boho de Trapillo', desc: 'Cesta circular resistente con asas integradas, ideal para guardar ovillos y labores de tejido.', level: 'Principiante', time: '2-3 horas' }
+  },
+  'retro-granny-tote': {
+    ar: { title: 'حقيبة مربعات الجدة الكلاسيكية بالأقحوان', desc: 'حقيبة كتف عصرية مكونة من 13 مربع جراني كلاسيكي بقلب زهرة الأقحوان المجسم، مبطنة بحواف متينة وحزامين مريحين.', level: 'متوسط', time: '6-8 ساعات' },
+    en: { title: 'Retro Daisy Granny Square Tote Bag', desc: 'Chic shoulder bag crafted from 13 classic floral granny squares with textured 3D daisies and sturdy straps.', level: 'Intermediate', time: '6-8 hrs' },
+    de: { title: 'Retro Granny-Square Schultertasche', desc: 'Trendige Tasche aus 13 traditionellen Granny Squares mit erhabenem Gänseblümchen-Muster und Tragegurten.', level: 'Mittel', time: '6-8 Std.' },
+    ja: { title: 'レトロ・デイジー グラニースクエアバッグ', desc: '13枚のデイジーモチーフをつなぎ合わせた大人気トートバッグ。肩掛けしやすい丈夫な持ち手付き。', level: '中級', time: '6-8時間' },
+    tr: { title: 'Retro Papatyalı Hanım Dilendi Çantası', desc: '13 adet kabartmalı papatya motifinin birleşiminden oluşan, sağlam askılı şık omuz çantası.', level: 'Orta', time: '6-8 saat' },
+    ru: { title: 'Ретро-сумка из бабушкиных квадратов с ромашками', desc: 'Стильный шоппер из 13 цветочных мотивов с объемными ромашками и прочными ручками.', level: 'Средний', time: '6-8 часов' },
+    es: { title: 'Bolso Retro de Cuadrados de la Abuela con Margaritas', desc: 'Bolso de hombro moderno compuesto por 13 granny squares florales en 3D con asas reforzadas.', level: 'Intermedio', time: '6-8 horas' }
+  },
+  'ami-bear': {
+    ar: { title: 'دمية دب أميغورومي كيوت', desc: 'دمية كلاسيكية محبوبة للأطفال، محبوكة بغرزة الحشو اللولبية مع أطراف ناعمة وتطريز ملامح لطيفة.', level: 'مبتدئ', time: '3-4 ساعات' },
+    en: { title: 'Cute Teddy Bear Amigurumi', desc: 'Beloved classic nursery bear crocheted in continuous spiral single crochet with soft paws.', level: 'Beginner', time: '3-4 hrs' },
+    de: { title: 'Klassischer Teddybär Amigurumi', desc: 'Beliebter Spielzeugbär in Spiralrunden mit festen Maschen gehäkelt, mit weichen Pfötchen.', level: 'Anfänger', time: '3-4 Std.' },
+    ja: { title: 'くまのテディベア あみぐるみ', desc: 'らせん編みで作る大人気の定番くまちゃん。手足のバランスが良くプレゼントにも大好評。', level: '初級', time: '3-4時間' },
+    tr: { title: 'Sevimli Oyuncak Ayıcık Amigurumi', desc: 'Sürekli spiral sık iğne tekniğiyle örülen, yumuşak patili klasik çocuk ayıcığı.', level: 'Başlangıç', time: '3-4 saat' },
+    ru: { title: 'Милый мишка амигуруми', desc: 'Классический плюшевый мишка, связанный по спирали столбиками без накида с мягкими лапками.', level: 'Начинающий', time: '3-4 часа' },
+    es: { title: 'Osito de Peluche Tierno Amigurumi', desc: 'Clásico osito infantil tejido en espiral continua con punto bajo y extremidades suaves.', level: 'Principiante', time: '3-4 horas' }
+  },
+  'ami-bunny': {
+    ar: { title: 'أرنب أميغورومي بأذنين طويلتين', desc: 'أرنب رقيق جداً بأذنين متدليتين طويلتين وفستان ناعم، هدية مثالية للمواليد والأطفال.', level: 'مبتدئ', time: '4-5 ساعات' },
+    en: { title: 'Long-Eared Lop Bunny Amigurumi', desc: 'Gentle plush bunny with charming floppy ears, perfect baby shower handcrafted gift.', level: 'Beginner', time: '4-5 hrs' },
+    de: { title: 'Schlappohr-Häschen Amigurumi', desc: 'Zartes Häschen mit langen Schlappohren, ein perfektes Geschenk zur Geburt und Taufe.', level: 'Anfänger', time: '4-5 Std.' },
+    ja: { title: 'たれ耳うさぎのあみぐるみ', desc: '長い耳が愛らしいたれ耳うさぎ。出産祝いやお子様へのプレゼントに大人気です。', level: '初級', time: '4-5時間' },
+    tr: { title: 'Uzun Kulaklı Tavşan Amigurumi', desc: 'Uzun sarkık kulakları ve sevimli tasarımıyla yeni doğan bebekler için harika bir hediye.', level: 'Başlangıç', time: '4-5 saat' },
+    ru: { title: 'Зайка с длинными ушками амигуруми', desc: 'Нежный зайчик с длинными висячими ушками, прекрасный подарок для малышей.', level: 'Начинающий', time: '4-5 часов' },
+    es: { title: 'Conejito de Orejas Caídas Amigurumi', desc: 'Tierno conejito de largas orejas caídas, un regalo artesanal ideal para recién nacidos.', level: 'Principiante', time: '4-5 horas' }
+  },
+  'ami-elephant': {
+    ar: { title: 'فيل ميني بخرطوم لطيف', desc: 'مجسم فيل صغير ومكتنز بأذنين عريضتين وخرطوم مرفوع للأعلى رمزاً للبهجة والحظ.', level: 'مبتدئ', time: '2-3 ساعات' },
+    en: { title: 'Mini Lucky Elephant Amigurumi', desc: 'Chubby pocket elephant with wide flapping ears and upturned trunk symbolizing happiness.', level: 'Beginner', time: '2-3 hrs' },
+    de: { title: 'Kleiner Glückselefant Amigurumi', desc: 'Putziger kleiner Elefant mit großen Ohren und aufgerichtetem Rüssel als Glücksbringer.', level: 'Anfänger', time: '2-3 Std.' },
+    ja: { title: '幸運のミニ子象あみぐるみ', desc: '大きなお耳と上に上がったお鼻が幸運を呼ぶ、手のひらサイズのころころ子象。', level: '初級', time: '2-3時間' },
+    tr: { title: 'Uğurlu Minik Fil Amigurumi', desc: 'Geniş kulakları ve havaya kalkık hortumuyla şans ve neşe getiren tombik minik fil.', level: 'Başlangıç', time: '2-3 saat' },
+    ru: { title: 'Маленький слоненок на счастье', desc: 'Забавный пухлый слоник с большими ушками и поднятым хоботком, символ уюта и удачи.', level: 'Начинающий', time: '2-3 часа' },
+    es: { title: 'Elefantito de la Suerte Amigurumi', desc: 'Regordete elefante de bolsillo con orejas amplias y trompa hacia arriba, símbolo de alegría.', level: 'Principiante', time: '2-3 horas' }
+  },
+  'shawl-granny': {
+    ar: { title: 'شال مربعات الجدة الكلاسيكي الفاخر', desc: 'شال مثلثي مريح بغرز العناقيد ومربعات الجدة التراثية مع شراشيب فخمة عند الأطراف.', level: 'متوسط', time: '10-12 ساعة' },
+    en: { title: 'Classic Granny Triangle Shawl', desc: 'Heritage cluster stitches forming a warm triangular wrap finished with luxurious tasseled edging.', level: 'Intermediate', time: '10-12 hrs' },
+    de: { title: 'Traditionelles Granny-Dreieckstuch', desc: 'Zeitlose Büschelmaschen formen ein kuscheliges Wolltuch mit Fransenabschluss.', level: 'Mittel', time: '10-12 Std.' },
+    ja: { title: 'クラシック・グラニートライアングルショール', desc: '伝統のグラニーステッチで編み進める大判三角ショール。フリンジ仕上げで暖か。', level: '中級', time: '10-12時間' },
+    tr: { title: 'Klasik Hanım Dilendi Üçgen Şal', desc: 'Geleneksel küme trabzanlarla örülen ve uçlarında püsküller bulunan sıcak üçgen şal.', level: 'Orta', time: '10-12 saat' },
+    ru: { title: 'Шаль из бабушкиных мотивов', desc: 'Уютная теплая шаль с традиционным узором и роскошной отделкой бахромой.', level: 'Средний', time: '10-12 часов' },
+    es: { title: 'Chal Clásico de Cuadros Granny', desc: 'Patrón tradicional de grupos de puntos altos formando un chal cálido con flecos elegantes.', level: 'Intermedio', time: '10-12 horas' }
+  },
+  'shawl-triangle': {
+    ar: { title: 'شال بوهو المثلثي الشتوي', desc: 'شال كروشيه سميك ودافئ بتدرجات شتوية وغرز مضلعة تحمي من البرد بأناقة.', level: 'متوسط', time: '8-10 ساعات' },
+    en: { title: 'Winter Cozy Boho Triangle Shawl', desc: 'Warm textured ribbed shawl made with chunky yarn to keep cozy in chic bohemian style.', level: 'Intermediate', time: '8-10 hrs' },
+    de: { title: 'Kuscheliges Winter-Boho-Dreieckstuch', desc: 'Dickes wärmendes Tuch mit plastischem Rippenmuster im angesagten Bohème-Look.', level: 'Mittel', time: '8-10 Std.' },
+    ja: { title: '冬の暖かボヘミアン三角ショール', desc: '太めの毛糸で編む立体リブ模様のショール。寒い季節を暖かくスタイリッシュに彩ります。', level: '中級', time: '8-10時間' },
+    tr: { title: 'Kışlık Sıcak Bohem Üçgen Şal', desc: 'Kış soğuklarından koruyan, kalın yünle örülen kabartmalı ve dokulu bohem şal.', level: 'Orta', time: '8-10 saat' },
+    ru: { title: 'Зимняя теплая треугольная бохо-шаль', desc: 'Объемная фактурная шаль из мягкой полушерсти для стильных и теплых зимних прогулок.', level: 'Средний', time: '8-10 часов' },
+    es: { title: 'Chal Boho Triangular de Invierno', desc: 'Chal grueso y cálido tejido con relieves acanalados que protegen del frío con gran estilo.', level: 'Intermedio', time: '8-10 horas' }
+  },
+  'mandala-doily': {
+    ar: { title: 'مفرش مانديلا دانتيل دائري', desc: 'لوحة فنية دائرية من الغرز المزخرفة والبيكو لتزيين طاولات القهوة والصالونات الراقية.', level: 'متوسط', time: '5-6 ساعات' },
+    en: { title: 'Circular Lace Mandala Doily', desc: 'Intricate concentric circles of picots and shells forming a breathtaking centerpiece.', level: 'Intermediate', time: '5-6 hrs' },
+    de: { title: 'Rundes Spitzen-Mandala Deckchen', desc: 'Filigrane konzentrische Runden mit Muscheln und Picots als edler Tischschmuck.', level: 'Mittel', time: '5-6 Std.' },
+    ja: { title: '円形レース編み マンダラドイリー', desc: 'ピコットとシェル編みが同心円状に広がる美しいドイリー。テーブルのアクセントに。', level: '中級', time: '5-6時間' },
+    tr: { title: 'Dairesel Dantel Mandala Sehpa Örtüsü', desc: 'Sehpalar ve salonlar için pikot ve midye motifleriyle bezenmiş sanatsal yuvarlak örtü.', level: 'Orta', time: '5-6 saat' },
+    ru: { title: 'Круглая салфетка-мандала', desc: 'Изящный концентрический узор с пико и ракушками, изысканное украшение для интерьера.', level: 'Средний', time: '5-6 часов' },
+    es: { title: 'Tapete Circular Mandala de Encaje', desc: 'Elegante diseño concéntrico de conchas y picots para decorar mesas de centro con distinción.', level: 'Intermedio', time: '5-6 horas' }
+  },
+  'basket-home': {
+    ar: { title: 'سلة كروشيه لتنظيم المنزل', desc: 'سلة أسطوانية متماسكة بخيط قطني مزدوج لتخزين أدوات المكياج أو مفاتيح المدخل.', level: 'مبتدئ', time: '2-3 ساعات' },
+    en: { title: 'Home Storage Organizer Basket', desc: 'Cylindrical sturdy basket crocheted with held-together cotton yarn for home vanity items.', level: 'Beginner', time: '2-3 hrs' },
+    de: { title: 'Praktischer Utensilienkorb fürs Zuhause', desc: 'Stabiler Zylinderkorb aus zweifädigem Baumwollgarn für Bad, Make-up oder Schlüssel.', level: 'Anfänger', time: '2-3 Std.' },
+    ja: { title: 'ナチュラル整理整頓バスケット', desc: '極太コットン糸で編む自立型シリンダーバスケット。コスメや小物整理に重宝します。', level: '初級', time: '2-3時間' },
+    tr: { title: 'Ev Düzenleme Sepeti', desc: 'Çift kat pamuk iple örülen, makyaj ve anahtarlık eşyalarını düzenlemek için dik duran sepet.', level: 'Başlangıç', time: '2-3 saat' },
+    ru: { title: 'Интерьерная корзинка для дома', desc: 'Плотная корзина цилиндрической формы из хлопкового шнура для косметики и мелочей.', level: 'Начинающий', time: '2-3 часа' },
+    es: { title: 'Cesta Organizadora para el Hogar', desc: 'Cesta cilíndrica firme tejida con hilo doble de algodón para organizar maquillaje o recibidor.', level: 'Principiante', time: '2-3 horas' }
+  },
+  'bag-raffia': {
+    ar: { title: 'حقيبة رافيا صيفية عصرية', desc: 'حقيبة كروشيه خفيفة من خيوط الرافيا الطبيعية بنقشة مخرمة تناسب نزهات الشاطئ والصيف.', level: 'متوسط', time: '6-8 ساعات' },
+    en: { title: 'Chic Summer Raffia Tote Bag', desc: 'Lightweight summer bag crocheted from natural raffia straw with open breezy texture.', level: 'Intermediate', time: '6-8 hrs' },
+    de: { title: 'Sommerliche Bastgarn-Tasche', desc: 'Leichte Sommertasche aus natürlichem Bast mit luftigem Muster, ideal für Strand und Stadt.', level: 'Mittel', time: '6-8 Std.' },
+    ja: { title: 'サマー・ラフィア トートバッグ', desc: '天然ラフィア風ヤーンで編む軽やかな透かし模様バッグ。夏のお出かけにぴったりです。', level: '中級', time: '6-8時間' },
+    tr: { title: 'Yazlık Şık Hasır Rafya Çanta', desc: 'Doğal rafya iple örülen, yaz tatilleri ve sahil gezintileri için ideal hafif delikli çanta.', level: 'Orta', time: '6-8 saat' },
+    ru: { title: 'Летняя сумка из рафии', desc: 'Легкая фактурная сумка из натуральной рафии с воздушным узором для пляжа и города.', level: 'Средний', time: '6-8 часов' },
+    es: { title: 'Bolso de Verano en Rafia Natural', desc: 'Bolso ligero de fibra vegetal con calados veraniegos, perfecto para paseos y playa.', level: 'Intermedio', time: '6-8 horas' }
+  },
+  'bag-market': {
+    ar: { title: 'حقيبة تسوق شبكية متمددة', desc: 'حقيبة صديقة للبيئة مرنة تتمدد لتحمل الخضار والفواكه وقابلة للطي في الجيب.', level: 'مبتدئ', time: '3-4 ساعات' },
+    en: { title: 'Eco French Market Net Bag', desc: 'Zero-waste expandable mesh tote that stretches to carry produce and folds into a pocket.', level: 'Beginner', time: '3-4 hrs' },
+    de: { title: 'Französische Markt-Netztasche', desc: 'Nachhaltiger Einkaufsbeutel aus Baumwoll-Netzmaschen, dehnbar und extrem platzsparend faltbar.', level: 'Anfänger', time: '3-4 Std.' },
+    ja: { title: '伸縮フレンチ・マーケットバッグ', desc: '果物や野菜を入れてもぐんぐん伸びるエコネットバッグ。小さく畳めて携帯性抜群。', level: '初級', time: '3-4時間' },
+    tr: { title: 'Esnek File Pazar Çantası', desc: 'Meyve ve sebze taşımak için esneyen, cebe sığacak kadar katlanabilen çevre dostu file çanta.', level: 'Başlangıç', time: '3-4 saat' },
+    ru: { title: 'Французская эко-авоська', desc: 'Вместительная растягивающаяся сетчатая сумка для покупок, легко складывается в карман.', level: 'Начинающий', time: '3-4 часа' },
+    es: { title: 'Bolsa de Malla Ecológica para Compras', desc: 'Bolsa francesa expandible de red que se estira para llevar compras y cabe en el bolsillo.', level: 'Principiante', time: '3-4 horas' }
+  },
+  'beanie-hat': {
+    ar: { title: 'قبعة بيني شتوية مضلعة', desc: 'قبعة دافئة محبوكة بغرزة النصف عمود في الحلقة الخلفية مع كشكشة لطيفة في الأعلى.', level: 'مبتدئ', time: '2-3 ساعات' },
+    en: { title: 'Classic Ribbed Winter Beanie', desc: 'Stretchy ribbed toque crocheted flat using half-double crochet BLO and gathered at the crown.', level: 'Beginner', time: '2-3 hrs' },
+    de: { title: 'Warme Rippenstrick-Beaniemütze', desc: 'Elastische Rippenmütze aus halben Stäbchen ins hintere Maschenglied, oben zusammengezogen.', level: 'Anfänger', time: '2-3 Std.' },
+    ja: { title: 'リブ編みあったかニット帽（ビーニー）', desc: 'すじ編みで編む伸縮性抜群のニット帽。すっきりとしたシルエットで防寒性も最高。', level: '初級', time: '2-3時間' },
+    tr: { title: 'Fitilli Sıcak Kışlık Bere', desc: 'Yarım trabzanın arka ilmeğine batılarak esnek fitil dokusuyla örülen şık kış beresi.', level: 'Başlangıç', time: '2-3 saat' },
+    ru: { title: 'Теплая рельефная шапка-бини', desc: 'Эластичная шапка узором "резинка" из полустолбиков за заднюю стенку петли.', level: 'Начинающий', time: '2-3 часа' },
+    es: { title: 'Gorro Beanie de Invierno Acanalado', desc: 'Gorro elástico tejido en punto medio alto en hebra trasera, con cierre fruncido en la coronilla.', level: 'Principiante', time: '2-3 horas' }
+  },
+  'socks-warm': {
+    ar: { title: 'جوارب منزلية ناعمة', desc: 'جوارب كروشيه مريحة للقدمين للأمسيات الباردة بنعل سميك ومقاس مرن يناسب الجميع.', level: 'متوسط', time: '4-5 ساعات' },
+    en: { title: 'Cozy Slipper Socks', desc: 'Snug home foot warmers designed with cushioned reinforced soles for chilly evenings.', level: 'Intermediate', time: '4-5 hrs' },
+    de: { title: 'Gemütliche Kuschel-Haussocken', desc: 'Warme Bettsocken mit verstärkter Sohle und elastischem Schaft für kalte Abende.', level: 'Mittel', time: '4-5 Std.' },
+    ja: { title: 'ふんわりルームソックス（靴下）', desc: 'クッション性のある二重底で冷えから足元を守る、おうち時間に快適な手編みソックス。', level: '中級', time: '4-5時間' },
+    tr: { title: 'Yumuşacık Ev Patik Çorabı', desc: 'Soğuk akşamlar için ayakları sıcacık tutan, dolgulu tabanlı konforlu ev çorabı.', level: 'Orta', time: '4-5 saat' },
+    ru: { title: 'Уютные домашние носочки-следочки', desc: 'Мягкие теплые носки для дома с уплотненной подошвой и комфортной посадкой по ноге.', level: 'Средний', time: '4-5 часов' },
+    es: { title: 'Calcetines Pantufla Acolchados', desc: 'Cómodos calcetines de estar por casa con suela reforzada para mantener los pies calientes.', level: 'Intermedio', time: '4-5 horas' }
+  },
+  'headband': {
+    ar: { title: 'عصابة رأس تويست عريضة', desc: 'ربطة شعر شتوية أنيقة بلفة أمامية متقاطعة (Twist) تغطي الأذنين وتمنحكِ مظهراً عصرياً.', level: 'مبتدئ', time: '1-2 ساعة' },
+    en: { title: 'Chic Twist Knot Headband', desc: 'Stylish wide ear warmer featuring an easy folded front knot for trendy hair days.', level: 'Beginner', time: '1-2 hrs' },
+    de: { title: 'Elegantes Stirnband mit Twist-Knoten', desc: 'Modischer Ohrenwärmer mit gekreuztem Knoten auf der Stirn, schnell an einem Abend gehäkelt.', level: 'Anfänger', time: '1-2 Std.' },
+    ja: { title: 'フロントツイスト・ヘアバンド', desc: '前中心でクロスさせた立体デザインが可愛い、耳まですっぽり暖かいヘアバンド。', level: '初級', time: '1-2時間' },
+    tr: { title: 'Şık Burgulu Kışlık Saç Bandı', desc: 'Kulakları ısıtan ve önden çapraz bükümlü şık tasarımıyla 1-2 saatte örülen saç bandı.', level: 'Başlangıç', time: '1-2 saat' },
+    ru: { title: 'Стильная повязка на голову с узлом', desc: 'Теплая широкая повязка для ушей с красивым перекрестным узлом спереди, вяжется за час.', level: 'Начинающий', time: '1-2 часа' },
+    es: { title: 'Diadema Turbante con Nudo Frontal', desc: 'Elegante calentador de orejas con diseño cruzado tipo turbante, rápido y favorecedor.', level: 'Principiante', time: '1-2 horas' }
+  },
+  'baby-shoes': {
+    ar: { title: 'حذاء بيبي كروشيه للمواليد', desc: 'لكلوك بيبي ناعم جداً من خيوط قطنية لا تسبب أي حساسية مع شريط إغلاق بحبة لؤلؤ.', level: 'مبتدئ', time: '2-3 ساعات' },
+    en: { title: 'Sweet Newborn Baby Booties', desc: 'Ultra-soft allergen-free cotton booties finished with a sweet strap and button closure.', level: 'Beginner', time: '2-3 hrs' },
+    de: { title: 'Zarte Neugeborenen-Babyschuhe', desc: 'Federleichte Schühchen aus hypoallergener Baby-Baumwolle mit praktischem Riemchen.', level: 'Anfänger', time: '2-3 Std.' },
+    ja: { title: 'オーガニックコットン ベビーブーティ', desc: '赤ちゃんの肌に優しいコットン糸で編む柔らかシューズ。ストラップボタン付き。', level: '初級', time: '2-3時間' },
+    tr: { title: 'Yenidoğan Bebek Patiği', desc: 'Hassas bebek tenine uygun antialerjik pamuk iple örülen, düğmeli tatlı patik.', level: 'Başlangıç', time: '2-3 saat' },
+    ru: { title: 'Нежные пинетки для новорожденного', desc: 'Мягкие пинетки из гипоаллергенного хлопка с ремешком на пуговке для самых маленьких.', level: 'Начинающий', time: '2-3 часа' },
+    es: { title: 'Patucos Suaves para Recién Nacido', desc: 'Zapatitos delicados de algodón hipoalergénico con tira de cierre y botón para bebé.', level: 'Principiante', time: '2-3 horas' }
+  },
+  'baby-blanket': {
+    ar: { title: 'بطانية أطفال غرزة الوافل', desc: 'بطانية فخمة وسميكة بغرز الأعمدة الأمامية لتوليد مربعات الوافل المجسمة فائقة الدفء.', level: 'متوسط', time: '12-15 ساعة' },
+    en: { title: '3D Waffle Stitch Baby Blanket', desc: 'Luxurious textured throw with deep raised grid pockets delivering cloud-like warmth.', level: 'Intermediate', time: '12-15 hrs' },
+    de: { title: '3D-Waffelmuster Babydecke', desc: 'Hochwertige Kuscheldecke mit erhabenen Reliefstäbchen, die tiefe wärmende Waben bilden.', level: 'Mittel', time: '12-15 Std.' },
+    ja: { title: '立体ワッフル編み ベビーブランケット', desc: '引き上げ編みで作る凹凸ワッフル模様。空気を含んでふっくら極上の暖かさ。', level: '中級', time: '12-15時間' },
+    tr: { title: '3D Waffle Dokulu Bebek Battaniyesi', desc: 'Kabartmalı trabzanlarla örülen ve derin petek dokusuyla sıcacık tutan lüks battaniye.', level: 'Orta', time: '12-15 saat' },
+    ru: { title: 'Объемный детский плед "Вафельный"', desc: 'Роскошный рельефный плед с глубокой сотовой текстурой, дарящей уютное тепло.', level: 'Средний', time: '12-15 часов' },
+    es: { title: 'Manta Infantil con Relieve Punto Gofre', desc: 'Manta esponjosa y mullida tejida con puntos altos en relieve formando celdas térmicas.', level: 'Intermedio', time: '12-15 horas' }
+  },
+  'flower-sunflower': {
+    ar: { title: 'زهرة عباد الشمس المجسمة', desc: 'تطبيق زخرفي ثلاثي الأبعاد لزهرة دوار الشمس بقلب بني محبب وبتلات صفراء مدببة.', level: 'مبتدئ', time: '1-2 ساعة' },
+    en: { title: '3D Blooming Sunflower Applique', desc: 'Vibrant textured blossom with rich textured brown seed center and golden pointed petals.', level: 'Beginner', time: '1-2 hrs' },
+    de: { title: '3D-Sonnenblumen-Applikation', desc: 'Leuchtende Zierblume mit noppiger brauner Mitte und spitzen goldgelben Blütenblättern.', level: 'Anfänger', time: '1-2 Std.' },
+    ja: { title: '立体ひまわりモチーフ（コサージュ）', desc: 'ぷっくりとした中心の種部分と鮮やかな黄色い花びらが映える立体フラワー。', level: '初級', time: '1-2時間' },
+    tr: { title: '3D Ayçiçeği Dekoru', desc: 'Kabartmalı kahverengi tohum göbeği ve sivri sarı taç yapraklarıyla neşeli çiçek motifi.', level: 'Başlangıç', time: '1-2 saat' },
+    ru: { title: 'Объемный подсолнух крючком', desc: 'Яркий декоративный цветок с фактурной серединкой и заостренными желтыми лепестками.', level: 'Начинающий', time: '1-2 часа' },
+    es: { title: 'Girasol en Relieve 3D', desc: 'Vistosa flor decorativa con centro marrón texturizado y pétalos puntiagudos dorados.', level: 'Principiante', time: '1-2 horas' }
+  },
+  'flower-rose': {
+    ar: { title: 'وردة جورية ثلاثية الأبعاد', desc: 'وردة رومانسية ملفوفة بطبقات بتلات متدرجة لتزيين الشالات والحقائب وأطواق الشعر.', level: 'مبتدئ', time: '1 ساعة' },
+    en: { title: 'Layered 3D English Rose', desc: 'Romantic rolled petal bloom that curls effortlessly into a full rose for hats and pins.', level: 'Beginner', time: '1 hr' },
+    de: { title: 'Dreidimensionale Edelrose', desc: 'Romantische gerollte Rose mit sanft geschwungenen Blütenblättern für Mützen und Broschen.', level: 'Anfänger', time: '1 Std.' },
+    ja: { title: '立体巻きバラモチーフ', desc: '編んでくるくる巻くだけで完成するエレガントな薔薇。ブローチやヘアゴムに。', level: '初級', time: '1時間' },
+    tr: { title: 'Katmanlı 3D Gül Motifi', desc: 'Şal ve tokaları süslemek için katmerli yapraklarıyla rulo halinde dikilen zarif gül.', level: 'Başlangıç', time: '1 saat' },
+    ru: { title: 'Пышная объемная роза', desc: 'Романтичный цветок из спирально свернутой ленты лепестков для украшения одежды.', level: 'Начинающий', time: '1 час' },
+    es: { title: 'Rosa Inglesa en Capas 3D', desc: 'Flor enrollada de pétalos ondeados que forma una rosa perfecta para broches y bolsos.', level: 'Principiante', time: '1 hora' }
+  },
+  'cushion-cover': {
+    ar: { title: 'غطاء وسادة بوهو مزخرف', desc: 'غطاء وسادة صالون مربع بغرز البوب كورن البارزة وشراشيب جانبية تعطي فخامة لديكور الغرفة.', level: 'متوسط', time: '8-10 ساعات' },
+    en: { title: 'Textured Boho Popcorn Cushion Cover', desc: 'Chic square sofa throw pillow cover featuring tactile popcorn clusters and side fringe.', level: 'Intermediate', time: '8-10 hrs' },
+    de: { title: 'Boho-Popcorn Kissenhülle', desc: 'Stilvoller Kissenbezug fürs Sofa mit fühlbaren Popcorn-Maschen und verspielten Quasten.', level: 'Mittel', time: '8-10 Std.' },
+    ja: { title: 'ポップコーン編み ボヘミアンクッションカバー', desc: '立体的なぽこぽこポップコーン編みがおしゃれなスクエアクッションカバー。', level: '中級', time: '8-10時間' },
+    tr: { title: 'Bohem Popcorn Kırlent Kılıfı', desc: 'Kabartmalı fıstık ilmekleriyle salonlara sıcaklık katan püsküllü dekoratif yastık kılıfı.', level: 'Orta', time: '8-10 saat' },
+    ru: { title: 'Бохо-наволочка узором "Попкорн"', desc: 'Эффектная диванная подушка с объемными шариками и бахромой для уюта в гостиной.', level: 'Средний', time: '8-10 часов' },
+    es: { title: 'Funda de Cojín Boho Punto Palomita', desc: 'Elegante funda decorativa de sofá con racimos en relieve tipo popcorn y flecos laterales.', level: 'Intermedio', time: '8-10 horas' }
+  },
+  'advanced-sweater': {
+    ar: { title: 'سويتر كروشيه كلاسيكي أنيق', desc: 'كنزة شتوية محبوكة بقطع هندسية مفصلة وياقة مثلثة، مناسبة للمحترفين الراغبين بملابس متقنة.', level: 'محترف', time: '18-22 ساعة' },
+    en: { title: 'Classic Tailored Artisan Sweater', desc: 'Exquisite seamless garment crafted with fitted shoulder shaping and ribbed cuffs for master makers.', level: 'Advanced', time: '18-22 hrs' },
+    de: { title: 'Klassischer Maßgeschneiderter Pullover', desc: 'Anspruchsvoller Pullover mit sauber ausgearbeiteten Armkugeln und dehnbaren Bündchen.', level: 'Fortgeschritten', time: '18-22 Std.' },
+    ja: { title: '仕立ての良いクラシック・セーター', desc: '肩の減らし目やリブ袖口まで本格的に計算された、上級者向けの上質ハンドメイドセーター。', level: '上級', time: '18-22時間' },
+    tr: { title: 'Klasik Zarif Kışlık Kazak', desc: 'Omuz kesimleri ve manşetleriyle kusursuz oturan, usta eller için tasarlanmış şık kazak.', level: 'İleri Düzey', time: '18-22 saat' },
+    ru: { title: 'Классический свитер ручной работы', desc: 'Безупречное плечевое изделие с анатомической посадкой и эластичными манжетами для профи.', level: 'Продвинутый', time: '18-22 часа' },
+    es: { title: 'Suéter Clásico de Sastrería', desc: 'Prenda artesanal de corte impecable con sisas menguadas y puños elásticos para tejedoras expertas.', level: 'Avanzado', time: '18-22 horas' }
+  },
+  'advanced-mandala-wall': {
+    ar: { title: 'مانديلا حائطية عملاقة داخل طارة', desc: 'تحفة ديكور جدارية قطرها 60 سم مشدودة على طارة خشبية، تجمع أعقد غرز الدانتيل والريش المتدلي.', level: 'محترف', time: '14-16 ساعة' },
+    en: { title: 'Giant Hoop Mandala Wall Tapestry', desc: 'Dramatic 60cm bohemian statement art stretched over a wooden hoop with trailing feathers.', level: 'Advanced', time: '14-16 hrs' },
+    de: { title: 'Großer Mandala-Wandbehang im Holzreifen', desc: 'Spektakuläres 60cm Wandkunstwerk mit anspruchsvollen Spitzenmustern und Traumfänger-Quasten.', level: 'Fortgeschritten', time: '14-16 Std.' },
+    ja: { title: '巨大フープ・マンダラ タペストリー', desc: '直径60cmの木製フープに張り渡す圧巻の壁飾り。複雑なレース編みとタッセルが豪華。', level: '上級', time: '14-16時間' },
+    tr: { title: 'Çemberli Dev Duvar Mandalsı', desc: '60 cm çapında ahşap kasnağa gerilen, püsküllü ve en karmaşık dantel tekniklerini içeren sanat eseri.', level: 'İleri Düzey', time: '14-16 saat' },
+    ru: { title: 'Гигантская настенная мандала в обруче', desc: 'Грандиозное настенное панно диаметром 60 см на обруче со сложнейшим кружевом и перьями.', level: 'Продвинутый', time: '14-16 часов' },
+    es: { title: 'Mandala Gigante de Pared en Bastidor', desc: 'Impactante obra de arte textil de 60 cm montada en aro de madera con plumas y flecos colgantes.', level: 'Avanzado', time: '14-16 horas' }
+  }
+};;
 
 // ═══════════════════════════════════════════════════════
 //  APP STATE & 100% PRIVATE LOCAL STORAGE
@@ -6022,6 +6148,19 @@ function getLocalKnowledgeResponse(q) {
   const lang = currentAppLang || 'ar';
   const qClean = q.toLowerCase();
 
+    if (lang === 'de') {
+    if (qClean.includes('wer bist') || qClean.includes('name') || qClean.includes('samar')) {
+      return `Ich bin **SAMAR**, deine persönliche Expertin für Häkeln, Stricken und Garne 🧶✨. Frage mich nach jeder Masche oder Anleitung!`;
+    }
+    if (qClean.includes('einrollen') || qClean.includes('krümmen') || qClean.includes('spannung')) {
+      return `**⚠️ So verhinderst du das Einrollen des Häkelstücks:**\n• **Ursache 1:** Zu feste Fadenspannung; lockere deine Handhaltung oder wähle eine Nadelstärke um 0,5 mm größer.\n• **In Runden:** Wölbt es sich wie eine Schale, fehlen Zunahmen; wellt es sich, sind es zu viele Zunahmen.\n• **Schnelle Lösung:** Sanftes Dämpfen mit dem Bügeleisen aus der Distanz und Spannen auf einer Unterlage.`;
+    }
+    if (qClean.includes('fadenring') || qClean.includes('magic ring') || qClean.includes('maschenring')) {
+      return `**🪄 Der 100% sichere Fadenring (Magic Ring):**\n1. Wickle das Garn zweimal um deinen Zeigefinger.\n2. Führe die Nadel hindurch, hole den Arbeitsfaden und schlage 1 Luftmasche an.\n3. Häkle die gewünschte Maschenzahl hinein (z. B. 6 feste Maschen).\n4. Ziehe fest am kurzen Fadenende, bis die Öffnung vollständig geschlossen ist!`;
+    }
+    return `Hallo! Ich bin **SAMAR**, deine Häkel-Assistentin 🧶.\nFrage mich gerne nach Garnstärken, Nadelstärken, Maschenarten oder Anleitungsberechnungen!`;
+  }
+
   if (lang === 'en') {
     if (qClean.includes('who are you') || qClean.includes('name') || qClean.includes('samar')) {
       return `I am **SAMAR**, your personal expert crochet & knitting companion 🧶✨. Ask me about any stitch, pattern, gauge, or yarn issue!`;
@@ -6171,6 +6310,8 @@ function renderPatternsCatalog(catFilter) {
 function renderPatternsToGrid(items) {
   const grid = document.getElementById('patternsGridList');
   if (!grid) return;
+  const lang = currentAppLang || 'ar';
+  const t = I18N_DICT[lang] || I18N_DICT.ar;
 
   grid.innerHTML = items.map(p => {
     const savedSteps = JSON.parse(localStorage.getItem(LOCAL_STORAGE.PATTERN_STEP_PREFIX + p.id) || '[]');
@@ -6178,6 +6319,13 @@ function renderPatternsToGrid(items) {
     const totalSteps = p.steps.length;
     const pct = totalSteps ? Math.round((doneCount / totalSteps) * 100) : 0;
     const coverArt = PATTERN_COVERS[p.id] || PATTERN_COVERS['ami-bear'];
+
+    // Get localized pattern texts
+    const trans = (PATTERN_I18N[p.id] && PATTERN_I18N[p.id][lang]) ? PATTERN_I18N[p.id][lang] : null;
+    const title = trans ? trans.title : p.title;
+    const desc = trans ? trans.desc : p.description;
+    const time = trans ? trans.time : p.time;
+    const levelLabel = trans ? trans.level : (p.levelLabel || (p.level === 'intermediate' ? t.patterns.levels.int : p.level === 'advanced' ? t.patterns.levels.adv : t.patterns.levels.beg));
 
     return `
       <div class="pattern-card-item" onclick="openPatternReaderModal('${p.id}')">
@@ -6187,15 +6335,15 @@ function renderPatternsToGrid(items) {
         <div class="pattern-card-body">
           <div>
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-              <h3 style="margin-bottom:0;">${p.title}</h3>
-              <span class="pattern-level-tag ${p.levelTagClass || 'tag-beginner'}">${p.levelLabel || (p.level === 'intermediate' ? 'متوسط' : p.level === 'advanced' ? 'محترف' : 'مبتدئ')}</span>
+              <h3 style="margin-bottom:0;">${title}</h3>
+              <span class="pattern-level-tag ${p.levelTagClass || 'tag-beginner'}">${levelLabel}</span>
             </div>
-            <p>${p.description}</p>
+            <p>${desc}</p>
             <div class="pattern-specs-chips">
               <span class="spec-chip">🪡 ${p.hook}</span>
-              <span class="spec-chip">🧶 ${p.yarnBalls} شلة</span>
-              <span class="spec-chip">⏱️ ${p.time}</span>
-              <span class="spec-chip">📋 ${totalSteps} خطوة</span>
+              <span class="spec-chip">🧶 ${p.yarnBalls} ${t.patterns.balls}</span>
+              <span class="spec-chip">⏱️ ${time}</span>
+              <span class="spec-chip">📋 ${totalSteps} ${t.patterns.steps}</span>
             </div>
           </div>
           <div>
@@ -6203,7 +6351,7 @@ function renderPatternsToGrid(items) {
               <div class="prog-fill" style="width:${pct}%"></div>
             </div>
             <div class="prog-labels">
-              <span>الإنجاز</span>
+              <span>${t.patterns.progress}</span>
               <span>${doneCount}/${totalSteps} (${pct}%)</span>
             </div>
           </div>
@@ -6248,32 +6396,37 @@ function openPatternReaderModal(patternId) {
   if (!p) return;
 
   activePattern = p;
+  const lang = currentAppLang || 'ar';
+  const t = I18N_DICT[lang] || I18N_DICT.ar;
+  const trans = (PATTERN_I18N[p.id] && PATTERN_I18N[p.id][lang]) ? PATTERN_I18N[p.id][lang] : null;
+
+  const title = trans ? trans.title : p.title;
+  const desc = trans ? trans.desc : p.description;
+  const levelText = trans ? trans.level : (p.levelLabel || (p.level === 'intermediate' ? t.patterns.levels.int : p.level === 'advanced' ? t.patterns.levels.adv : t.patterns.levels.beg));
+
   document.getElementById('readerCoverEmoji').textContent = p.emoji;
-  document.getElementById('readerTitleText').textContent = p.title;
-  document.getElementById('readerDescText').textContent = `${p.description} • الخيط المقترح: ${p.yarn}`;
+  document.getElementById('readerTitleText').textContent = title;
+  document.getElementById('readerDescText').textContent = `${desc} • ${t.patterns.hook}: ${p.hook}`;
 
   const savedRow = parseInt(localStorage.getItem(LOCAL_STORAGE.PATTERN_ROW_PREFIX + p.id) || '0');
   document.getElementById('readerRowCount').textContent = savedRow;
 
-  // Inject Header Level Chip and Specs
-  const levelText = p.levelLabel || (p.level === 'intermediate' ? 'متوسط 🟡' : p.level === 'advanced' ? 'محترف 🟣' : 'مبتدئ 🟢');
-  document.getElementById('readerTitleText').innerHTML = `${p.title} <span class="pattern-level-tag ${p.levelTagClass || 'tag-beginner'}" style="font-size:0.75rem;vertical-align:middle;margin-right:8px;">${levelText}</span>`;
+  document.getElementById('readerTitleText').innerHTML = `${title} <span class="pattern-level-tag ${p.levelTagClass || 'tag-beginner'}" style="font-size:0.75rem;vertical-align:middle;margin-right:8px;">${levelText}</span>`;
 
-  // Render Symbols Key Table and Finishing Tips if available
+  // Render Symbols Key Table and Finishing Tips with localized headers
   const extraContainer = document.getElementById('readerExtraInfoContainer');
   if (extraContainer) {
     let extraHtml = '';
 
-    // Symbols Table
     if (p.symbolsTable && p.symbolsTable.length) {
       extraHtml += `
         <div style="background:var(--surface);border:1px solid var(--border-purple);border-radius:var(--radius-md);padding:12px;margin:12px 0;">
           <h4 style="font-size:0.86rem;font-weight:900;color:var(--primary);margin-bottom:8px;">
-            <i class="fa-solid fa-list-check"></i> جدول الرموز والاختصارات المعتمدة في هذا الباترون
+            <i class="fa-solid fa-list-check"></i> ${t.patterns.secSymbols}
           </h4>
           <table class="symbols-key-table">
             <thead>
-              <tr><th>الرمز</th><th>اسم الغرزة</th><th>المصطلح الإنجليزي</th></tr>
+              <tr><th>${t.patterns.symColSym}</th><th>${t.patterns.symColName}</th><th>${t.patterns.symColEn}</th></tr>
             </thead>
             <tbody>
               ${p.symbolsTable.map(s => `<tr><td><span class="symbol-char">${s.sym}</span></td><td><b>${s.name}</b></td><td>${s.en}</td></tr>`).join('')}
@@ -6283,12 +6436,11 @@ function openPatternReaderModal(patternId) {
       `;
     }
 
-    // Finishing Tips
     if (p.finishingTips) {
       extraHtml += `
         <div class="finishing-tips-box">
           <h4 style="font-size:0.86rem;font-weight:900;color:#059669;margin-bottom:6px;">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> نصائح احترافية للتشطيب والتنظيف (Finishing & Cleaning)
+            <i class="fa-solid fa-wand-magic-sparkles"></i> ${t.patterns.secTips}
           </h4>
           <p style="font-size:0.82rem;color:var(--text);line-height:1.6;">${p.finishingTips}</p>
         </div>
@@ -6478,41 +6630,51 @@ function performYarnCalculation() {
 // ═══════════════════════════════════════════════════════
 function renderGlossaryCatalog(items = GLOSSARY) {
   const container = document.getElementById('glossaryGridWrap');
+  if (!container) return;
+  const lang = currentAppLang || 'ar';
+  const t = I18N_DICT[lang] || I18N_DICT.ar;
+
   if (!items.length) {
-    container.innerHTML = `<div style="text-align:center;padding:30px;color:var(--text-muted);grid-column:1/-1;">لا توجد مصطلحات مطابقة للبحث</div>`;
+    container.innerHTML = `<div style="text-align:center;padding:30px;color:var(--text-muted);grid-column:1/-1;">${t.glossary.emptySearch}</div>`;
     return;
   }
 
-  container.innerHTML = items.map(g => `
-    <div class="glossary-term-card">
-      <div>
-        <div class="gtc-header">
-          <div>
-            <div class="gtc-name-ar">${g.ar}</div>
-            <div class="gtc-name-us">🇺🇸 ${g.us}</div>
-          </div>
-          <span class="gtc-code">${g.code}</span>
-        </div>
-        <p class="gtc-desc">${g.desc}</p>
-      </div>
+  container.innerHTML = items.map(g => {
+    const trans = (GLOSSARY_I18N[g.code] && GLOSSARY_I18N[g.code][lang]) ? GLOSSARY_I18N[g.code][lang] : null;
+    const primaryName = trans ? trans.name : g.ar;
+    const desc = trans ? trans.desc : g.desc;
 
-      <!-- Pure Crochet Visuals (Diagram + Real Texture) -->
-      <div class="gtc-visual-pair">
-        <div class="gtc-vis-col">
-          <div class="gtc-vis-tag">📐 حركة السنارة (رسم)</div>
-          <div class="gtc-vis-body">
-            ${g.svg}
+    return `
+      <div class="glossary-term-card">
+        <div>
+          <div class="gtc-header">
+            <div>
+              <div class="gtc-name-ar">${primaryName}</div>
+              <div class="gtc-name-us">🇺🇸 ${g.us}</div>
+            </div>
+            <span class="gtc-code">${g.code}</span>
           </div>
+          <p class="gtc-desc">${desc}</p>
         </div>
-        <div class="gtc-vis-col">
-          <div class="gtc-vis-tag">🧶 نسيج الخيط الحقيقي</div>
-          <div class="gtc-vis-body">
-            ${g.realTexture}
+
+        <!-- Pure Crochet Visuals (Diagram + Real Texture) -->
+        <div class="gtc-visual-pair">
+          <div class="gtc-vis-col">
+            <div class="gtc-vis-tag">${t.glossary.tagDiagram}</div>
+            <div class="gtc-vis-body">
+              ${g.svg}
+            </div>
+          </div>
+          <div class="gtc-vis-col">
+            <div class="gtc-vis-tag">${t.glossary.tagTexture}</div>
+            <div class="gtc-vis-body">
+              ${g.realTexture}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 function filterGlossaryCards() {
@@ -6549,8 +6711,8 @@ function renderNotesMasonry(items = null) {
     grid.innerHTML = `
       <div style="grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--text-muted);">
         <i class="fa-solid fa-note-sticky" style="font-size:3rem;margin-bottom:12px;opacity:0.4;"></i>
-        <p style="font-size:0.95rem;font-weight:700;">لا توجد ملاحظات مسجلة بعد</p>
-        <p style="font-size:0.8rem;margin-top:4px;">اضغطي على "+ ملاحظة جديدة" لتدوين خيوطك ومشاريعك وقوائم مهامك</p>
+        <p style="font-size:0.95rem;font-weight:700;">${(I18N_DICT[currentAppLang]||I18N_DICT.ar).notes.emptyTitle}</p>
+        <p style="font-size:0.8rem;margin-top:4px;">${(I18N_DICT[currentAppLang]||I18N_DICT.ar).notes.emptyDesc}</p>
       </div>
     `;
     return;
