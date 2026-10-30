@@ -28,26 +28,14 @@ function setupHapticFeedback() {
 
 const DEFAULT_APPS = [
   {
-    id: 'crochet-flutter-app',
-    name: 'خيوط وغرز (Flutter) | الاستوديو والعداد الصوتي',
+    id: 'crochet-app',
+    name: 'خيوط وغرز | Crochet Assistant',
     category: 'web',
     icon: '🧶',
-    desc: 'منصة الكروشيه المتقدمة المبنية بـ Flutter: استوديو ومولّد الباترونات الهندسية (Starry Night Sweater)، العداد الصوتي Hands-Free، حاسبة العينة 10×10، وحاسبة بقايا الخيوط بالغرام.',
-    version: 'v3.0 Flutter',
-    size: 'Cross-Platform',
-    downloadUrl: 'crochet_flutter/index.html',
-    demoUrl: 'crochet_flutter/index.html'
-  },
-  {
-    id: 'crochet-app',
-    name: 'خيوط وغرز | النسخة الخفيفة (PWA)',
-    category: 'web',
-    icon: '🧵',
-    desc: 'الرفيق الذكي للكروشيه والحياكة (نسخة سريعة خفيفة): باترونات مصورة، عداد حياكة سحري مطور، حاسبة غرز وخيوط، مصطلحات مصورة، والمساعدة الذكية SAMAR.',
-    version: 'v2.5',
-    size: '161 KB (ZIP: 70 KB)',
+    desc: 'الرفيق الذكي للكروشيه والحياكة: باترونات تفاعلية مصورة، عداد حياكة ذكي وصوتي، حاسبات العينة والتسعير بالدينار العراقي وبقايا الخيوط، استوديو ومولّد الباترونات، والمساعدة الذكية SAMAR.',
+    version: 'v3.0',
+    size: '165 KB',
     downloadUrl: 'downloads/Crochet_App.html',
-    zipUrl: 'downloads/crochet-project.zip',
     demoUrl: 'crochet/index.html'
   }
 ];
