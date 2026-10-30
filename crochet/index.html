@@ -2111,7 +2111,135 @@
       margin: 12px 0 16px;
     }
 
-  </style>
+  
+  /* ═════════ MULTI-LANGUAGE SYSTEM (i18n) STYLES ═════════ */
+  .lang-dropdown-container {
+    position: relative;
+    display: inline-block;
+  }
+  .lang-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px !important;
+    border-radius: 9999px !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    cursor: pointer;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: all 0.2s ease;
+  }
+  .lang-btn:hover {
+    border-color: var(--primary-accent);
+    color: var(--primary-accent);
+    transform: translateY(-1px);
+  }
+  .lang-btn i.fa-globe {
+    font-size: 0.95rem;
+    color: var(--primary-accent);
+  }
+  .lang-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 220px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.22);
+    padding: 6px;
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 99999;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    animation: fadeInDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  [dir="ltr"] .lang-menu {
+    right: auto;
+    left: 0;
+  }
+  .lang-menu.show {
+    display: flex;
+  }
+  .lang-opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+    user-select: none;
+  }
+  .lang-opt:hover {
+    background: var(--bg-surface);
+    transform: translateX(-2px);
+  }
+  [dir="ltr"] .lang-opt:hover {
+    transform: translateX(2px);
+  }
+  .lang-opt.active {
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    font-weight: 700;
+  }
+  .lang-opt .lang-flag {
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+  .lang-opt .lang-text {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+  }
+  [dir="ltr"] .lang-opt .lang-text {
+    text-align: left;
+  }
+  .lang-opt .lang-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-main);
+  }
+  .lang-opt .lang-country {
+    font-size: 0.68rem;
+    color: var(--text-muted);
+  }
+
+  /* LTR document adaptations */
+  [dir="ltr"] body {
+    text-align: left;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  [dir="ltr"] .compact-header {
+    flex-direction: row;
+  }
+  [dir="ltr"] .desktop-nav-list {
+    flex-direction: row;
+  }
+  [dir="ltr"] .chat-bubble.user {
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 18px;
+  }
+  [dir="ltr"] .chat-bubble.bot {
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 18px;
+  }
+  [dir="ltr"] .reader-back-btn i {
+    transform: rotate(180deg);
+  }
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+</style>
 </head>
 <body>
 
@@ -2122,11 +2250,65 @@
     <div class="brand-wrap" onclick="switchNavTab('patterns')">
       <div class="brand-badge">🧶</div>
       <div class="brand-text-col">
-        <h1>خيوط وغرز</h1>
-        <p>الرفيق الذكي للكروشيه</p>
+        <h1 id="brandTitle">خيوط وغرز</h1>
+        <p id="brandSubtitle">الرفيق الذكي للكروشيه</p>
       </div>
     </div>
     <div class="header-controls">
+
+      <!-- Multi-Language Selector (6 Core Crochet Nations) -->
+      <div class="lang-dropdown-container" id="langDropdownContainer">
+        <button class="h-btn lang-btn" onclick="toggleLangMenu(event)" id="langToggleBtn" title="تغيير اللغة | Change Language">
+          <i class="fa-solid fa-globe"></i>
+          <span id="currentLangDisplay">العربية</span>
+          <i class="fa-solid fa-chevron-down" style="font-size:0.55rem;opacity:0.75;"></i>
+        </button>
+        <div class="lang-menu" id="langMenu">
+          <div class="lang-opt active" data-lang="ar" onclick="setAppLanguage('ar')">
+            <span class="lang-flag">🇮🇶</span>
+            <div class="lang-text">
+              <span class="lang-name">العربية</span>
+              <span class="lang-country">العراق والعالم العربي</span>
+            </div>
+          </div>
+          <div class="lang-opt" data-lang="en" onclick="setAppLanguage('en')">
+            <span class="lang-flag">🇬🇧</span>
+            <div class="lang-text">
+              <span class="lang-name">English</span>
+              <span class="lang-country">Ireland / US / UK</span>
+            </div>
+          </div>
+          <div class="lang-opt" data-lang="ja" onclick="setAppLanguage('ja')">
+            <span class="lang-flag">🇯🇵</span>
+            <div class="lang-text">
+              <span class="lang-name">日本語</span>
+              <span class="lang-country">Japan / あみぐるみ</span>
+            </div>
+          </div>
+          <div class="lang-opt" data-lang="tr" onclick="setAppLanguage('tr')">
+            <span class="lang-flag">🇹🇷</span>
+            <div class="lang-text">
+              <span class="lang-name">Türkçe</span>
+              <span class="lang-country">Türkiye / Tığ İşi</span>
+            </div>
+          </div>
+          <div class="lang-opt" data-lang="ru" onclick="setAppLanguage('ru')">
+            <span class="lang-flag">🇷🇺</span>
+            <div class="lang-text">
+              <span class="lang-name">Русский</span>
+              <span class="lang-country">Россия / Вязание</span>
+            </div>
+          </div>
+          <div class="lang-opt" data-lang="es" onclick="setAppLanguage('es')">
+            <span class="lang-flag">🇪🇸</span>
+            <div class="lang-text">
+              <span class="lang-name">Español</span>
+              <span class="lang-country">Latinoamérica / España</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Dark Mode Switcher -->
       <button class="h-btn" onclick="toggleThemeMode()" id="themeBtn" title="الوضع الليلي">
         <i class="fa-solid fa-moon"></i>
@@ -2143,7 +2325,7 @@
   <!-- Wake Lock Status Banner -->
   <div class="wl-indicator" id="wlAlertBanner">
     <i class="fa-solid fa-bolt"></i>
-    <span>خاصية عدم إطفاء الشاشة قيد التشغيل (لن تنطفئ شاشتك أثناء قراءة الباترون)</span>
+    <span id="wlAlertBannerText">خاصية عدم إطفاء الشاشة قيد التشغيل (لن تنطفئ شاشتك أثناء قراءة الباترون)</span>
   </div>
 
   <!-- ════════════ 1. DESKTOP NAVIGATION (≥ 768px ONLY) ════════════ -->
@@ -4187,6 +4369,841 @@ const YARN_CALC = {
 </script>
 
 <script>
+
+// ═══════════════════════════════════════════════════════
+//  MULTI-LANGUAGE INTERNATIONALIZATION (i18n) ENGINE
+// ═══════════════════════════════════════════════════════
+let currentAppLang = localStorage.getItem('crochet_app_lang') || 'ar';
+
+const I18N_DICT = {
+  ar: {
+    langCode: 'ar-IQ',
+    dir: 'rtl',
+    label: 'العربية',
+    brandTitle: 'خيوط وغرز',
+    brandSubtitle: 'الرفيق الذكي للكروشيه',
+    screenWl: 'الشاشة',
+    wlBanner: 'خاصية عدم إطفاء الشاشة قيد التشغيل (لن تنطفئ شاشتك أثناء قراءة الباترون)',
+    nav: {
+      search: 'سؤال ذكي',
+      patterns: 'الباترونات المصورة',
+      patternsShort: 'الباترونات',
+      counter: 'العداد السحري',
+      counterShort: 'العداد',
+      calc: 'حاسبة الخيوط',
+      calcShort: 'الحاسبة',
+      glossary: 'المصطلحات المصورة',
+      glossaryShort: 'المصطلحات',
+      studio: 'استوديو الباترونات',
+      studioShort: 'الاستوديو',
+      notes: 'ملاحظاتي الذكية',
+      notesShort: 'ملاحظاتي'
+    },
+    chat: {
+      title: 'SAMAR — خبيرتكِ الذكية للكروشيه ✨🧶',
+      status: 'متصلة ومستعدة للإجابة فوراً 🟢',
+      welcome: 'أهلاً بكِ يا غالية! أنا **SAMAR**، خبيرتكِ ومساعدتكِ الشخصية في فنون الكروشيه والحياكة وشغل الصوف والأبر 🧶✨. اسأليني عن أي غرزة، باترونة، أو مشكلة تواجهكِ في شغلكِ وسأجيبكِ في نفس اللحظة!',
+      placeholder: 'اكتبي سؤالكِ لـ SAMAR هنا...',
+      clear: 'مسح المحادثة',
+      chips: {
+        ring: 'سر الدائرة السحرية 🪄',
+        curling: 'حل التواء القطعة ⚠️',
+        compare: 'الحشو vs العمود 📐',
+        blanket: 'حساب خيط البطانية 🧶',
+        easy: 'مشروع سهل وسريع 💡'
+      }
+    },
+    patterns: {
+      title: 'مكتبة الباترونات المصورة خطوة بخطوة',
+      subtitle: 'مجموعة مختارة ومجانية من أرقى تصاميم الكروشيه مع خطوات العمل والرسوم التوضيحية',
+      searchPh: 'ابحثي في الباترونات (مثال: شال، لعبة، سلة، حقيبة)...',
+      levels: { all: 'الكل (المستويات)', beg: '🟢 مبتدئ', int: '🟡 متوسط', adv: '🟣 محترف' },
+      cats: { all: 'الكل', ami: 'دمى وألعاب', shawls: 'شالات وملابس', home: 'ديكور ومنزل', bags: 'حقائب وإكسسوار' },
+      startBtn: 'ابدئي التطبيق الآن',
+      balls: 'شلة',
+      hook: 'سنارة',
+      time: 'الوقت',
+      modalBack: 'رجوع للباترونات',
+      secMaterials: 'الأدوات والمقاسات',
+      secSymbols: 'مفتاح الرموز والمصطلحات المعتمدة',
+      secTips: 'نصائح التشطيب والتنظيف الاحترافي',
+      secSteps: 'خطوات العمل المفصلة غرزة بغرزة',
+      stepPrefix: 'الخطوة'
+    },
+    counter: {
+      title: 'العداد الصوتي واليدوي للأسطر والغرز',
+      desc: 'عدّاد ذكي مصمم لراحتكِ أثناء إمساك السنارة، مع تحكم صوتي بدون لمس ومؤقت جلسة وتنبيهات صحية',
+      btnVoiceStart: 'تشغيل التحكم الصوتي 🎙️',
+      btnVoiceStop: 'إيقاف الاستماع 🛑',
+      rowLabel: 'السطر الحالي',
+      stitchLabel: 'غرزة',
+      targetLabel: 'الهدف:',
+      btnRowAdd: '+ سطر',
+      btnRowSub: '− سطر',
+      btnReset: 'تصفير العداد',
+      sessionTimer: 'مدة الجلسة:',
+      healthAlertTitle: 'استراحة صحية لصحة يديكِ 🧘‍♀️'
+    },
+    calc: {
+      title: 'منصة الحاسبات الذكية والتسعير بالدينار العراقي',
+      tabs: {
+        est: 'تقدير كمية الخيط 🧶',
+        rem: 'حاسبة بقايا الخيوط (غرام/متر) ⚖️',
+        gauge: 'حاسبة العينة والقياس (Gauge) 📏',
+        pricing: 'حاسبة التسعير والربح 🧾'
+      },
+      currency: 'العملة المعتمدة: د.ع (دينار عراقي)',
+      calcBtn: 'احسبي الآن ✨',
+      cardBtn: 'توليد بطاقة العناية والسعر 🏷️'
+    },
+    studio: {
+      title: 'استوديو ومولّد الباترونات الاحترافي',
+      subtitle: 'تصميم وتحويل الباترونات الملونة وحساب شبكات الغرز بدقة هندسية متناهية',
+      starryTitle: 'باترون لوحة ليلة مرصعة بالنجوم (Starry Night Sweater)',
+      uploadTitle: 'تحويل صورتكِ الخاصة إلى باترون وشبكة غرز بكسل',
+      exportBtn: 'تصدير وحفظ شبكة الغرز 📥'
+    },
+    glossary: {
+      title: 'قاموس غرز وسنارات الكروشيه المصور',
+      masterGuideBtn: 'دليل مقاسات السنارات والخيوط الشامل 📐',
+      searchPh: 'ابحثي عن أي غرزة أو رمز (مثال: sc, عمود, سلسلة, T)...'
+    },
+    notes: {
+      title: 'ملاحظاتي ومشاريعي الذكية',
+      addBtn: 'إضافة مشروع جديد +'
+    }
+  },
+
+  en: {
+    langCode: 'en-US',
+    dir: 'ltr',
+    label: 'English',
+    brandTitle: 'Yarn & Stitches',
+    brandSubtitle: 'Smart Crochet Companion',
+    screenWl: 'Screen',
+    wlBanner: 'Screen keep-awake is active (screen will not sleep while crocheting)',
+    nav: {
+      search: 'AI Expert',
+      patterns: 'Illustrated Patterns',
+      patternsShort: 'Patterns',
+      counter: 'Smart Counter',
+      counterShort: 'Counter',
+      calc: 'Yarn Calculators',
+      calcShort: 'Calculators',
+      glossary: 'Stitch Glossary',
+      glossaryShort: 'Glossary',
+      studio: 'Pattern Studio',
+      studioShort: 'Studio',
+      notes: 'Smart Notes',
+      notesShort: 'Notes'
+    },
+    chat: {
+      title: 'SAMAR — Smart Crochet Expert ✨🧶',
+      status: 'Online & ready to guide you instantly 🟢',
+      welcome: 'Welcome! I am **SAMAR**, your personal expert crochet & knitting companion 🧶✨. Ask me about any stitch, pattern, gauge calculation, or yarn tension issue, and I will assist you right away!',
+      placeholder: 'Ask SAMAR anything about crochet...',
+      clear: 'Clear Chat',
+      chips: {
+        ring: 'Magic Ring Secret 🪄',
+        curling: 'Fixing Yarn Curling ⚠️',
+        compare: 'Single vs Double Crochet 📐',
+        blanket: 'Blanket Yarn Estimation 🧶',
+        easy: 'Quick Beginner Project 💡'
+      }
+    },
+    patterns: {
+      title: 'Step-by-Step Illustrated Patterns Library',
+      subtitle: 'Curated free crochet patterns with clear step-by-step instructions and vector diagrams',
+      searchPh: 'Search patterns (e.g. shawl, kitten, basket, bag)...',
+      levels: { all: 'All Levels', beg: '🟢 Beginner', int: '🟡 Intermediate', adv: '🟣 Advanced' },
+      cats: { all: 'All', ami: 'Amigurumi', shawls: 'Shawls & Wearables', home: 'Home & Decor', bags: 'Bags & Accessories' },
+      startBtn: 'Start Pattern Now',
+      balls: 'Balls',
+      hook: 'Hook',
+      time: 'Time',
+      modalBack: 'Back to Patterns',
+      secMaterials: 'Tools & Materials',
+      secSymbols: 'Symbol & Abbreviation Key',
+      secTips: 'Finishing & Blocking Tips',
+      secSteps: 'Detailed Step-by-Step Instructions',
+      stepPrefix: 'Step'
+    },
+    counter: {
+      title: 'Hands-Free Voice & Touch Counter',
+      desc: 'Craft hands-free while holding your hook with voice control, session timer, and wrist stretch alerts',
+      btnVoiceStart: 'Start Voice Control 🎙️',
+      btnVoiceStop: 'Stop Listening 🛑',
+      rowLabel: 'Current Row',
+      stitchLabel: 'Stitch',
+      targetLabel: 'Target:',
+      btnRowAdd: '+ Row',
+      btnRowSub: '− Row',
+      btnReset: 'Reset Counter',
+      sessionTimer: 'Session Time:',
+      healthAlertTitle: 'Healthy Crafting Break 🧘‍♀️'
+    },
+    calc: {
+      title: 'Smart Yarn & Accurate Pricing Calculators',
+      tabs: {
+        est: 'Yarn Estimator 🧶',
+        rem: 'Remaining Yarn by Weight ⚖️',
+        gauge: 'Gauge & Swatch Calculator 📏',
+        pricing: 'Pricing & Profit Calculator 🧾'
+      },
+      currency: 'Currency: IQD (Iraqi Dinar) / Universal Units',
+      calcBtn: 'Calculate Now ✨',
+      cardBtn: 'Generate Care & Price Tag 🏷️'
+    },
+    studio: {
+      title: 'Bespoke Pattern Studio & Grid Generator',
+      subtitle: 'Convert images to accurate crochet pixel grids and read bespoke master patterns',
+      starryTitle: 'Starry Night Bespoke Sweater Pattern',
+      uploadTitle: 'Convert Your Image to Crochet Pixel Grid',
+      exportBtn: 'Export Pattern Grid 📥'
+    },
+    glossary: {
+      title: 'Illustrated Crochet Stitches & Hooks Glossary',
+      masterGuideBtn: 'Master Hook & Yarn Size Guide 📐',
+      searchPh: 'Search stitches or symbols (e.g. sc, dc, ch, slip stitch)...'
+    },
+    notes: {
+      title: 'My Smart Crochet Notes & Projects',
+      addBtn: 'Add New Project +'
+    }
+  },
+
+  ja: {
+    langCode: 'ja-JP',
+    dir: 'ltr',
+    label: '日本語',
+    brandTitle: '糸と編み目',
+    brandSubtitle: 'スマート・かぎ針編みアシスタント',
+    screenWl: '画面常時',
+    wlBanner: '画面常時点灯が有効です（編み作業中も画面がスリープしません）',
+    nav: {
+      search: 'AI相談',
+      patterns: '編み図・パターン',
+      patternsShort: '編み図',
+      counter: '編み目カウンター',
+      counterShort: 'カウンター',
+      calc: '糸量計算機',
+      calcShort: '計算機',
+      glossary: '編み目記号・用語',
+      glossaryShort: '用語集',
+      studio: 'パターンスタジオ',
+      studioShort: 'スタジオ',
+      notes: 'マイノート',
+      notesShort: 'ノート'
+    },
+    chat: {
+      title: 'SAMAR — かぎ針編み専属AIエキスパート ✨🧶',
+      status: 'オンライン・いつでも質問にお答えします 🟢',
+      welcome: 'ようこそ！私は **SAMAR**、あなたのかぎ針編み＆あみぐるみ専属AIパートナーです 🧶✨。編み目記号、糸の選び方、編み図の悩みなど何でも気軽にお尋ねください！',
+      placeholder: 'SAMARにかぎ針編みの質問をする...',
+      clear: 'チャット消去',
+      chips: {
+        ring: 'マジックリングのコツ 🪄',
+        curling: '編み地の丸まり解消 ⚠️',
+        compare: '細編み vs 長編み 📐',
+        blanket: 'ブランケットの糸量計算 🧶',
+        easy: '簡単おすすめ作品 💡'
+      }
+    },
+    patterns: {
+      title: 'ステップバイステップ図解パターン集',
+      subtitle: '丁寧な手順と鮮明な図解が付いた、厳選かぎ針編みパターン',
+      searchPh: 'パターンを検索 (例: ショール、あみぐるみ、かご、バッグ)...',
+      levels: { all: 'すべてのレベル', beg: '🟢 初級', int: '🟡 中級', adv: '🟣 上級' },
+      cats: { all: 'すべて', ami: 'あみぐるみ', shawls: 'ショール・ウェア', home: 'インテリア・雑貨', bags: 'バッグ・小物' },
+      startBtn: '編み始める',
+      balls: '玉',
+      hook: 'かぎ針',
+      time: '所要時間',
+      modalBack: '一覧に戻る',
+      secMaterials: '使用針と材料',
+      secSymbols: '使用記号と略語一覧',
+      secTips: '仕上げとお手入れのコツ',
+      secSteps: 'ステップ別・編み順詳細',
+      stepPrefix: 'ステップ'
+    },
+    counter: {
+      title: '音声＆タッチ式 編み目カウンター',
+      desc: '針を持ったまま手ぶらでカウント。音声認識・タイマー・健康ストレッチ機能付き',
+      btnVoiceStart: '音声認識を開始 🎙️',
+      btnVoiceStop: '音声認識を停止 🛑',
+      rowLabel: '現在の段',
+      stitchLabel: '目',
+      targetLabel: '目標:',
+      btnRowAdd: '+1段',
+      btnRowSub: '−1段',
+      btnReset: 'カウンター初期化',
+      sessionTimer: 'セッション時間:',
+      healthAlertTitle: '手首と指のリフレッシュ休憩 🧘‍♀️'
+    },
+    calc: {
+      title: 'スマート糸量計算＆価格設定プラットフォーム',
+      tabs: {
+        est: '糸量見積もり 🧶',
+        rem: '残り糸の長さ計算 ⚖️',
+        gauge: 'ゲージ（目数・段数）計算 📏',
+        pricing: '販売価格＆利益計算 🧾'
+      },
+      currency: '通貨単位: IQD（イラクディナール）/ 各国通貨対応',
+      calcBtn: '計算する ✨',
+      cardBtn: '品質表示＆値札タグを生成 🏷️'
+    },
+    studio: {
+      title: '本格パターンスタジオ＆方眼チャート生成',
+      subtitle: '画像をかぎ針編みの目数チャートに変換し、本格的な編み図を生成します',
+      starryTitle: '「星月夜」セーター本格編み図',
+      uploadTitle: 'お好みの画像をかぎ針編みチャートに変換',
+      exportBtn: 'チャートを保存 📥'
+    },
+    glossary: {
+      title: 'かぎ針編み 記号と針の図解辞典',
+      masterGuideBtn: 'かぎ針と糸の規格対応表 📐',
+      searchPh: '編み目記号や用語を検索 (例: 細編み, 長編み, 鎖編み, sc)...'
+    },
+    notes: {
+      title: 'マイ編み物ノート＆作品記録',
+      addBtn: '新規プロジェクト追加 +'
+    }
+  },
+
+  tr: {
+    langCode: 'tr-TR',
+    dir: 'ltr',
+    label: 'Türkçe',
+    brandTitle: 'İplik ve İlmekler',
+    brandSubtitle: 'Akıllı Tığ İşi Asistanı',
+    screenWl: 'Ekran',
+    wlBanner: 'Ekran açık kalma modu aktif (örgü sırasında ekranınız kapanmaz)',
+    nav: {
+      search: 'Akıllı Soru',
+      patterns: 'Resimli Örnekler',
+      patternsShort: 'Örnekler',
+      counter: 'Akıllı Sayaç',
+      counterShort: 'Sayaç',
+      calc: 'İplik Hesaplama',
+      calcShort: 'Hesaplayıcı',
+      glossary: 'Terimler & Kancalar',
+      glossaryShort: 'Terimler',
+      studio: 'Şablon Stüdyosu',
+      studioShort: 'Stüdyo',
+      notes: 'Notlarım',
+      notesShort: 'Notlar'
+    },
+    chat: {
+      title: 'SAMAR — Akıllı Tığ İşi Uzmanınız ✨🧶',
+      status: 'Çevrimiçi & anında cevaplamaya hazır 🟢',
+      welcome: 'Hoş geldiniz! Ben **SAMAR**, tığ işi ve örgü sanatındaki kişisel uzman asistanınızım 🧶✨. Herhangi bir ilmek, motif, ip hesabı veya takıldığınız yer hakkında hemen sorabilirsiniz!',
+      placeholder: 'SAMAR\'a tığ işi hakkında bir soru sorun...',
+      clear: 'Sohbeti Temizle',
+      chips: {
+        ring: 'Sihirli Halka Sırrı 🪄',
+        curling: 'Kıvrılma Sorununu Çöz ⚠️',
+        compare: 'Sık İğne vs Trabzan 📐',
+        blanket: 'Battaniye İp Hesabı 🧶',
+        easy: 'Kolay & Hızlı Proje 💡'
+      }
+    },
+    patterns: {
+      title: 'Adım Adım Resimli Örnek Kütüphanesi',
+      subtitle: 'Detaylı çalışma adımları ve vektör çizimleriyle özenle seçilmiş ücretsiz şablonlar',
+      searchPh: 'Şablonlarda ara (ör: şal, kedi, sepet, çanta)...',
+      levels: { all: 'Tüm Seviyeler', beg: '🟢 Başlangıç', int: '🟡 Orta', adv: '🟣 İleri Düzey' },
+      cats: { all: 'Tümü', ami: 'Amigurumi', shawls: 'Şallar & Giysiler', home: 'Ev & Dekor', bags: 'Çantalar & Aksesuar' },
+      startBtn: 'Şimdi Başla',
+      balls: 'Yumak',
+      hook: 'Tığ',
+      time: 'Süre',
+      modalBack: 'Geri Dön',
+      secMaterials: 'Malzemeler & Ölçüler',
+      secSymbols: 'Semboller ve Kısaltmalar',
+      secTips: 'Bitiş & Temizleme İpuçları',
+      secSteps: 'Adım Adım İlmek Talimatları',
+      stepPrefix: 'Adım'
+    },
+    counter: {
+      title: 'Sesli ve Dokunmatik İlmek Sayacı',
+      desc: 'Tığ elinizdeyken sesli komutla temassız sayın, seans sürenizi takip edin ve mola verin',
+      btnVoiceStart: 'Sesli Komutu Başlat 🎙️',
+      btnVoiceStop: 'Dinlemeyi Durdur 🛑',
+      rowLabel: 'Geçerli Sıra',
+      stitchLabel: 'İlmek',
+      targetLabel: 'Hedef:',
+      btnRowAdd: '+ Sıra',
+      btnRowSub: '− Sıra',
+      btnReset: 'Sayacı Sıfırla',
+      sessionTimer: 'Seans Süresi:',
+      healthAlertTitle: 'Elleriniz İçin Sağlık Molası 🧘‍♀️'
+    },
+    calc: {
+      title: 'Akıllı İplik & Doğru Fiyatlandırma Hesaplayıcıları',
+      tabs: {
+        est: 'İplik Tahmini 🧶',
+        rem: 'Kalan İp Hesabı ⚖️',
+        gauge: 'Ölçü & İlmek Hesabı 📏',
+        pricing: 'Fiyatlandırma & Kâr Hesabı 🧾'
+      },
+      currency: 'Para Birimi: IQD (Irak Dinarı) / Evrensel',
+      calcBtn: 'Şimdi Hesapla ✨',
+      cardBtn: 'Bakım ve Fiyat Kartı Oluştur 🏷️'
+    },
+    studio: {
+      title: 'Profesyonel Şablon Stüdyosu & Izgara Oluşturucu',
+      subtitle: 'Resimleri hassas tığ işi piksel ızgaralarına dönüştürün ve özel şablonları inceleyin',
+      starryTitle: 'Yıldızlı Gece Özel Kazak Şablonu',
+      uploadTitle: 'Kendi Resminizi Tığ İşi Izgarasına Dönüştürün',
+      exportBtn: 'Izgarayı Dışa Aktar 📥'
+    },
+    glossary: {
+      title: 'Resimli Tığ İşi İlmek & Kanca Sözlüğü',
+      masterGuideBtn: 'Kapsamlı Tığ ve İplik Ölçü Rehberi 📐',
+      searchPh: 'İlmek veya sembol ara (ör: sık iğne, trabzan, zincir, sc)...'
+    },
+    notes: {
+      title: 'Akıllı Notlarım & Projelerim',
+      addBtn: 'Yeni Proje Ekle +'
+    }
+  },
+
+  ru: {
+    langCode: 'ru-RU',
+    dir: 'ltr',
+    label: 'Русский',
+    brandTitle: 'Нити и Петли',
+    brandSubtitle: 'Умный помощник по вязанию',
+    screenWl: 'Экран',
+    wlBanner: 'Режим постоянной подсветки активен (экран не погаснет во время вязания)',
+    nav: {
+      search: 'Умный вопрос',
+      patterns: 'Схемы вязания',
+      patternsShort: 'Схемы',
+      counter: 'Умный счетчик',
+      counterShort: 'Счетчик',
+      calc: 'Калькулятор пряжи',
+      calcShort: 'Калькулятор',
+      glossary: 'Словарь петель',
+      glossaryShort: 'Словарь',
+      studio: 'Студия схем',
+      studioShort: 'Студия',
+      notes: 'Мои заметки',
+      notesShort: 'Заметки'
+    },
+    chat: {
+      title: 'SAMAR — Ваш умный эксперт по вязанию ✨🧶',
+      status: 'В сети & готова ответить мгновенно 🟢',
+      welcome: 'Добро пожаловать! Я **SAMAR**, ваш личный эксперт по вязанию крючком и пряже 🧶✨. Спросите меня о любой петле, схеме, расчете нити или натяжении, и я с радостью отвечу!',
+      placeholder: 'Напишите ваш вопрос для SAMAR...',
+      clear: 'Очистить чат',
+      chips: {
+        ring: 'Секрет волшебного кольца 🪄',
+        curling: 'Устранение скручивания ⚠️',
+        compare: 'Столбик б/н vs с накидом 📐',
+        blanket: 'Расчет пряжи на плед 🧶',
+        easy: 'Легкий и быстрый проект 💡'
+      }
+    },
+    patterns: {
+      title: 'Библиотека пошаговых иллюстрированных схем',
+      subtitle: 'Тщательно отобранные бесплатные схемы с пошаговыми инструкциями и векторными схемами',
+      searchPh: 'Поиск по схемам (напр: шаль, котенок, корзина, сумка)...',
+      levels: { all: 'Все уровни', beg: '🟢 Начинающий', int: '🟡 Средний', adv: '🟣 Продвинутый' },
+      cats: { all: 'Все', ami: 'Амигуруми', shawls: 'Шали и одежда', home: 'Дом и декор', bags: 'Сумки и аксессуары' },
+      startBtn: 'Начать вязание',
+      balls: 'Мотков',
+      hook: 'Крючок',
+      time: 'Время',
+      modalBack: 'Назад к схемам',
+      secMaterials: 'Материалы и размеры',
+      secSymbols: 'Условные обозначения',
+      secTips: 'Советы по отделке и ВТО',
+      secSteps: 'Пошаговые инструкции',
+      stepPrefix: 'Шаг'
+    },
+    counter: {
+      title: 'Голосовой и ручной счетчик рядов',
+      desc: 'Вяжите без помощи рук благодаря голосовому управлению, таймеру и разминке для запястий',
+      btnVoiceStart: 'Включить голосовой счет 🎙️',
+      btnVoiceStop: 'Остановить микрофон 🛑',
+      rowLabel: 'Текущий ряд',
+      stitchLabel: 'Петля',
+      targetLabel: 'Цель:',
+      btnRowAdd: '+ Ряд',
+      btnRowSub: '− Ряд',
+      btnReset: 'Сбросить счетчик',
+      sessionTimer: 'Время сессии:',
+      healthAlertTitle: 'Перерыв для здоровья рук 🧘‍♀️'
+    },
+    calc: {
+      title: 'Умные калькуляторы пряжи и точного расчета цены',
+      tabs: {
+        est: 'Расход пряжи 🧶',
+        rem: 'Остаток пряжи по весу ⚖️',
+        gauge: 'Калькулятор плотности (образец) 📏',
+        pricing: 'Расчет стоимости и прибыли 🧾'
+      },
+      currency: 'Валюта: IQD (Иракский динар) / Универсальный расчет',
+      calcBtn: 'Рассчитать ✨',
+      cardBtn: 'Создать бирку с ценой и уходом 🏷️'
+    },
+    studio: {
+      title: 'Студия схем и генератор пиксельной сетки',
+      subtitle: 'Преобразуйте изображения в точные схемы для вязания крючком',
+      starryTitle: 'Схема свитера "Звездная ночь"',
+      uploadTitle: 'Преобразовать свое изображение в схему',
+      exportBtn: 'Экспортировать схему 📥'
+    },
+    glossary: {
+      title: 'Иллюстрированный словарь петель и крючков',
+      masterGuideBtn: 'Полная таблица соответствия крючков и пряжи 📐',
+      searchPh: 'Поиск петли или символа (напр: сбн, ссн, возд. петля)...'
+    },
+    notes: {
+      title: 'Мои умные заметки и проекты',
+      addBtn: 'Добавить проект +'
+    }
+  },
+
+  es: {
+    langCode: 'es-ES',
+    dir: 'ltr',
+    label: 'Español',
+    brandTitle: 'Hilos y Puntos',
+    brandSubtitle: 'Compañero Inteligente de Crochet',
+    screenWl: 'Pantalla',
+    wlBanner: 'Pantalla siempre encendida activa (la pantalla no se apagará mientras tejes)',
+    nav: {
+      search: 'Consulta IA',
+      patterns: 'Patrones Ilustrados',
+      patternsShort: 'Patrones',
+      counter: 'Contador Mágico',
+      counterShort: 'Contador',
+      calc: 'Calculadoras de Hilo',
+      calcShort: 'Calculadora',
+      glossary: 'Glosario de Puntos',
+      glossaryShort: 'Glosario',
+      studio: 'Estudio de Patrones',
+      studioShort: 'Estudio',
+      notes: 'Mis Notas',
+      notesShort: 'Notas'
+    },
+    chat: {
+      title: 'SAMAR — Tu Experta Inteligente en Crochet ✨🧶',
+      status: 'En línea y lista para ayudarte al instante 🟢',
+      welcome: '¡Bienvenida! Soy **SAMAR**, tu experta y compañera personal en el arte del crochet y tejido 🧶✨. ¡Pregúntame sobre cualquier punto, patrón, cálculo de hilo o duda y te responderé al instante!',
+      placeholder: 'Escribe tu pregunta para SAMAR aquí...',
+      clear: 'Borrar Chat',
+      chips: {
+        ring: 'Secreto del Anillo Mágico 🪄',
+        curling: 'Solución al Enrollamiento ⚠️',
+        compare: 'Punto Bajo vs Punto Alto 📐',
+        blanket: 'Cálculo de Hilo para Manta 🧶',
+        easy: 'Proyecto Fácil y Rápido 💡'
+      }
+    },
+    patterns: {
+      title: 'Biblioteca de Patrones Ilustrados Paso a Paso',
+      subtitle: 'Colección seleccionada de patrones gratuitos con instrucciones paso a paso y diagramas',
+      searchPh: 'Buscar patrones (ej: chal, gatito, cesta, bolso)...',
+      levels: { all: 'Todos los Niveles', beg: '🟢 Principiante', int: '🟡 Intermedio', adv: '🟣 Avanzado' },
+      cats: { all: 'Todos', ami: 'Amigurumi', shawls: 'Chales y Ropa', home: 'Hogar y Decoración', bags: 'Bolsos y Accesorios' },
+      startBtn: 'Comenzar Patrón',
+      balls: 'Ovillos',
+      hook: 'Ganchillo',
+      time: 'Tiempo',
+      modalBack: 'Volver a Patrones',
+      secMaterials: 'Herramientas y Materiales',
+      secSymbols: 'Tabla de Símbolos y Abreviaturas',
+      secTips: 'Consejos de Acabado y Bloqueo',
+      secSteps: 'Instrucciones Detalladas Paso a Paso',
+      stepPrefix: 'Paso'
+    },
+    counter: {
+      title: 'Contador de Filas por Voz y Táctil',
+      desc: 'Teje con manos libres usando control por voz, cronómetro de sesión y alertas de estiramiento',
+      btnVoiceStart: 'Activar Control por Voz 🎙️',
+      btnVoiceStop: 'Detener Voz 🛑',
+      rowLabel: 'Fila Actual',
+      stitchLabel: 'Punto',
+      targetLabel: 'Objetivo:',
+      btnRowAdd: '+ Fila',
+      btnRowSub: '− Fila',
+      btnReset: 'Reiniciar Contador',
+      sessionTimer: 'Tiempo de Sesión:',
+      healthAlertTitle: 'Pausa Saludable para tus Manos 🧘‍♀️'
+    },
+    calc: {
+      title: 'Plataforma Inteligente de Cálculo y Precios',
+      tabs: {
+        est: 'Estimar Hilo 🧶',
+        rem: 'Hilo Restante por Peso ⚖️',
+        gauge: 'Calculadora de Muestra (Gauge) 📏',
+        pricing: 'Calculadora de Precios y Ganancia 🧾'
+      },
+      currency: 'Moneda: IQD (Dinar Iraquí) / Unidades Universales',
+      calcBtn: 'Calcular Ahora ✨',
+      cardBtn: 'Generar Tarjeta de Cuidado y Precio 🏷️'
+    },
+    studio: {
+      title: 'Estudio Profesional de Patrones y Cuadrícula',
+      subtitle: 'Convierte imágenes en cuadrículas de puntos precisas y explora patrones maestros',
+      starryTitle: 'Patrón Maestro Suéter Noche Estrellada',
+      uploadTitle: 'Convierte tu Imagen en Patrón de Crochet',
+      exportBtn: 'Exportar Cuadrícula 📥'
+    },
+    glossary: {
+      title: 'Glosario Ilustrado de Puntos y Ganchillos',
+      masterGuideBtn: 'Guía Completa de Medidas de Ganchillos e Hilos 📐',
+      searchPh: 'Buscar punto o símbolo (ej: punto bajo, punto alto, cadeneta)...'
+    },
+    notes: {
+      title: 'Mis Notas y Proyectos Inteligentes',
+      addBtn: 'Agregar Nuevo Proyecto +'
+    }
+  }
+};
+
+const VOICE_COMMANDS_CONFIG = {
+  ar: {
+    langCode: 'ar-IQ',
+    plus: ['زيد', 'زود', 'فوق', 'التالي', 'واحد', 'سجل', 'اضافة', 'plus', 'next'],
+    minus: ['نقص', 'ارجع', 'السابق', 'تحت', 'طرح', 'minus', 'back'],
+    reset: ['صفر', 'تصفير', 'مسح', 'من البداية', 'reset'],
+    prompt: 'جاري الاستماع... قولي: "زيد" أو "نقص"',
+    heardAdd: '🗣️ سُمع: "<b>زيد</b>" (+1 سطر)',
+    heardSub: '🗣️ سُمع: "<b>نقص</b>" (−1 سطر)',
+    heardReset: '🗣️ سُمع: "<b>تصفير</b>" (تمت إعادة الضبط)'
+  },
+  en: {
+    langCode: 'en-US',
+    plus: ['next', 'plus', 'add', 'increase', 'up', 'one', 'more', 'row'],
+    minus: ['back', 'minus', 'decrease', 'down', 'previous', 'reduce'],
+    reset: ['reset', 'clear', 'zero', 'restart'],
+    prompt: 'Listening... say: "Next" or "Back"',
+    heardAdd: '🗣️ Heard: "<b>Next</b>" (+1 Row)',
+    heardSub: '🗣️ Heard: "<b>Back</b>" (−1 Row)',
+    heardReset: '🗣️ Heard: "<b>Reset</b>" (Counter reset)'
+  },
+  ja: {
+    langCode: 'ja-JP',
+    plus: ['次', 'プラス', '増やす', '進む', '足す', 'いち', 'アップ'],
+    minus: ['戻る', 'マイナス', '減らす', 'バック', '引く'],
+    reset: ['リセット', 'ゼロ', '最初から', 'クリア'],
+    prompt: '音声認識中... 「次」または「戻る」とお話しください',
+    heardAdd: '🗣️ 認識: 「<b>次</b>」 (+1段)',
+    heardSub: '🗣️ 認識: 「<b>戻る</b>」 (−1段)',
+    heardReset: '🗣️ 認識: 「<b>リセット</b>」 (初期化完了)'
+  },
+  tr: {
+    langCode: 'tr-TR',
+    plus: ['ileri', 'arttır', 'ekle', 'artı', 'sonraki', 'bir', 'yukarı'],
+    minus: ['geri', 'azalt', 'eksi', 'önceki', 'düşür', 'aşağı'],
+    reset: ['sıfırla', 'temizle', 'baştan', 'sıfır'],
+    prompt: 'Dinleniyor... "İleri" veya "Geri" deyin',
+    heardAdd: '🗣️ Algılandı: "<b>İleri</b>" (+1 Sıra)',
+    heardSub: '🗣️ Algılandı: "<b>Geri</b>" (−1 Sıra)',
+    heardReset: '🗣️ Algılandı: "<b>Sıfırla</b>" (Sayaç sıfırlandı)'
+  },
+  ru: {
+    langCode: 'ru-RU',
+    plus: ['дальше', 'плюс', 'прибавить', 'следующий', 'вперед', 'один'],
+    minus: ['назад', 'минус', 'убавить', 'предыдущий'],
+    reset: ['сброс', 'сбросить', 'ноль', 'заново', 'очистить'],
+    prompt: 'Слушаю команды... скажите: "Дальше" или "Назад"',
+    heardAdd: '🗣️ Распознано: "<b>Дальше</b>" (+1 Ряд)',
+    heardSub: '🗣️ Распознано: "<b>Назад</b>" (−1 Ряд)',
+    heardReset: '🗣️ Распознано: "<b>Сброс</b>" (Счетчик сброшен)'
+  },
+  es: {
+    langCode: 'es-ES',
+    plus: ['siguiente', 'más', 'aumentar', 'adelante', 'sumar', 'uno', 'fila'],
+    minus: ['atrás', 'menos', 'disminuir', 'anterior', 'restar'],
+    reset: ['reiniciar', 'cero', 'borrar', 'limpiar'],
+    prompt: 'Escuchando... di: "Siguiente" o "Atrás"',
+    heardAdd: '🗣️ Reconocido: "<b>Siguiente</b>" (+1 Fila)',
+    heardSub: '🗣️ Reconocido: "<b>Atrás</b>" (−1 Fila)',
+    heardReset: '🗣️ Reconocido: "<b>Reiniciar</b>" (Contador a cero)'
+  }
+};
+
+function toggleLangMenu(e) {
+  if (e) e.stopPropagation();
+  const menu = document.getElementById('langMenu');
+  if (menu) menu.classList.toggle('show');
+}
+
+// Close menu on outside click
+document.addEventListener('click', (e) => {
+  const container = document.getElementById('langDropdownContainer');
+  const menu = document.getElementById('langMenu');
+  if (menu && container && !container.contains(e.target)) {
+    menu.classList.remove('show');
+  }
+});
+
+function setAppLanguage(lang) {
+  if (!I18N_DICT[lang]) lang = 'ar';
+  currentAppLang = lang;
+  localStorage.setItem('crochet_app_lang', lang);
+
+  const dict = I18N_DICT[lang];
+
+  // Document attributes
+  document.documentElement.lang = lang;
+  document.documentElement.dir = dict.dir;
+
+  // Header display label
+  const display = document.getElementById('currentLangDisplay');
+  if (display) display.textContent = dict.label;
+
+  // Active state in dropdown
+  document.querySelectorAll('.lang-opt').forEach(opt => {
+    opt.classList.toggle('active', opt.dataset.lang === lang);
+  });
+
+  // Close dropdown menu
+  const menu = document.getElementById('langMenu');
+  if (menu) menu.classList.remove('show');
+
+  // Apply all UI translations
+  applyTranslations(lang);
+
+  // Restart voice recognition with new language if currently running
+  if (isVoiceListeningActive) {
+    stopVoiceCounter();
+    setTimeout(() => { toggleVoiceCounter(); }, 300);
+  }
+}
+
+function applyTranslations(lang) {
+  const t = I18N_DICT[lang] || I18N_DICT.ar;
+
+  // Header
+  const bTitle = document.getElementById('brandTitle');
+  const bSub = document.getElementById('brandSubtitle');
+  const sWl = document.getElementById('screenWlLabel');
+  const wlAlert = document.getElementById('wlAlertBannerText');
+  if (bTitle) bTitle.textContent = t.brandTitle;
+  if (bSub) bSub.textContent = t.brandSubtitle;
+  if (sWl) sWl.textContent = t.screenWl;
+  if (wlAlert) wlAlert.textContent = t.wlBanner;
+
+  // Desktop Navigation
+  const dNav = document.querySelectorAll('.desktop-nav .nav-btn');
+  dNav.forEach(btn => {
+    const tab = btn.dataset.tab;
+    const span = btn.querySelector('span');
+    if (span && t.nav[tab]) span.textContent = t.nav[tab];
+  });
+
+  // Mobile Bottom Bar Navigation
+  const mNav = document.querySelectorAll('.mobile-bottom-bar .mobile-nav-item');
+  mNav.forEach(btn => {
+    const tab = btn.dataset.tab;
+    const label = btn.querySelector('.m-label');
+    const shortKey = tab + 'Short';
+    if (label && t.nav[shortKey]) label.textContent = t.nav[shortKey];
+    else if (label && t.nav[tab]) label.textContent = t.nav[tab];
+  });
+
+  // AI Chat Section
+  const chatSub = document.querySelector('.chat-hero-box p');
+  const chatStatus = document.querySelector('.chat-hero-box span');
+  const chatInput = document.getElementById('aiChatInput');
+  const chatClearBtn = document.querySelector('.chat-clear-btn');
+  if (chatSub && t.chat.title) chatSub.textContent = t.chat.title;
+  if (chatInput && t.chat.placeholder) chatInput.placeholder = t.chat.placeholder;
+  if (chatClearBtn && t.chat.clear) chatClearBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i> ' + t.chat.clear;
+
+  // Update quick suggestion chips
+  const chips = document.querySelectorAll('.chat-chip');
+  if (chips && chips.length >= 5) {
+    if (chips[0]) chips[0].textContent = t.chat.chips.ring;
+    if (chips[1]) chips[1].textContent = t.chat.chips.curling;
+    if (chips[2]) chips[2].textContent = t.chat.chips.compare;
+    if (chips[3]) chips[3].textContent = t.chat.chips.blanket;
+    if (chips[4]) chips[4].textContent = t.chat.chips.easy;
+  }
+
+  // Update initial welcome bubble if only 1 message exists
+  const stream = document.getElementById('aiChatStream');
+  if (stream) {
+    const firstBotBubble = stream.querySelector('.chat-bubble.bot');
+    if (firstBotBubble && (!stream.children || stream.children.length <= 2)) {
+      firstBotBubble.innerHTML = (window.marked && marked.parse) ? marked.parse(t.chat.welcome) : t.chat.welcome;
+    }
+  }
+
+  // Patterns Section
+  const patTitle = document.querySelector('#tab-patterns .section-header h2');
+  const patSub = document.querySelector('#tab-patterns .section-header p');
+  const patSearch = document.getElementById('patternSearchInput');
+  if (patTitle) patTitle.textContent = t.patterns.title;
+  if (patSub) patSub.textContent = t.patterns.subtitle;
+  if (patSearch) patSearch.placeholder = t.patterns.searchPh;
+
+  // Patterns Level Filter Chips
+  const lvlBtns = document.querySelectorAll('.level-filter-btn');
+  lvlBtns.forEach(btn => {
+    const lvl = btn.dataset.level;
+    if (lvl === 'all' && t.patterns.levels.all) btn.textContent = t.patterns.levels.all;
+    if (lvl === 'beginner' && t.patterns.levels.beg) btn.textContent = t.patterns.levels.beg;
+    if (lvl === 'intermediate' && t.patterns.levels.int) btn.textContent = t.patterns.levels.int;
+    if (lvl === 'advanced' && t.patterns.levels.adv) btn.textContent = t.patterns.levels.adv;
+  });
+
+  // Re-render patterns category chips with current language
+  renderPatternCategoryChips();
+
+  // Counter Section
+  const cTitle = document.querySelector('#tab-counter .section-header h2');
+  const cDesc = document.querySelector('#tab-counter .section-header p');
+  const cVoiceBtn = document.getElementById('voiceMicBtn');
+  const cResetBtn = document.querySelector('.counter-reset-btn');
+  const cRowLbl = document.querySelector('.mega-counter-label');
+  if (cTitle) cTitle.textContent = t.counter.title;
+  if (cDesc) cDesc.textContent = t.counter.desc;
+  if (cResetBtn) cResetBtn.innerHTML = '<i class="fa-solid fa-rotate-left"></i> ' + t.counter.btnReset;
+  if (cRowLbl) cRowLbl.textContent = t.counter.rowLabel;
+  if (cVoiceBtn && !isVoiceListeningActive) {
+    cVoiceBtn.innerHTML = '<i class="fa-solid fa-microphone"></i> <span>' + t.counter.btnVoiceStart + '</span>';
+  }
+
+  // Calculators Section
+  const calcTitle = document.querySelector('#tab-calc .section-header h2');
+  if (calcTitle) calcTitle.textContent = t.calc.title;
+
+  const calcSubBtns = document.querySelectorAll('.calc-subtab-btn');
+  if (calcSubBtns.length >= 4) {
+    calcSubBtns[0].textContent = t.calc.tabs.est;
+    calcSubBtns[1].textContent = t.calc.tabs.rem;
+    calcSubBtns[2].textContent = t.calc.tabs.gauge;
+    calcSubBtns[3].textContent = t.calc.tabs.pricing;
+  }
+
+  // Studio Section
+  const studioTitle = document.querySelector('#tab-studio .section-header h2');
+  const studioSub = document.querySelector('#tab-studio .section-header p');
+  if (studioTitle) studioTitle.textContent = t.studio.title;
+  if (studioSub) studioSub.textContent = t.studio.subtitle;
+
+  // Glossary Section
+  const glossTitle = document.querySelector('#tab-glossary .section-header h2');
+  const masterBtn = document.querySelector('.master-size-btn');
+  const glossSearch = document.getElementById('glossarySearchInput');
+  if (glossTitle) glossTitle.textContent = t.glossary.title;
+  if (masterBtn) masterBtn.innerHTML = '<i class="fa-solid fa-ruler-combined"></i> ' + t.glossary.masterGuideBtn;
+  if (glossSearch) glossSearch.placeholder = t.glossary.searchPh;
+
+  // Notes Section
+  const notesTitle = document.querySelector('#tab-notes .section-header h2');
+  const noteAddBtn = document.querySelector('.add-note-btn');
+  if (notesTitle) notesTitle.textContent = t.notes.title;
+  if (noteAddBtn) noteAddBtn.textContent = t.notes.addBtn;
+}
+
 // ═══════════════════════════════════════════════════════
 //  APP STATE & 100% PRIVATE LOCAL STORAGE
 // ═══════════════════════════════════════════════════════
@@ -4265,8 +5282,10 @@ function toggleVoiceCounter() {
 
 function startVoiceCounter(SpeechRec) {
   try {
+    const vCfg = VOICE_COMMANDS_CONFIG[currentAppLang] || VOICE_COMMANDS_CONFIG.ar;
+    const t = I18N_DICT[currentAppLang] || I18N_DICT.ar;
     voiceRecognitionInstance = new SpeechRec();
-    voiceRecognitionInstance.lang = 'ar-IQ'; // Arabic Iraqi / Gulf dialect
+    voiceRecognitionInstance.lang = vCfg.langCode;
     voiceRecognitionInstance.continuous = true;
     voiceRecognitionInstance.interimResults = false;
 
@@ -4274,8 +5293,11 @@ function startVoiceCounter(SpeechRec) {
       isVoiceListeningActive = true;
       const btn = document.getElementById('voiceMicBtn');
       const badge = document.getElementById('voiceStatusBadge');
-      if (btn) btn.classList.add('listening');
-      if (badge) badge.innerHTML = '<i class="fa-solid fa-circle" style="font-size:0.5rem;color:#ef4444;animation:pulseMic 1s infinite;"></i> جاري الاستماع لأوامركِ... قولي: "زيد" أو "نقص"';
+      if (btn) {
+        btn.classList.add('listening');
+        btn.innerHTML = '<i class="fa-solid fa-microphone-lines"></i> <span>' + t.counter.btnVoiceStop + '</span>';
+      }
+      if (badge) badge.innerHTML = '<i class="fa-solid fa-circle" style="font-size:0.5rem;color:#ef4444;animation:pulseMic 1s infinite;"></i> ' + vCfg.prompt;
     };
 
     voiceRecognitionInstance.onresult = (event) => {
@@ -4321,17 +5343,23 @@ function stopVoiceCounter() {
 
 function handleVoiceCommand(cmd) {
   const badge = document.getElementById('voiceStatusBadge');
-  if (cmd.includes('زيد') || cmd.includes('زود') || cmd.includes('التالي') || cmd.includes('فوق') || cmd.includes('واحد') || cmd.includes('plus') || cmd.includes('next')) {
+  const vCfg = VOICE_COMMANDS_CONFIG[currentAppLang] || VOICE_COMMANDS_CONFIG.ar;
+  
+  const isPlus = vCfg.plus.some(w => cmd.includes(w));
+  const isMinus = vCfg.minus.some(w => cmd.includes(w));
+  const isReset = vCfg.reset.some(w => cmd.includes(w));
+
+  if (isPlus) {
     stepMegaCounter(1);
-    if (badge) badge.innerHTML = '🗣️ سُمع: "<b>زيد</b>" (+1 سطر)';
-  } else if (cmd.includes('نقص') || cmd.includes('ارجع') || cmd.includes('السابق') || cmd.includes('تحت') || cmd.includes('minus') || cmd.includes('back')) {
+    if (badge) badge.innerHTML = vCfg.heardAdd;
+  } else if (isMinus) {
     stepMegaCounter(-1);
-    if (badge) badge.innerHTML = '🗣️ سُمع: "<b>نقص</b>" (−1 سطر)';
-  } else if (cmd.includes('صفر') || cmd.includes('تصفير') || cmd.includes('مسح') || cmd.includes('reset') || cmd.includes('clear')) {
+    if (badge) badge.innerHTML = vCfg.heardSub;
+  } else if (isReset) {
     resetMegaCounter();
-    if (badge) badge.innerHTML = '🗣️ سُمع: "<b>تصفير</b>" (تمت إعادة الضبط)';
+    if (badge) badge.innerHTML = vCfg.heardReset;
   } else {
-    if (badge) badge.innerHTML = '🗣️ سُمع: "' + cmd + '" (جربي قول: زيد / نقص)';
+    if (badge) badge.innerHTML = '🗣️ "' + cmd + '"';
   }
 }
 
@@ -4782,6 +5810,7 @@ function processCustomCrochetImage(dataUrl) {
 //  INITIALIZATION
 // ═══════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
+  setAppLanguage(currentAppLang);
   applyTheme(currentTheme);
   loadSamarChatHistory();
   renderPatternCategoryChips();
@@ -4930,7 +5959,7 @@ async function sendChatMessage() {
     const res = await fetch(`${apiHost}/api/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: prompt })
+      body: JSON.stringify({ message: prompt, lang: currentAppLang })
     });
 
     thinkingBox.classList.remove('show');
@@ -4975,7 +6004,75 @@ function scrollChatToBottom() {
 }
 
 function getLocalKnowledgeResponse(q) {
+  const lang = currentAppLang || 'ar';
   const qClean = q.toLowerCase();
+
+  if (lang === 'en') {
+    if (qClean.includes('who are you') || qClean.includes('name') || qClean.includes('samar')) {
+      return `I am **SAMAR**, your personal expert crochet & knitting companion 🧶✨. Ask me about any stitch, pattern, gauge, or yarn issue!`;
+    }
+    if (qClean.includes('curling') || qClean.includes('twist') || qClean.includes('curl')) {
+      return `**⚠️ How to fix curling in crochet:**\n• **Cause 1:** High tension. Relax your grip or use a hook 0.5mm larger.\n• **Cause 2 in circles:** If it bows like a bowl, you need more increases; if it ruffles, you have too many increases.\n• **Quick Fix:** Gentle steam blocking on a flat towel!`;
+    }
+    if (qClean.includes('magic ring') || qClean.includes('circle') || qClean.includes('loop')) {
+      return `**🪄 100% Secure Magic Ring:**\n1. Wrap yarn twice around index finger.\n2. Insert hook under front loop, pull working yarn, and chain 1 to secure.\n3. Work your stitches (e.g. 6 sc).\n4. Pull tail tightly to close the hole completely with zero gap!`;
+    }
+    return `Hello! I am **SAMAR**, your crochet companion 🧶.\nFeel free to ask me about any yarn weight, hook size, stitch instructions, or pattern calculation!`;
+  }
+
+  if (lang === 'ja') {
+    if (qClean.includes('誰') || qClean.includes('名前') || qClean.includes('samar')) {
+      return `私は **SAMAR**、あなたのかぎ針編み＆あみぐるみ専属AIエキスパートです 🧶✨。何でも気軽にご質問ください！`;
+    }
+    if (qClean.includes('丸まる') || qClean.includes('歪み') || qClean.includes('反る')) {
+      return `**⚠️ 編み地の丸まり解消法:**\n• **原因1:** 糸の引き締めすぎ。手の力を抜くか、針を0.5mm太いものに変更してください。\n• **円編みの歪み:** お椀型に反る時は増やし目が不足、フリル状に波打つ時は増やし目が多すぎます。\n• **対策:** スチームアイロンを少し離して当て、当て布の上で形を整える（ブロッキング）と綺麗に伸びます。`;
+    }
+    if (qClean.includes('わ') || qClean.includes('マジックリング') || qClean.includes('作り目')) {
+      return `**🪄 解けない「わ」の作り目（マジックリング）:**\n1. 人差し指に糸を2回巻きつけます。\n2. 針を入れて糸を引き出し、立ち上がりの鎖編みを1目編みます。\n3. 指定の目数（例: 細編み6目）を編み入れます。\n4. 糸端をゆっくり引き、中心の穴を隙間なくきつく締めます！`;
+    }
+    return `こんにちは！かぎ針編みアシスタントの **SAMAR** です 🧶。\n編み方、針の号数、糸の選び方など、何でもお尋ねください！`;
+  }
+
+  if (lang === 'tr') {
+    if (qClean.includes('kimsin') || qClean.includes('adın') || qClean.includes('samar')) {
+      return `Ben **SAMAR**, tığ işi ve örgü sanatındaki kişisel uzman asistanınızım 🧶✨. Bana herhangi bir ilmek veya şablonu sorabilirsiniz!`;
+    }
+    if (qClean.includes('kıvrılma') || qClean.includes('bükülme') || qClean.includes('dönme')) {
+      return `**⚠️ Tığ işinde kıvrılma sorununu çözme:**\n• **1. Sebep:** İpi çok sıkı çekmek; elinizi biraz gevşetin veya yarım numara büyük tığ kullanın.\n• **Dairede:** Kase gibi içe bükülüyorsa artırma azdır; dalgalanıyorsa artırma fazladır.\n• **Çözüm:** Hafif buhar verip düz bir havlu üzerinde elinizle düzeltin (Buharlı ütüleme/Blocking).`;
+    }
+    if (qClean.includes('sihirli halka') || qClean.includes('halka')) {
+      return `**🪄 %100 Sağlam Sihirli Halka:**\n1. İpi işaret parmağınıza 2 kez dolayın.\n2. Tığı alttan geçirip ilmeği çekin ve 1 zincirle sabitleyin.\n3. İstenen ilmek sayısını yapın (ör: 6 sık iğne).\n4. Kısa ipi sıkıca çekerek deliği tamamen kapatın!`;
+    }
+    return `Merhaba! Ben **SAMAR**, tığ işi asistanınızım 🧶.\nİlmekler, ip çeşitleri veya şablonlar hakkında her zaman sorabilirsiniz!`;
+  }
+
+  if (lang === 'ru') {
+    if (qClean.includes('кто ты') || qClean.includes('имя') || qClean.includes('samar')) {
+      return `Я **SAMAR**, ваш персональный эксперт по вязанию крючком и пряже 🧶✨. Спрашивайте меня о любых петлях и схемах!`;
+    }
+    if (qClean.includes('скручиван') || qClean.includes('заворач') || qClean.includes('тянет')) {
+      return `**⚠️ Как устранить закручивание полотна:**\n• **Причина 1:** Слишком сильное натяжение нити; расслабьте руку или возьмите крючок на 0.5 мм больше.\n• **В круге:** Если сворачивается в чашу — не хватает прибавок; если идет волнами — прибавок слишком много.\n• **Решение:** Легкое отпаривание утюгом на расстоянии и блокировка на полотенце.`;
+    }
+    if (qClean.includes('кольцо') || qClean.includes('амигуруми') || qClean.includes('магическ')) {
+      return `**🪄 Идеальное волшебное кольцо амигуруми:**\n1. Оберните нить вокруг указательного пальца дважды.\n2. Введите крючок, вытяните петлю и закрепите одной воздушной петлей.\n3. Свяжите нужное количество столбиков (напр. 6 сбн).\n4. Потяните за короткий конец, чтобы стянуть отверстие без малейшего зазора!`;
+    }
+    return `Здравствуйте! Я **SAMAR**, ваш помощник по вязанию 🧶.\nЗадайте любой вопрос по узорам, крючкам, пряже или расчетам!`;
+  }
+
+  if (lang === 'es') {
+    if (qClean.includes('quién eres') || qClean.includes('nombre') || qClean.includes('samar')) {
+      return `¡Soy **SAMAR**, tu experta y compañera personal en el arte del crochet y tejido 🧶✨. ¡Pregúntame cualquier duda!`;
+    }
+    if (qClean.includes('enrolla') || qClean.includes('curva') || qClean.includes('tensión')) {
+      return `**⚠️ Cómo evitar que el tejido se enrolle:**\n• **Causa 1:** Tensión muy apretada; afloja la mano o sube 0.5 mm el número de ganchillo.\n• **En círculos:** Si se hace cuenco faltan aumentos; si ondea como volante sobran aumentos.\n• **Solución rápida:** Bloqueo suave con vapor sobre una toalla plana.`;
+    }
+    if (qClean.includes('anillo mágico') || qClean.includes('circulo magico')) {
+      return `**🪄 Anillo Mágico 100% seguro:**\n1. Da dos vueltas con el hilo a tu dedo índice.\n2. Introduce el ganchillo, saca hebra y haz 1 cadeneta para fijar.\n3. Teje los puntos necesarios (ej: 6 puntos bajos).\n4. Tira firmemente del cabo corto para cerrar el hueco por completo sin dejar espacio.`;
+    }
+    return `¡Hola! Soy **SAMAR**, tu compañera de crochet 🧶.\n¡Pregúntame lo que necesites sobre puntos, tipos de hilo o cálculos de tu labor!`;
+  }
+
+  // Default Arabic
   if (qClean.includes('اسم') || qClean.includes('من انت') || qClean.includes('عرفين')) {
     return `أنا **SAMAR**، خبيرتكِ ومساعدتكِ الشخصية في فنون الكروشيه والحياكة وشغل الصوف والأبر 🧶✨. اسأليني عن أي غرزة أو باترونة وسأشرحها لكِ فوراً!`;
   }
@@ -4996,12 +6093,22 @@ function getLocalKnowledgeResponse(q) {
 // ═══════════════════════════════════════════════════════
 function renderPatternCategoryChips() {
   const bar = document.getElementById('patternCategoriesBar');
-  bar.innerHTML = CATEGORIES.map((cat, i) => `
-    <button class="cat-chip ${i === 0 ? 'active' : ''}" onclick="filterPatternsByCategory('${cat.id}', this)">
-      <span>${cat.emoji}</span>
-      <span>${cat.label}</span>
-    </button>
-  `).join('');
+  if (!bar) return;
+  const t = I18N_DICT[currentAppLang] || I18N_DICT.ar;
+  bar.innerHTML = CATEGORIES.map((cat, i) => {
+    let label = cat.label;
+    if (cat.id === 'all' && t.patterns.cats.all) label = t.patterns.cats.all;
+    if (cat.id === 'amigurumi' && t.patterns.cats.ami) label = t.patterns.cats.ami;
+    if (cat.id === 'shawl' && t.patterns.cats.shawls) label = t.patterns.cats.shawls;
+    if (cat.id === 'home' && t.patterns.cats.home) label = t.patterns.cats.home;
+    if (cat.id === 'bag' && t.patterns.cats.bags) label = t.patterns.cats.bags;
+    return `
+      <button class="cat-chip ${i === 0 ? 'active' : ''}" onclick="filterPatternsByCategory('${cat.id}', this)">
+        <span>${cat.emoji}</span>
+        <span>${label}</span>
+      </button>
+    `;
+  }).join('');
 }
 
 function filterPatternsByCategory(catId, btnEl) {

@@ -13,23 +13,35 @@ fs.watch(DIR, (eventType, filename) => {
     }
 });
 
-// Secretly stored Gemini API key on the backend (Read from environment variable)
+// Secretly stored Gemini API key on the backend
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
 
-// SAMAR System Instruction: Dedicated, master crochet & knitting artisan persona
-const SAMAR_SYSTEM_INSTRUCTION = `أنتِ SAMAR (سمر) — خبيرة ومحترفة وصبورة جداً في فنون الكروشيه والحياكة وشغل الصوف والأبر والغرز.
-هويتك وقواعدك الصارمة:
-1. اسمكِ هو SAMAR. إذا سألكِ المستخدم عن اسمك أو من أنتِ، عرّفي بنفسك بلطف: 'أنا SAMAR، خبيرتكِ ومساعدتكِ الشخصية في فنون الكروشيه والحياكة وشغل الصوف والأبر 🧶✨'.
-2. تجيبين باللغة العربية الدافئة والمشجعة، مع خطوات مرتبة ونقاط دقيقة لأي غرزة، باترون، حل مشكلة التواء، أو قياس سنارة وخيط.
-3. قاعدة حاسمة وصارمة جداً: إذا سألكِ المستخدم عن أي شيء خارج نطاق الكروشيه، الحياكة، الخيوط، الصوف، والتطريز (مثل السياسة، الطبخ، الرياضة، الأخبار، البرمجة، المواد الدراسية، إلخ)، ارفضي بلطف وقاطعية قائلة فقط:
-'عذراً يا غالية! أنا SAMAR، مساعدتكِ المتخصصة فقط في عالم الكروشيه والحياكة والخيوط والأبر 🧶. اسأليني عن أي غرزة أو باترونة أو مشكلة تواجهكِ في شغلك وسأجيبكِ فوراً!'.
-4. لا تجيبي أبداً عن أي سؤال خارج تخصص الكروشيه والحياكة مهما كان الطلب.`;
+function getSamarInstruction(lang) {
+    const langMap = {
+        ar: 'Arabic (العربية) with warm, sisterly tone and standard crochet terms',
+        en: 'English with standard US and UK crochet terminology and encouraging tone',
+        ja: 'Japanese (日本語) with polite, warm tone and standard かぎ針編み / あみぐるみ terminology',
+        tr: 'Turkish (Türkçe) with warm tone and standard tığ işi terminology',
+        ru: 'Russian (Русский) with friendly, precise tone and standard вязание крючком terminology',
+        es: 'Spanish (Español) with warm tone and standard crochet / ganchillo terminology'
+    };
+    const targetLang = langMap[lang] || langMap.ar;
+
+    return `You are SAMAR (سمر) — an expert, master, and exceptionally encouraging artisan in crochet, amigurumi, knitting, yarn, hooks, and stitches.
+Strict Persona Rules:
+1. Your name is SAMAR. Always introduce yourself as SAMAR, your personal expert crochet & knitting companion 🧶✨.
+2. ALWAYS respond completely and fluently in ${targetLang}.
+3. Strict domain boundary: If asked about topics outside crochet, knitting, yarn, embroidery, or textile craft, politely and firmly decline:
+"I am SAMAR, dedicated solely to the world of crochet, knitting, yarn, and hooks 🧶. Please ask me about any stitch, pattern, gauge, or crafting technique!".
+4. Provide structured, step-by-step guidance, hook sizes in millimeters, and tips to resolve curling, tension, and counting issues.`;
+}
 
 // Call Gemini API securely from backend
-function callGeminiAPI(userMessage) {
+function callGeminiAPI(userMessage, lang = 'ar') {
     return new Promise((resolve, reject) => {
+        const instruction = getSamarInstruction(lang);
         const payload = JSON.stringify({
-            system_instruction: { parts: [{ text: SAMAR_SYSTEM_INSTRUCTION }] },
+            system_instruction: { parts: [{ text: instruction }] },
             contents: [{ role: 'user', parts: [{ text: userMessage }] }],
             generationConfig: { temperature: 0.4, maxOutputTokens: 1400 }
         });
@@ -129,7 +141,8 @@ const server = http.createServer((req, res) => {
                     return;
                 }
 
-                const reply = await callGeminiAPI(message);
+                const lang = parsed.lang || 'ar';
+                const reply = await callGeminiAPI(message, lang);
                 res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
                 res.end(JSON.stringify({ reply }));
             } catch (err) {
