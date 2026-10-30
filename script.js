@@ -32,10 +32,11 @@ const DEFAULT_APPS = [
     name: 'خيوط وغرز | Crochet Assistant',
     category: 'web',
     icon: '🧶',
-    desc: 'الرفيق الذكي للكروشيه والحياكة: باترونات تفاعلية مصورة، عداد حياكة سحري مطور، حاسبة غرز وخيوط، مصطلحات مصورة، والمساعدة الذكية SAMAR.',
+    desc: 'الرفيق الذكي للكروشيه والحياكة (تطبيق ويب + PWA قابل للتثبيت على الهواتف والأجهزة): باترونات تفاعلية مصورة، عداد حياكة سحري مطور، حاسبة غرز وخيوط، مصطلحات مصورة، والمساعدة الذكية SAMAR.',
     version: 'v2.5',
-    size: '161 KB',
+    size: '161 KB (ZIP: 70 KB)',
     downloadUrl: 'downloads/Crochet_App.html',
+    zipUrl: 'downloads/crochet-project.zip',
     demoUrl: 'crochet/index.html'
   }
 ];
@@ -346,10 +347,10 @@ function renderApps() {
 
     const isOfficial = app.id === 'sanad-app' || app.id === 'crochet-app';
     const isSanad = app.id === 'sanad-app';
-    const actionLabel = isSanad ? '📲 تثبيت مباشر (APK/PWA)' : (app.category === 'web' ? '⬇️ تحميل كملف مستقل' : '⬇️ DOWNLOAD');
+    const actionLabel = isSanad ? '📲 تثبيت مباشر (APK/PWA)' : (app.category === 'web' ? '💾 تنزيل ملف أوفلاين (HTML)' : '⬇️ DOWNLOAD');
 
     const demoBtn = app.demoUrl && app.demoUrl !== '#'
-      ? `<a href="${esc(app.demoUrl)}" target="_blank" class="btn-demo">👁️ فتح وتشغيل الويب</a>`
+      ? `<a href="${esc(app.demoUrl)}" target="_blank" class="btn-demo">👁️ تشغيل كالويب وتثبيت كتطبيق</a>`
       : '';
 
     const delBtn = isOfficial ? '' : `<button class="btn-del del-trigger" data-id="${app.id}" title="حذف">🗑️</button>`;
@@ -374,6 +375,7 @@ function renderApps() {
       <div class="card-actions">
         <a href="${esc(app.downloadUrl)}" ${dlAttr} class="btn-dl">${actionLabel}</a>
         ${demoBtn}
+        ${app.zipUrl ? `<a href="${esc(app.zipUrl)}" download class="btn-demo" style="border-color: rgba(168,85,247,0.5); color: #c084fc;">📦 تنزيل المشروع كامل (ZIP)</a>` : ''}
         ${delBtn}
       </div>`;
 
